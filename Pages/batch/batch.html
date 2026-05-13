@@ -1,0 +1,34 @@
+    <div class="page-header">
+      <span class="module-tag">// MODUL 1 — BATCH</span>
+      <h1>Batch Processing</h1>
+      <p>Preprocessing seluruh dataset sekaligus. Hasil disimpan sebagai corpus untuk TF-IDF (Modul 2).</p>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-title">Jalankan Batch</div></div>
+      <div id="batch-prereq"></div>
+      <button class="btn btn-primary mt-2" id="batch-btn" onclick="runBatch()">▶ Jalankan Batch Processing</button>
+    </div>
+
+    <div id="batch-results" class="hidden">
+      <div class="stats-row cols-3">
+        <div class="stat-card"><div class="num blue" id="b-total">0</div><div class="lbl">Total teks</div></div>
+        <div class="stat-card"><div class="num green" id="b-rep">0</div><div class="lbl">Total penggantian</div></div>
+        <div class="stat-card"><div class="num amber" id="b-avg">0</div><div class="lbl">Rata-rata/teks</div></div>
+      </div>
+
+      <div class="alert alert-success mt-2">
+        <span class="alert-icon">✓</span>
+        Corpus siap untuk TF-IDF (Modul 2). Pergi ke <strong>TF-IDF Config</strong> untuk melanjutkan.
+      </div>
+
+      <div class="card mt-2">
+        <div class="card-header"><div class="card-title">Hasil Batch (50 pertama)</div></div>
+        <div class="tbl-wrap">
+          <table class="data-tbl">
+            <thead><tr><th>#</th><th>Label</th><th>Teks Asli</th><th>Ternormalisasi</th><th>Ganti</th></tr></thead>
+            <tbody id="batch-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>

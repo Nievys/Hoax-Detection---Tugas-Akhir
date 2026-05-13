@@ -1,0 +1,82 @@
+    <div class="page-header">
+      <span class="module-tag">// MODUL 2 — TF-IDF</span>
+      <h1>Konfigurasi TF-IDF</h1>
+      <p>Setel parameter dan jalankan fit_transform untuk membangun matriks fitur dari corpus.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-title">Status Prerequisite</div></div>
+      <div id="tfidf-prereq"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Parameter TF-IDF</div>
+        <span class="chip chip-purple">Pure Python</span>
+      </div>
+
+      <div class="formula-card mb-1">
+        <div class="formula-title">Rumus yang Digunakan</div>
+        <div class="formula-body">TF(t,d)      = f(t,d) / |d|
+IDF(t,D)     = log((N+1) / (df(t)+1)) + 1    [smooth]
+TF-IDF(t,d,D) = TF(t,d) × IDF(t,D)
+Norm L2      = v / ||v||₂   dimana ||v||₂ = √(Σ vᵢ²)</div>
+      </div>
+
+      <div class="form-row cols-3">
+        <div class="form-group">
+          <label class="form-label">min_df</label>
+          <input type="number" id="tf-mindf" value="1" min="1" placeholder="1"
+                 title="Minimum document frequency — hapus kata yang muncul di kurang dari N dokumen">
+        </div>
+        <div class="form-group">
+          <label class="form-label">max_df_ratio</label>
+          <input type="number" id="tf-maxdf" value="1.0" min="0.01" max="1.0" step="0.05" placeholder="1.0"
+                 title="Maximum df ratio [0..1] — hapus kata yang terlalu umum">
+        </div>
+        <div class="form-group">
+          <label class="form-label">max_features</label>
+          <input type="number" id="tf-maxfeat" value="" placeholder="Tidak terbatas"
+                 title="Batasi jumlah fitur (kosongkan = semua)">
+        </div>
+      </div>
+
+      <div class="form-row cols-2">
+        <div class="form-group">
+          <label class="form-label">Smooth IDF</label>
+          <select id="tf-smooth">
+            <option value="true">Ya — log((N+1)/(df+1))+1  (default)</option>
+            <option value="false">Tidak — log(N/df)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Normalisasi L2</label>
+          <select id="tf-norm">
+            <option value="true">Ya — unit vector (default)</option>
+            <option value="false">Tidak — raw TF-IDF weights</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="tfidf-fit-btn" onclick="tfidfFit()">▶ Fit & Transform</button>
+        <button class="btn btn-secondary" onclick="go('tfidf-vocab')">Lihat Vocabulary →</button>
+      </div>
+    </div>
+
+    <div id="tfidf-fit-result" class="hidden">
+      <div class="stats-row cols-4">
+        <div class="stat-card"><div class="num purple" id="tf-n-doc">0</div><div class="lbl">Dokumen</div></div>
+        <div class="stat-card"><div class="num blue" id="tf-n-feat">0</div><div class="lbl">Fitur |V|</div></div>
+        <div class="stat-card"><div class="num green" id="tf-total-el">0</div><div class="lbl">Elemen Matriks</div></div>
+        <div class="stat-card"><div class="num amber" id="tf-sparsity">0%</div><div class="lbl">Sparsity</div></div>
+      </div>
+
+      <div class="card mt-2">
+        <div class="card-header">
+          <div class="card-title">Top 15 — Term dengan IDF Tertinggi</div>
+          <span class="chip chip-blue">Kata paling unik/informatif</span>
+        </div>
+        <div id="top-idf-list"></div>
+      </div>
+    </div>

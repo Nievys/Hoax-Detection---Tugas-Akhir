@@ -1,0 +1,42 @@
+    <div class="page-header">
+      <span class="module-tag">// MODUL 1 — DATASET</span>
+      <h1>Upload Dataset</h1>
+      <p>Baca file CSV atau Excel menggunakan library standar Python tanpa Pandas.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-title">Upload File Dataset</div></div>
+      <div class="upload-zone" id="uz-ds"
+           onclick="document.getElementById('fi-ds').click()"
+           ondragover="dov(event,'uz-ds')" ondragleave="dlv('uz-ds')" ondrop="dds(event)">
+        <div class="upload-icon">↑</div>
+        <div class="upload-label">Upload dataset<br><strong>CSV atau Excel</strong></div>
+        <div class="upload-hint">.csv, .xlsx · wajib ada kolom teks dan label</div>
+      </div>
+      <input type="file" id="fi-ds" class="hidden" accept=".csv,.xlsx,.xls" onchange="uploadDs(this)">
+
+      <div class="form-row cols-2 mt-2">
+        <div class="form-group">
+          <label class="form-label">Kolom Teks</label>
+          <input type="text" id="ds-tc" value="text" placeholder="text">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Kolom Label (pisahkan dengan koma)</label>
+          <input type="text" id="ds-lc" value="label" placeholder="contoh: HS, Abusive, HS_Individual">
+        </div>
+      </div>
+      <div id="msg-ds"></div>
+    </div>
+
+    <div class="card hidden" id="ds-preview-card">
+      <div class="card-header flex items-center justify-between w-full">
+        <div class="card-title">Preview Dataset</div>
+        <span class="chip chip-green" id="ds-total-chip">0 baris</span>
+      </div>
+      <div class="tbl-wrap">
+        <table class="data-tbl">
+          <thead><tr><th>#</th><th>Teks</th><th>Label</th></tr></thead>
+          <tbody id="ds-tbody"></tbody>
+        </table>
+      </div>
+    </div>

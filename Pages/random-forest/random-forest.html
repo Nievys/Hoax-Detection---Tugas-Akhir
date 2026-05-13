@@ -1,0 +1,91 @@
+<div class="page-header">
+  <span class="module-tag">// MODUL 5 — KLASIFIKASI RANDOM FOREST</span>
+  <h1>Random Forest</h1>
+  <p>Ensemble learning yang menggabungkan banyak Decision Tree (Gini Impurity) dengan Bootstrap Aggregating (Bagging) dan Majority Voting.</p>
+</div>
+
+<!-- Teori Singkat -->
+<div class="card">
+  <h3>📐 Landasan Matematis</h3>
+  <div class="mt-2 text-sm" style="line-height:1.8; color:var(--text-2);">
+    <strong style="color:var(--red)">Gini Impurity:</strong>
+    <code style="background:var(--surface);padding:2px 6px;border-radius:4px;">Gini(S) = 1 - Σₖ pₖ²</code> — ukuran ketidakmurnian node<br>
+    <strong style="color:var(--blue)">Best Split:</strong>
+    <code style="background:var(--surface);padding:2px 6px;border-radius:4px;">G = (|S_left|/|S|)·Gini(S_left) + (|S_right|/|S|)·Gini(S_right)</code><br>
+    <strong style="color:var(--purple)">Bootstrap:</strong>
+    <code style="background:var(--surface);padding:2px 6px;border-radius:4px;">Bₜ ~ sampling N data dengan pengembalian (~63.2% unik)</code><br>
+    <strong style="color:var(--green)">Majority Voting:</strong>
+    <code style="background:var(--surface);padding:2px 6px;border-radius:4px;">ŷ(x) = mode({ h₁(x), h₂(x), ..., hₜ(x) })</code>
+  </div>
+</div>
+
+<!-- Konfigurasi Training -->
+<div class="card mt-3">
+  <h3>Konfigurasi Training</h3>
+  <div class="flex gap-2 mt-2" style="flex-wrap:wrap;align-items:center;">
+    <select id="rf-target" class="btn" style="min-width:120px;">
+      <option value="">(Pilih Label Target)</option>
+    </select>
+    <div style="display:flex;align-items:center;gap:6px;">
+      <label class="text-sm text-mute">Jumlah Pohon (T):</label>
+      <input type="number" id="rf-ntrees" value="10" min="1" max="100" class="btn" style="width:70px">
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;">
+      <label class="text-sm text-mute">Max Depth:</label>
+      <input type="number" id="rf-depth" value="10" min="1" max="50" class="btn" style="width:70px">
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;">
+      <label class="text-sm text-mute">Min Samples:</label>
+      <input type="number" id="rf-minsamp" value="2" min="1" class="btn" style="width:70px">
+    </div>
+    <button class="btn btn-primary" onclick="trainRF()">Latih Model</button>
+  </div>
+  <div id="rf-status" class="mt-2 text-sm text-mute"></div>
+</div>
+
+<!-- Hasil Training -->
+<div id="rf-train-result" class="hidden mt-3">
+  <div class="card">
+    <h3>Hasil Training</h3>
+    <div class="flex gap-2 mt-2" style="flex-wrap:wrap;">
+      <div style="flex:1;min-width:140px;padding:12px;border-radius:var(--r);background:var(--surface);">
+        <div class="text-sm text-mute">Jumlah Pohon</div>
+        <div id="rf-info-trees" style="font-size:20px;font-weight:600;color:var(--green);">—</div>
+      </div>
+      <div style="flex:1;min-width:140px;padding:12px;border-radius:var(--r);background:var(--surface);">
+        <div class="text-sm text-mute">Max Depth</div>
+        <div id="rf-info-depth" style="font-size:20px;font-weight:600;color:var(--blue);">—</div>
+      </div>
+      <div style="flex:1;min-width:140px;padding:12px;border-radius:var(--r);background:var(--surface);">
+        <div class="text-sm text-mute">Fitur per Split</div>
+        <div id="rf-info-feats" style="font-size:20px;font-weight:600;color:var(--purple);">—</div>
+      </div>
+      <div style="flex:1;min-width:140px;padding:12px;border-radius:var(--r);background:var(--surface);">
+        <div class="text-sm text-mute">Total Sampel</div>
+        <div id="rf-info-samples" style="font-size:20px;font-weight:600;color:var(--amber);">—</div>
+      </div>
+    </div>
+
+    <!-- Distribusi Kelas -->
+    <div class="section-sep mt-3">Distribusi Kelas</div>
+    <div id="rf-class-dist" class="mt-1"></div>
+  </div>
+</div>
+
+<!-- Uji Prediksi -->
+<div class="card mt-3">
+  <h3>Uji Prediksi Real-time</h3>
+  <div class="mt-2">
+    <textarea id="rf-input" class="input-area" placeholder="Masukkan teks untuk diprediksi..."></textarea>
+    <button class="btn btn-primary mt-1" onclick="predictRF()">Prediksi</button>
+  </div>
+  <div id="rf-result-area" class="hidden mt-3 p-2" style="border-radius:var(--r);background:var(--surface);">
+    <div class="text-sm">Hasil Prediksi (Majority Voting):</div>
+    <div id="rf-prediction-text" style="font-size:20px;font-weight:600;" class="mt-1"></div>
+    <div id="rf-prediction-proba" class="text-sm mt-1"></div>
+    <div id="rf-prediction-detail" class="text-mute text-sm mt-1"></div>
+    <!-- Visualisasi vote per pohon -->
+    <div class="section-sep mt-2">Detail Vote per Pohon</div>
+    <div id="rf-vote-detail" class="mt-1" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+  </div>
+</div>

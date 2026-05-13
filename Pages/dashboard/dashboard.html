@@ -1,0 +1,92 @@
+    <div class="page-header">
+      <span class="module-tag">// OVERVIEW</span>
+      <h1>Dashboard</h1>
+      <p>Pipeline lengkap: Preprocessing (Modul 1) → Feature Extraction TF-IDF (Modul 2) → Klasifikasi (Modul 3).</p>
+    </div>
+
+    <div class="stats-row cols-4 mb-1">
+      <div class="stat-card">
+        <div class="num blue" id="d-lex">0</div>
+        <div class="lbl">Kamus Gabungan</div>
+      </div>
+      <div class="stat-card">
+        <div class="num" id="d-ds">0</div>
+        <div class="lbl">Dataset Teks</div>
+      </div>
+      <div class="stat-card">
+        <div class="num green" id="d-vocab">0</div>
+        <div class="lbl">Vocabulary TF-IDF</div>
+      </div>
+      <div class="stat-card">
+        <div class="num amber" id="d-sparse">—</div>
+        <div class="lbl">Sparsity Matriks</div>
+      </div>
+    </div>
+
+    <!-- Quick test -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Quick Test — Preprocessing</div>
+        <span class="chip chip-blue">Coba langsung</span>
+      </div>
+
+      <div class="form-group mb-1">
+        <label class="form-label">Teks input</label>
+        <textarea id="qt-input" placeholder="Masukkan teks bahasa Indonesia…"></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="quickTest()">▶ Proses</button>
+        <button class="btn btn-secondary" onclick="qtLoad()">Muat Contoh</button>
+      </div>
+
+      <div id="qt-result" class="hidden mt-2">
+        <div class="diff">
+          <div class="diff-panel diff-before">
+            <div class="diff-label">Input asli</div>
+            <div id="qt-raw"></div>
+          </div>
+          <div class="diff-panel diff-after">
+            <div class="diff-label">Setelah preprocessing</div>
+            <div id="qt-out"></div>
+          </div>
+        </div>
+        <div id="qt-tags"></div>
+      </div>
+    </div>
+
+    <!-- Pipeline visual -->
+    <div class="card">
+      <div class="card-header"><div class="card-title">Alur Pipeline</div></div>
+      <div style="display:flex; gap:0; align-items:stretch; flex-wrap:wrap;">
+        <div style="flex:1; min-width:110px; padding:14px; background:var(--off); border-radius:var(--r); text-align:center; font-size:12px;">
+          <div style="font-size:20px; margin-bottom:6px;">📄</div>
+          <div style="font-weight:600; color:var(--ink);">Raw Text</div>
+          <div style="color:var(--mute);">Input mentah</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:0 6px;color:var(--mute);font-size:16px;">→</div>
+        <div style="flex:1; min-width:110px; padding:14px; background:var(--amber-bg); border-radius:var(--r); text-align:center; font-size:12px;">
+          <div style="font-size:20px; margin-bottom:6px;">🧹</div>
+          <div style="font-weight:600; color:var(--amber);">Cleansing</div>
+          <div style="color:var(--mute);">URL, simbol, angka</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:0 6px;color:var(--mute);font-size:16px;">→</div>
+        <div style="flex:1; min-width:110px; padding:14px; background:var(--blue-bg); border-radius:var(--r); text-align:center; font-size:12px;">
+          <div style="font-size:20px; margin-bottom:6px;">📖</div>
+          <div style="font-weight:600; color:var(--blue);">Normalisasi</div>
+          <div style="color:var(--mute);">Slang → baku</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:0 6px;color:var(--mute);font-size:16px;">→</div>
+        <div style="flex:1; min-width:110px; padding:14px; background:var(--purple-bg); border-radius:var(--r); text-align:center; font-size:12px;">
+          <div style="font-size:20px; margin-bottom:6px;">∑</div>
+          <div style="font-weight:600; color:var(--purple);">TF-IDF</div>
+          <div style="color:var(--mute);">Feature extraction</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:0 6px;color:var(--mute);font-size:16px;">→</div>
+        <div style="flex:1; min-width:110px; padding:14px; background:var(--green-bg); border-radius:var(--r); text-align:center; font-size:12px;">
+          <div style="font-size:20px; margin-bottom:6px;">🤖</div>
+          <div style="font-weight:600; color:var(--green);">Klasifikasi</div>
+          <div style="color:var(--mute);">Modul 3</div>
+        </div>
+      </div>
+    </div>

@@ -1,0 +1,75 @@
+<div class="page-header">
+  <span class="module-tag">// MODUL 6 — ENSEMBLE MAJORITY VOTING</span>
+  <h1>Majority Voting Ensemble</h1>
+  <p>Gabungkan prediksi SVM, Naive Bayes, dan Random Forest menggunakan Hard Voting, lalu bandingkan akurasi setiap model.</p>
+</div>
+
+<!-- Teori -->
+<div class="card">
+  <h3>📐 Hard Voting — Majority Decision</h3>
+  <div class="mt-2 text-sm" style="line-height:1.8; color:var(--text-2);">
+    <strong style="color:var(--blue)">Aturan:</strong>
+    <code style="background:var(--surface);padding:2px 6px;border-radius:4px;">ŷ = mode({ h_SVM(x), h_NB(x), h_RF(x) })</code><br>
+    <strong style="color:var(--purple)">Contoh:</strong>
+    SVM=0, NB=1, RF=1 → <strong style="color:var(--red)">Hasil = 1</strong> (menang 2 vs 1)
+  </div>
+</div>
+
+<!-- Evaluasi Training -->
+<div class="card mt-3">
+  <h3>Evaluasi & Perbandingan Model</h3>
+  <p class="text-sm text-mute mt-1">Evaluasi akurasi setiap model individual vs Ensemble pada data training. Pastikan ketiga model (SVM, NB, RF) sudah dilatih.</p>
+  <div class="mt-2">
+    <select id="ens-target" class="btn" style="min-width:120px;">
+      <option value="">(Pilih Label Target)</option>
+    </select>
+    <button class="btn btn-primary" onclick="runEnsembleEval()">▶ Evaluasi Semua Model</button>
+  </div>
+  <div id="ens-status" class="mt-2 text-sm text-mute"></div>
+</div>
+
+<!-- Tabel Perbandingan -->
+<div id="ens-comparison" class="hidden mt-3">
+  <div class="card">
+    <h3>📊 Tabel Perbandingan Akurasi</h3>
+    <div class="section-sep mt-2">Model Individual vs Ensemble</div>
+    <div class="table-scroll mt-1">
+      <table id="ens-table" class="data-tbl" style="width:100%;">
+        <thead>
+          <tr>
+            <th>Rank</th><th>Model</th><th>Akurasi</th><th>Presisi</th><th>Recall</th><th>F1-Score</th>
+            <th>TP</th><th>TN</th><th>FP</th><th>FN</th>
+          </tr>
+        </thead>
+        <tbody id="ens-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- Visualisasi bar -->
+    <div class="section-sep mt-3">Visualisasi Akurasi</div>
+    <div id="ens-bars" class="mt-1"></div>
+  </div>
+
+  <!-- Confusion Matrix per Model -->
+  <div class="card mt-3">
+    <h3>Confusion Matrix Detail</h3>
+    <div id="ens-cm-grid" class="mt-2" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;"></div>
+  </div>
+</div>
+
+<!-- Uji Prediksi Ensemble -->
+<div class="card mt-3">
+  <h3>Uji Prediksi Ensemble Real-time</h3>
+  <div class="mt-2">
+    <textarea id="ens-input" class="input-area" placeholder="Masukkan teks untuk diprediksi oleh ensemble..."></textarea>
+    <button class="btn btn-primary mt-1" onclick="predictEnsemble()">Prediksi Ensemble</button>
+  </div>
+  <div id="ens-result" class="hidden mt-3 p-2" style="border-radius:var(--r);background:var(--surface);">
+    <div class="text-sm">Hasil Ensemble (Majority Voting):</div>
+    <div id="ens-pred-text" style="font-size:20px;font-weight:600;" class="mt-1"></div>
+    <div id="ens-pred-detail" class="text-mute text-sm mt-1"></div>
+    <!-- Vote dari setiap model -->
+    <div class="section-sep mt-2">Vote per Model</div>
+    <div id="ens-model-votes" class="mt-1" style="display:flex;gap:12px;flex-wrap:wrap;"></div>
+  </div>
+</div>

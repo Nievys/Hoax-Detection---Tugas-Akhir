@@ -1,0 +1,104 @@
+    <div class="page-header">
+      <span class="module-tag">// REFERENSI MATEMATIS</span>
+      <h1>Landasan Teori & Algoritma</h1>
+      <p>Dokumentasi matematis untuk sidang Tugas Akhir. Modul 1 & 2.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-title">1. Text Cleansing — Regex Pipeline</div></div>
+      <div class="formula-card">
+        <div class="formula-title">8-Step Sequential Transformation · O(n)</div>
+        <div class="formula-body">T⁰ = raw_text
+T¹ = T⁰.lower()                       — normalisasi kapital
+T² = re.sub(URL_PATTERN, '', T¹)       — hapus URL
+T³ = re.sub(@\w+, '', T²)             — hapus @mention
+T⁴ = re.sub(#\w+, '', T³)             — hapus #hashtag
+T⁵ = re.sub(HTML, '', T⁴)             — hapus tag HTML
+T⁶ = re.sub(\d+, '', T⁵)             — hapus angka
+T⁷ = re.sub([^a-zA-Z\s], ' ', T⁶)    — hapus simbol
+T⁸ = re.sub(\s+, ' ', T⁷).strip()    — normalize spasi
+Output = T⁸</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-title">2. Normalisasi Leksikon — Hash Lookup</div></div>
+      <div class="formula-card">
+        <div class="formula-title">Per-Token O(1) Hash Table Lookup</div>
+        <div class="formula-body">Untuk setiap token tᵢ ∈ T:
+  jika tᵢ ∈ L_g  →  tᵢ' = L_g[tᵢ]   (O(1) hash lookup)
+  jika tᵢ ∉ L_g  →  tᵢ' = tᵢ        (pertahankan)
+
+S' = ' '.join([t₀', t₁', ..., tₙ₋₁'])
+Kompleksitas: O(n) total  (n = jumlah token)</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-title">3. TF (Term Frequency)</div></div>
+      <div class="formula-card">
+        <div class="formula-title">Frekuensi Relatif Term dalam Dokumen</div>
+        <div class="formula-body">TF(t, d) = f(t, d) / |d|
+
+dimana:
+  f(t, d) = jumlah kemunculan term t dalam dokumen d
+  |d|     = total token dalam dokumen d
+
+Contoh: doc = "tidak bagus tidak", t = "tidak"
+  f("tidak", doc) = 2,  |doc| = 3
+  TF = 2/3 ≈ 0.667</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-title">4. IDF (Inverse Document Frequency)</div></div>
+      <div class="formula-card">
+        <div class="formula-title">Keunikan Term di Seluruh Corpus</div>
+        <div class="formula-body">Standard:  IDF(t) = log( N / df(t) )
+Smooth:    IDF(t) = log( (N+1) / (df(t)+1) ) + 1  ← digunakan
+
+dimana:
+  N      = total jumlah dokumen
+  df(t)  = jumlah dokumen yang mengandung term t
+  log    = logaritma natural (math.log, base e)
+
+Properti:
+  df kecil (kata langka)  → IDF tinggi → fitur diskriminatif
+  df besar (kata umum)    → IDF rendah → kurang informatif</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-title">5. TF-IDF Weighting & L2 Normalization</div></div>
+      <div class="formula-card">
+        <div class="formula-title">Bobot Akhir & Normalisasi Vektor</div>
+        <div class="formula-body">TF-IDF(t,d,D) = TF(t,d) × IDF(t,D)    (Hadamard product)
+
+L2 Normalization:
+  ||v||₂ = √(Σᵢ vᵢ²)                 (Euclidean norm)
+  v_norm[i] = v[i] / ||v||₂
+
+Setelah normalisasi: ||v_norm||₂ = 1  (unit vector)
+
+Tujuan: Dokumen panjang tidak mendominasi karena lebih
+banyak term. Semua vektor panjangnya sama = 1.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-title">6. Matriks TF-IDF</div></div>
+      <div class="formula-card">
+        <div class="formula-title">Representasi Matriks (N × |V|)</div>
+        <div class="formula-body">X = matriks ukuran N × |V|
+  Baris ke-i  = representasi vektor dokumen ke-i
+  Kolom ke-j  = fitur (term) ke-j dalam vocabulary
+
+X[i][j] = TF-IDF bobot term vocabulary[j] pada dokumen i
+
+Kompleksitas:
+  Waktu: O(N × |V|)  — dominasi konstruksi matriks
+  Ruang: O(N × |V|)  — menyimpan matriks
+  Sparsity: matriks sangat jarang (banyak 0)
+            karena setiap dok hanya mengandung sebagian kecil |V|</div>
+      </div>
+    </div>

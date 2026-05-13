@@ -1,0 +1,36 @@
+    <div class="page-header">
+      <span class="module-tag">// MODUL 2 — VOCABULARY</span>
+      <h1>Vocabulary & Nilai IDF</h1>
+      <p>Seluruh kata yang masuk vocabulary beserta indeks kolom dan nilai IDF masing-masing.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-header flex items-center justify-between w-full">
+        <div class="card-title">Browser Vocabulary</div>
+        <div style="display:flex; gap:6px;">
+          <select id="vocab-sort" onchange="vocabLoad()" style="width:160px;">
+            <option value="alpha">Urut Alfabetis</option>
+            <option value="idf_desc">IDF Tertinggi</option>
+            <option value="idf_asc">IDF Terendah</option>
+            <option value="df">DF Tertinggi</option>
+          </select>
+          <input type="text" id="vocab-srch" style="width:140px;" placeholder="Cari…" oninput="vocabSearch()">
+        </div>
+      </div>
+
+      <div id="vocab-empty" class="alert alert-warn">
+        <span class="alert-icon">⚠</span> TF-IDF belum dihitung. Jalankan Fit & Transform terlebih dahulu.
+      </div>
+
+      <div class="tbl-wrap">
+        <table class="data-tbl" id="vocab-tbl">
+          <thead><tr><th>Idx</th><th>Term</th><th>DF</th><th>IDF Value</th><th>IDF Bar</th></tr></thead>
+          <tbody id="vocab-tbody"></tbody>
+        </table>
+      </div>
+      <div class="pagination">
+        <button class="btn btn-ghost btn-sm" onclick="vocabPg(-1)">← Prev</button>
+        <span id="vocab-pg-info" class="text-mute">—</span>
+        <button class="btn btn-ghost btn-sm" onclick="vocabPg(1)">Next →</button>
+      </div>
+    </div>

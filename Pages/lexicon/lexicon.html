@@ -1,0 +1,105 @@
+    <div class="page-header">
+      <span class="module-tag">// MODUL 1 — LEKSIKON</span>
+      <h1>Manajemen Leksikon</h1>
+      <p>Upload kamus internal dan eksternal (Saka-NLP), gabungkan dengan resolusi konflik, dan preview entri.</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Kamus Internal</div>
+          <span class="chip chip-blue">Prioritas utama</span>
+        </div>
+        <div class="upload-zone" id="uz-int"
+             onclick="document.getElementById('fi-int').click()"
+             ondragover="dov(event,'uz-int')" ondragleave="dlv('uz-int')" ondrop="ddf(event,'internal')">
+          <div class="upload-icon">↑</div>
+          <div class="upload-label">Klik atau drag<br><strong>Kamus peneliti</strong></div>
+          <div class="upload-hint">.csv, .xlsx · kolom: slang, formal</div>
+        </div>
+        <input type="file" id="fi-int" class="hidden" accept=".csv,.xlsx,.xls" onchange="uploadLex(this,'internal')">
+        <div id="msg-int" class="mt-1"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Kamus Saka-NLP</div>
+          <span class="chip chip-amber">Suplemen</span>
+        </div>
+        <div class="upload-zone" id="uz-ext"
+             onclick="document.getElementById('fi-ext').click()"
+             ondragover="dov(event,'uz-ext')" ondragleave="dlv('uz-ext')" ondrop="ddf(event,'external')">
+          <div class="upload-icon">↑</div>
+          <div class="upload-label">Klik atau drag<br><strong>Kamus Saka-NLP</strong></div>
+          <div class="upload-hint">.csv, .xlsx · kolom: slang, formal</div>
+        </div>
+        <input type="file" id="fi-ext" class="hidden" accept=".csv,.xlsx,.xls" onchange="uploadLex(this,'external')">
+        <div id="msg-ext" class="mt-1"></div>
+      </div>
+    </div>
+
+    <!-- Merge config -->
+    <div class="card">
+      <div class="card-header"><div class="card-title">Konfigurasi Merge</div></div>
+      <div class="form-row cols-2">
+        <div class="form-group">
+          <label class="form-label">Strategi Konflik</label>
+          <select id="merge-strat" onchange="remerge()">
+            <option value="internal_priority">Internal Priority — L_g[w] = L_i[w]</option>
+            <option value="external_priority">External Priority — L_g[w] = L_e[w]</option>
+          </select>
+        </div>
+        <div style="display:flex;align-items:flex-end;">
+          <button class="btn btn-secondary" onclick="remerge()">↺ Re-Merge</button>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-title">Operasi Union Himpunan</div>
+        <div class="formula-body">L_g = L_i ∪ L_e
+∀w ∈ L_i ∩ L_e: "internal_priority" → L_g[w] = L_i[w]
+                 "external_priority" → L_g[w] = L_e[w]
+|L_g| ≤ |L_i| + |L_e|</div>
+      </div>
+
+      <div class="stats-row cols-4 mt-2">
+        <div class="stat-card"><div class="num blue" id="ms-int">—</div><div class="lbl">|L_internal|</div></div>
+        <div class="stat-card"><div class="num amber" id="ms-ext">—</div><div class="lbl">|L_external|</div></div>
+        <div class="stat-card"><div class="num green" id="ms-mrg">—</div><div class="lbl">|L_gabungan|</div></div>
+        <div class="stat-card"><div class="num red" id="ms-con">—</div><div class="lbl">Konflik</div></div>
+      </div>
+    </div>
+
+    <!-- Conflicts -->
+    <div class="card hidden" id="conflict-card">
+      <div class="card-header">
+        <div class="card-title">Daftar Konflik</div>
+        <span class="chip chip-red" id="conflict-chip">0</span>
+      </div>
+      <div style="display:grid; grid-template-columns:140px 1fr 1fr 90px; gap:10px; padding:6px 0; border-bottom:1px solid var(--border);">
+        <div class="text-sm text-mute">KATA</div>
+        <div class="text-sm text-mute">INTERNAL</div>
+        <div class="text-sm text-mute">EKSTERNAL</div>
+        <div class="text-sm text-mute">DIPAKAI</div>
+      </div>
+      <div id="conflict-list"></div>
+    </div>
+
+    <!-- Browser -->
+    <div class="card">
+      <div class="card-header flex items-center justify-between w-full">
+        <div class="card-title">Browser Kamus</div>
+        <input type="text" id="lex-srch" style="width:180px;" placeholder="Cari kata…" oninput="lexSearch()">
+      </div>
+      <div class="tbl-wrap">
+        <table class="data-tbl">
+          <thead><tr><th>#</th><th>Slang</th><th>Baku</th></tr></thead>
+          <tbody id="lex-tbody"></tbody>
+        </table>
+      </div>
+      <div class="pagination">
+        <button class="btn btn-ghost btn-sm" onclick="lexPg(-1)">← Prev</button>
+        <span id="lex-pg-info" class="text-mute">—</span>
+        <button class="btn btn-ghost btn-sm" onclick="lexPg(1)">Next →</button>
+      </div>
+    </div>

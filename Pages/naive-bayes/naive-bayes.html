@@ -1,0 +1,88 @@
+<div class="page-header">
+  <span class="module-tag">// MODUL 4 — KLASIFIKASI NAIVE BAYES</span>
+  <h1>Multinomial Naive Bayes</h1>
+  <p>Klasifikasi teks berbasis probabilistik menggunakan Teorema Bayes dengan asumsi independensi fitur dan Laplace Smoothing.</p>
+</div>
+
+<!-- Teori Singkat -->
+<div class="card">
+  <h3>📐 Landasan Matematis</h3>
+  <div class="mt-2 text-sm" style="line-height:1.8; color:var(--text-2);">
+    <strong style="color:var(--blue)">Teorema Bayes:</strong>
+    <code style="background:var(--surface);padding:2px 6px;border-radius:4px;">P(c|d) = P(d|c) · P(c) / P(d)</code><br>
+    <strong style="color:var(--purple)">Prior:</strong>
+    <code style="background:var(--surface);padding:2px 6px;border-radius:4px;">P(c) = Nₖ / N</code> — proporsi kelas c dalam dataset<br>
+    <strong style="color:var(--green)">Likelihood + Laplace Smoothing:</strong>
+    <code style="background:var(--surface);padding:2px 6px;border-radius:4px;">P(tᵢ|c) = (count(tᵢ,c) + α) / (Σⱼ count(tⱼ,c) + α·|V|)</code><br>
+    <strong style="color:var(--amber)">Keputusan (log-space):</strong>
+    <code style="background:var(--surface);padding:2px 6px;border-radius:4px;">ĉ = argmax_c [ log P(c) + Σᵢ wᵢ · log P(tᵢ|c) ]</code>
+  </div>
+  <div class="mt-2" style="padding:10px;border-radius:var(--r);background:var(--surface);font-size:12px;color:var(--text-2);line-height:1.7;">
+    <strong style="color:var(--text-1)">🔑 Asumsi Independensi Naif:</strong>
+    Setiap fitur (kata) diasumsikan independen satu sama lain diberikan kelas: P(d|c) = ∏ᵢ P(tᵢ|c).
+    Meskipun asumsi ini secara teoritis salah (kata-kata dalam kalimat saling berkaitan),
+    Naive Bayes tetap efektif karena <em>estimasi parameter lebih stabil</em> dan
+    <em>menghindari curse of dimensionality</em> pada data sparse seperti TF-IDF.
+  </div>
+</div>
+
+<!-- Konfigurasi Training -->
+<div class="card mt-3">
+  <h3>Konfigurasi Training</h3>
+  <div class="flex gap-2 mt-2" style="flex-wrap:wrap;align-items:center;">
+    <select id="nb-target" class="btn" style="min-width: 120px;">
+      <option value="">(Pilih Label Target)</option>
+    </select>
+    <div style="display:flex;align-items:center;gap:6px;">
+      <label class="text-sm text-mute">Laplace α:</label>
+      <input type="number" id="nb-alpha" value="1.0" step="0.1" min="0" class="btn" style="width:80px">
+    </div>
+    <button class="btn btn-primary" onclick="trainNB()">Latih Model</button>
+  </div>
+  <div id="nb-status" class="mt-2 text-sm text-mute"></div>
+</div>
+
+<!-- Hasil Training -->
+<div id="nb-train-result" class="hidden mt-3">
+  <!-- Prior & Stats -->
+  <div class="card">
+    <h3>Hasil Training</h3>
+    <div class="flex gap-2 mt-2" style="flex-wrap:wrap;">
+      <div style="flex:1;min-width:180px;padding:12px;border-radius:var(--r);background:var(--surface);">
+        <div class="text-sm text-mute">Total Sampel</div>
+        <div id="nb-total" style="font-size:20px;font-weight:600;color:var(--blue);">—</div>
+      </div>
+      <div style="flex:1;min-width:180px;padding:12px;border-radius:var(--r);background:var(--surface);">
+        <div class="text-sm text-mute">Jumlah Fitur (|V|)</div>
+        <div id="nb-feats" style="font-size:20px;font-weight:600;color:var(--purple);">—</div>
+      </div>
+      <div style="flex:1;min-width:180px;padding:12px;border-radius:var(--r);background:var(--surface);">
+        <div class="text-sm text-mute">Smoothing (α)</div>
+        <div id="nb-alpha-val" style="font-size:20px;font-weight:600;color:var(--amber);">—</div>
+      </div>
+    </div>
+
+    <!-- Prior Probabilities -->
+    <div class="section-sep mt-3">Prior Probability — P(c)</div>
+    <div id="nb-prior" class="mt-1"></div>
+
+    <!-- Top Features -->
+    <div class="section-sep mt-3">Top Fitur per Kelas — Kata Paling Khas</div>
+    <div id="nb-top-features" class="mt-1"></div>
+  </div>
+</div>
+
+<!-- Uji Prediksi -->
+<div class="card mt-3">
+  <h3>Uji Prediksi Real-time</h3>
+  <div class="mt-2">
+    <textarea id="nb-input" class="input-area" placeholder="Masukkan teks untuk diprediksi..."></textarea>
+    <button class="btn btn-primary mt-1" onclick="predictNB()">Prediksi</button>
+  </div>
+  <div id="nb-result-area" class="hidden mt-3 p-2" style="border-radius: var(--r); background: var(--surface);">
+    <div class="text-sm">Hasil Prediksi:</div>
+    <div id="nb-prediction-text" style="font-size: 20px; font-weight: 600;" class="mt-1"></div>
+    <div id="nb-prediction-proba" class="text-sm mt-1"></div>
+    <div id="nb-prediction-detail" class="text-mute text-sm mt-1"></div>
+  </div>
+</div>

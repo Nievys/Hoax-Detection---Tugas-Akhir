@@ -1,0 +1,57 @@
+    <div class="page-header">
+      <span class="module-tag">// MODUL 1 — PREPROCESSING</span>
+      <h1>Analisis Preprocessing</h1>
+      <p>Lihat setiap langkah pipeline cleansing dan normalisasi leksikon secara detail.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-title">Input Teks</div></div>
+      <div class="form-group mb-1">
+        <textarea id="pp-inp" rows="4" placeholder="Ketik atau paste teks bahasa Indonesia…"></textarea>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="ppRun()">▶ Proses</button>
+        <button class="btn btn-ghost btn-sm" onclick="ppEx(1)">Contoh 1</button>
+        <button class="btn btn-ghost btn-sm" onclick="ppEx(2)">Contoh 2</button>
+        <button class="btn btn-ghost btn-sm" onclick="ppEx(3)">Contoh 3</button>
+      </div>
+    </div>
+
+    <div id="pp-results" class="hidden">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Hasil Transformasi</div></div>
+        <div class="diff">
+          <div class="diff-panel diff-before">
+            <div class="diff-label">Input mentah</div>
+            <div id="pp-raw"></div>
+          </div>
+          <div class="diff-panel diff-after">
+            <div class="diff-label">Output ternormalisasi</div>
+            <div id="pp-norm"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Langkah Cleansing</div>
+          <span class="chip chip-amber">8 langkah</span>
+        </div>
+        <div class="steps-list" id="pp-steps"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Log Normalisasi Leksikon</div>
+          <span class="chip chip-green" id="pp-rep-chip">0 penggantian</span>
+        </div>
+        <div id="pp-reps"></div>
+      </div>
+
+      <div class="stats-row cols-4">
+        <div class="stat-card"><div class="num blue" id="pp-s-raw">0</div><div class="lbl">Char raw</div></div>
+        <div class="stat-card"><div class="num" id="pp-s-cln">0</div><div class="lbl">Char bersih</div></div>
+        <div class="stat-card"><div class="num green" id="pp-s-tok">0</div><div class="lbl">Token</div></div>
+        <div class="stat-card"><div class="num purple" id="pp-s-rep">0</div><div class="lbl">Diganti</div></div>
+      </div>
+    </div>

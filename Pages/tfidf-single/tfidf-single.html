@@ -1,0 +1,50 @@
+    <div class="page-header">
+      <span class="module-tag">// MODUL 2 — ANALISIS TEKS</span>
+      <h1>Analisis TF-IDF Teks Baru</h1>
+      <p>Masukkan teks baru — sistem akan preprocessing lalu hitung TF-IDF menggunakan vocabulary yang sudah di-fit.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-title">Input Teks</div></div>
+      <div class="form-group mb-1">
+        <textarea id="tfs-inp" rows="4" placeholder="Masukkan teks bahasa Indonesia…"></textarea>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="tfsRun()">▶ Hitung TF-IDF</button>
+        <button class="btn btn-ghost btn-sm" onclick="tfsEx()">Muat Contoh</button>
+      </div>
+    </div>
+
+    <div id="tfs-result" class="hidden">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Preprocessing Result</div>
+        </div>
+        <div class="diff">
+          <div class="diff-panel diff-before">
+            <div class="diff-label">Input asli</div>
+            <div id="tfs-raw"></div>
+          </div>
+          <div class="diff-panel diff-after">
+            <div class="diff-label">Setelah preprocessing</div>
+            <div id="tfs-norm"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Top Terms — TF-IDF Tertinggi</div>
+          <span class="chip chip-purple" id="tfs-vocab-chip">—</span>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-bottom:10px;">
+          <div style="font-size:10px; text-transform:uppercase; letter-spacing:.06em; color:var(--mute); padding:0 2px;">Term</div>
+          <div style="font-size:10px; text-transform:uppercase; letter-spacing:.06em; color:var(--mute); padding:0 2px;">TF</div>
+          <div style="font-size:10px; text-transform:uppercase; letter-spacing:.06em; color:var(--mute); padding:0 2px;">IDF</div>
+          <div style="font-size:10px; text-transform:uppercase; letter-spacing:.06em; color:var(--mute); padding:0 2px;">TF-IDF</div>
+        </div>
+
+        <div id="tfs-terms"></div>
+      </div>
+    </div>
