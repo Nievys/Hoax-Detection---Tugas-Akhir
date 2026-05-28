@@ -12,1035 +12,130 @@
 
 <div class="shell">
 
-<!-- ══════════════════ SIDEBAR ══════════════════ -->
+<!-- SIDEBAR -->
 <nav class="sidebar">
   <div class="sidebar-logo">
-    <span class="tag">Tugas Akhir — Teknik Informatika</span>
+    <!-- <span class="tag">Tugas Akhir — Teknik Informatika</span> -->
     <div class="title">Deteksi Ujaran Kebencian Berbahasa Indonesia</div>
   </div>
 
   <div class="nav-group">
     <div class="nav-group-label">Overview</div>
     <div class="nav-item active" onclick="go('dashboard')">
-      <span class="icon">◈</span> Dashboard
+      Dashboard
     </div>
   </div>
 
   <div class="nav-group" style="margin-top:4px;">
-    <div class="nav-group-label">Modul 1 — Preprocessing</div>
+    <div class="nav-group-label">Preprocessing</div>
     <div class="nav-item" onclick="go('lexicon')">
-      <span class="icon">◧</span> Manajemen Leksikon
+      Manajemen Leksikon
       <span class="nav-count" id="cnt-lex">0</span>
     </div>
     <div class="nav-item" onclick="go('dataset')">
-      <span class="icon">⊞</span> Dataset
+      Dataset
       <span class="nav-count" id="cnt-ds">0</span>
     </div>
     <div class="nav-item" onclick="go('preprocess')">
-      <span class="icon">⟴</span> Preprocessing
+      Preprocessing
     </div>
     <div class="nav-item" onclick="go('batch')">
-      <span class="icon">▦</span> Batch Process
+      Batch Process
     </div>
   </div>
 
   <div class="nav-group" style="margin-top:4px;">
-    <div class="nav-group-label">Modul 2 — Feature Extraction</div>
+    <div class="nav-group-label">Feature Extraction</div>
     <div class="nav-item" onclick="go('tfidf-config')">
-      <span class="icon">∑</span> TF-IDF Config
+      TF-IDF Config
     </div>
     <div class="nav-item" onclick="go('tfidf-vocab')">
-      <span class="icon">◉</span> Vocabulary & IDF
+      Vocabulary & IDF
       <span class="nav-count" id="cnt-vocab">0</span>
     </div>
     <div class="nav-item" onclick="go('tfidf-matrix')">
-      <span class="icon">⊟</span> Matrix Preview
+      Matrix Preview
     </div>
     <div class="nav-item" onclick="go('tfidf-single')">
-      <span class="icon">⚡</span> Analisis Teks
+      Analisis Teks
     </div>
   </div>
 
   <div class="nav-group" style="margin-top:4px;">
-    <div class="nav-group-label">Modul 3 — Klasifikasi SVM</div>
+    <div class="nav-group-label">MKlasifikasi SVM</div>
     <div class="nav-item" onclick="go('svm')">
-      <span class="icon">⚖</span> Klasifikasi SVM
+      Klasifikasi SVM
     </div>
   </div>
 
   <div class="nav-group" style="margin-top:4px;">
-    <div class="nav-group-label">Modul 4 — Naive Bayes</div>
+    <div class="nav-group-label">Naive Bayes</div>
     <div class="nav-item" onclick="go('naive-bayes')">
-      <span class="icon">📊</span> Multinomial NB
+      Multinomial NB
     </div>
   </div>
 
   <div class="nav-group" style="margin-top:4px;">
-    <div class="nav-group-label">Modul 5 — Random Forest</div>
+    <div class="nav-group-label">Random Forest</div>
     <div class="nav-item" onclick="go('random-forest')">
-      <span class="icon">🌲</span> Random Forest
+      Random Forest
     </div>
   </div>
 
   <div class="nav-group" style="margin-top:4px;">
-    <div class="nav-group-label">Modul 6 — Ensemble</div>
+    <div class="nav-group-label">Ensemble</div>
     <div class="nav-item" onclick="go('ensemble')">
-      <span class="icon">🎯</span> Majority Voting
+      Majority Voting
     </div>
   </div>
 
   <div class="nav-group" style="margin-top:4px;">
     <div class="nav-group-label">Referensi</div>
     <div class="nav-item" onclick="go('theory')">
-      <span class="icon">📐</span> Teori Matematis
+      Teori Matematis
     </div>
   </div>
 
-  <div class="sidebar-footer">
+  <!-- <div class="sidebar-footer">
     Pure Python Implementation<br>
     No Pandas · No Scikit-Learn<br>
     No NLTK · No Sastrawi
-  </div>
+  </div> -->
 </nav>
 
-<!-- ══════════════════ MAIN ══════════════════ -->
+<!-- MAIN -->
 <main>
-
-  <!-- ── DASHBOARD ── -->
-  <div id="page-dashboard" class="page active">
-  </div>
-
-  <!-- ── LEXICON ── -->
-  <div id="page-lexicon" class="page">
-  </div>
-
-  <!-- ── DATASET ── -->
-  <div id="page-dataset" class="page">
-  </div>
-
-  <!-- ── PREPROCESSING ── -->
-  <div id="page-preprocess" class="page">
-  </div>
-
-  <!-- ── BATCH ── -->
-  <div id="page-batch" class="page">
-  </div>
-
-  <!-- ── TF-IDF CONFIG ── -->
-  <div id="page-tfidf-config" class="page">
-  </div>
-
-  <!-- ── TF-IDF VOCABULARY ── -->
-  <div id="page-tfidf-vocab" class="page">
-  </div>
-
-  <!-- ── TF-IDF MATRIX ── -->
-  <div id="page-tfidf-matrix" class="page">
-  </div>
-
-  <!-- ── TF-IDF SINGLE ── -->
+  <div id="page-dashboard" class="page active"></div>
+  <div id="page-lexicon" class="page"></div>
+  <div id="page-dataset" class="page"></div>
+  <div id="page-preprocess" class="page"></div>
+  <div id="page-batch" class="page"></div>
+  <div id="page-tfidf-config" class="page"></div>
+  <div id="page-tfidf-vocab" class="page"></div>
+  <div id="page-tfidf-matrix" class="page"></div>
   <div id="page-tfidf-single" class="page"></div>
-
-  <!-- ── SVM ── -->
   <div id="page-svm" class="page"></div>
-
-  <!-- ── NAIVE BAYES ── -->
   <div id="page-naive-bayes" class="page"></div>
-
-  <!-- ── RANDOM FOREST ── -->
   <div id="page-random-forest" class="page"></div>
-
-  <!-- ── ENSEMBLE ── -->
   <div id="page-ensemble" class="page"></div>
-
-  <!-- ── THEORY ── -->
   <div id="page-theory" class="page"></div>
 
 </main>
 </div>
-
-<!-- ═══════════════ JAVASCRIPT ═══════════════ -->
-<script>
-// ── State ─────────────────────────────────────────────────────────
-let lexPage  = 1; const LEX_PP = 20;
-let vocabPage = 1; const VOCAB_PP = 25;
-let tfidfReady = false;
-let maxIdf = 1; // for bar scaling
-
-// ── Navigation ────────────────────────────────────────────────────
-async function loadHTML(id) {
-  const el = document.getElementById('page-' + id);
-  if (el && !el.innerHTML.trim()) {
-    try {
-      const res = await fetch(`/Pages/${id}/${id}.html`);
-      if (res.ok) {
-        el.innerHTML = await res.text();
-      }
-    } catch (e) {
-      console.error('Failed to load page:', id, e);
-    }
-  }
-}
-
-
-async function go(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  
-  if (id !== 'classification') {
-    await loadHTML(id);
-  }
-  
-  const pageEl = document.getElementById('page-'+id);
-  if (pageEl) pageEl.classList.add('active');
-
-  document.querySelectorAll('.nav-item').forEach(n => {
-    if (n.getAttribute('onclick')?.includes(`'${id}'`)) n.classList.add('active');
-  });
-
-  if (id==='lexicon')       { loadLexStatus(); loadLexEntries(); }
-  if (id==='dashboard')     loadDashStats();
-  if (id==='batch')         checkBatchPre();
-  if (id==='tfidf-config')  loadTfidfPrereq();
-  if (id==='tfidf-vocab')   vocabLoad();
-  if (id==='tfidf-matrix')  loadMatrix();
-  if (id==='svm')           loadSVM();
-  if (id==='naive-bayes')   loadNB();
-  if (id==='random-forest') loadRF();
-  if (id==='ensemble')      loadEnsemble();
-}
-
-// ── API ────────────────────────────────────────────────────────────
-async function api(url, method='GET', body=null) {
-  const o = {method, headers:{'Content-Type':'application/json'}};
-  if (body) o.body = JSON.stringify(body);
-  const r = await fetch(url, o);
-  return r.json();
-}
-
-function mkAlert(type, msg) {
-  const icons = {info:'ℹ',success:'✓',warn:'⚠',error:'✗'};
-  return `<div class="alert alert-${type}"><span class="alert-icon">${icons[type]}</span>${msg}</div>`;
-}
-
-function showAlert(id, type, msg) {
-  document.getElementById(id).innerHTML = mkAlert(type, msg);
-}
-
-// ── Dashboard ─────────────────────────────────────────────────────
-async function loadDashStats() {
-  const d = await api('/api/lexicon/status');
-  if (d.success) {
-    document.getElementById('d-lex').textContent = d.merged_count;
-    document.getElementById('cnt-lex').textContent = d.merged_count;
-  }
-  const ts = await api('/api/tfidf/status');
-  if (ts.success) {
-    if (ts.tfidf_ready) {
-      document.getElementById('d-vocab').textContent = ts.stats.n_features;
-      document.getElementById('d-sparse').textContent = ts.stats.sparsity_percent + '%';
-      document.getElementById('cnt-vocab').textContent = ts.stats.n_features;
-    }
-    document.getElementById('d-ds').textContent = ts.corpus_size;
-    document.getElementById('cnt-ds').textContent = ts.corpus_size;
-  }
-}
-
-function qtLoad() {
-  document.getElementById('qt-input').value =
-    'Dasar brengsek lo! gak tau diri bgt, pergi aja dari sini! https://bit.ly/xyz #kebencian @user123 😡';
-  quickTest();
-}
-
-async function quickTest() {
-  const text = document.getElementById('qt-input').value.trim();
-  if (!text) return;
-  const d = await api('/api/preprocess/single','POST',{text,verbose:false});
-  if (!d.success) return;
-  const r = d.result;
-  document.getElementById('qt-raw').textContent = r.raw;
-  document.getElementById('qt-out').textContent = r.normalized || '(kosong)';
-  document.getElementById('qt-result').classList.remove('hidden');
-  const te = document.getElementById('qt-tags');
-  if (r.replacements.length > 0) {
-    te.innerHTML = '<div class="replace-list">' + r.replacements.map(x =>
-      `<span class="replace-tag"><span class="orig">${x.original}</span><span class="arr">→</span><span class="repl">${x.replaced||'∅'}</span></span>`
-    ).join('') + '</div>';
-  } else {
-    te.innerHTML = '<p class="text-sm text-mute mt-1">Tidak ada penggantian slang.</p>';
-  }
-}
-
-// ── Lexicon ───────────────────────────────────────────────────────
-async function loadLexStatus() {
-  const d = await api('/api/lexicon/status');
-  if (!d.success) return;
-  document.getElementById('ms-int').textContent = d.internal_count;
-  document.getElementById('ms-ext').textContent = d.external_count;
-  document.getElementById('ms-mrg').textContent = d.merged_count;
-  document.getElementById('ms-con').textContent = d.conflict_count;
-  document.getElementById('cnt-lex').textContent = d.merged_count;
-
-  const conflicts = d.conflicts || {};
-  const keys = Object.keys(conflicts);
-  document.getElementById('conflict-chip').textContent = keys.length;
-  const cc = document.getElementById('conflict-card');
-  if (keys.length > 0) {
-    cc.classList.remove('hidden');
-    document.getElementById('conflict-list').innerHTML =
-      keys.slice(0,20).map(w => {
-        const c = conflicts[w];
-        return `<div class="conflict-row">
-          <span class="word">${w}</span>
-          <span class="int">${c.internal}</span>
-          <span class="ext">${c.external}</span>
-          <span class="win"><span class="chip chip-green" style="font-size:10px;">→ ${c.resolved}</span></span>
-        </div>`;
-      }).join('');
-  } else {
-    cc.classList.add('hidden');
-  }
-}
-
-function uploadLex(input, type) {
-  const file = input.files[0]; if (!file) return;
-  const fd = new FormData();
-  fd.append('file', file);
-  fd.append('type', type);
-  fd.append('strategy', document.getElementById('merge-strat').value);
-  fetch('/api/lexicon/upload', {method:'POST', body:fd})
-    .then(r=>r.json()).then(d=>{
-      if (d.success) {
-        showAlert(`msg-${type==='internal'?'int':'ext'}`, 'success',
-          `${d.count} entri dimuat. Gabungan: ${d.merged_count} entri.`);
-        loadLexStatus(); loadLexEntries(); loadDashStats();
-      } else {
-        showAlert(`msg-${type==='internal'?'int':'ext'}`, 'error', d.error);
-      }
-    });
-}
-
-async function remerge() {
-  const s = document.getElementById('merge-strat').value;
-  const d = await api('/api/merge','POST',{strategy:s});
-  if (d.success) { loadLexStatus(); loadLexEntries(); }
-}
-
-let lexSrchT;
-function lexSearch() {
-  clearTimeout(lexSrchT);
-  lexSrchT = setTimeout(()=>{ lexPage=1; loadLexEntries(); }, 300);
-}
-
-async function loadLexEntries() {
-  const srch = document.getElementById('lex-srch')?.value || '';
-  const d = await api(`/api/lexicon/entries?page=${lexPage}&per_page=${LEX_PP}&search=${encodeURIComponent(srch)}`);
-  if (!d.success) return;
-  const st = (lexPage-1)*LEX_PP+1;
-  document.getElementById('lex-tbody').innerHTML = d.entries.map((e,i) =>
-    `<tr><td class="text-mute">${st+i}</td>
-     <td><span class="text-mono" style="color:var(--amber)">${e.slang}</span></td>
-     <td style="color:var(--green)">${e.formal||'<em class="text-mute">dihapus</em>'}</td></tr>`
-  ).join('');
-  const pages = Math.ceil(d.total/LEX_PP);
-  document.getElementById('lex-pg-info').textContent = `Hal ${lexPage}/${pages} — ${d.total} entri`;
-}
-
-function lexPg(dir) {
-  const srch = document.getElementById('lex-srch')?.value||'';
-  fetch(`/api/lexicon/entries?page=1&per_page=${LEX_PP}&search=${encodeURIComponent(srch)}`)
-    .then(r=>r.json()).then(d=>{
-      const np = lexPage+dir;
-      if (np<1||np>Math.ceil(d.total/LEX_PP)) return;
-      lexPage=np; loadLexEntries();
-    });
-}
-
-// ── Dataset ───────────────────────────────────────────────────────
-function uploadDs(input) {
-  const file = input.files[0]; if (!file) return;
-  const fd = new FormData();
-  fd.append('file', file);
-  fd.append('text_col', document.getElementById('ds-tc').value||'text');
-  fd.append('label_col', document.getElementById('ds-lc').value||'label');
-  fetch('/api/dataset/upload',{method:'POST',body:fd})
-    .then(r=>r.json()).then(d=>{
-      if (d.success) {
-        showAlert('msg-ds','success',`${d.total} baris dimuat.`);
-        document.getElementById('cnt-ds').textContent = d.total;
-        document.getElementById('d-ds').textContent = d.total;
-        document.getElementById('ds-preview-card').classList.remove('hidden');
-        document.getElementById('ds-total-chip').textContent = d.total+' baris';
-        document.getElementById('ds-tbody').innerHTML = d.sample.map((r,i)=>
-          `<tr><td class="text-mute">${i+1}</td>
-           <td title="${r.text}">${r.text}</td>
-           <td class="${r.label=='1'||r.label?.toLowerCase()=='hate'?'label-hate':'label-ok'}">${r.label}</td></tr>`
-        ).join('');
-      } else {
-        showAlert('msg-ds','error',d.error);
-      }
-    });
-}
-
-// ── Preprocessing Single ──────────────────────────────────────────
-const PP_EX = [
-  'Dasar brengsek lo! gak tau diri bgt, pergi aja dari sini! https://bit.ly/abc #kebencian @user123 456',
-  'Wkwk lucu bgt deh, tp gw gak setuju sama pendapat lo yg itu, gimana menurut org lain?',
-  'Lo emang ga punya otak! <b>Blm</b> bisa mikir waras ya? https://spam.com @bot 99',
-];
-function ppEx(n) { document.getElementById('pp-inp').value=PP_EX[n-1]; ppRun(); }
-
-async function ppRun() {
-  const text = document.getElementById('pp-inp').value.trim();
-  if (!text) return;
-  const d = await api('/api/preprocess/single','POST',{text,verbose:true});
-  if (!d.success) return;
-  const r = d.result;
-  document.getElementById('pp-raw').textContent  = r.raw;
-  document.getElementById('pp-norm').textContent = r.normalized||'(kosong)';
-  document.getElementById('pp-results').classList.remove('hidden');
-  document.getElementById('pp-steps').innerHTML = (r.cleansing_steps||[]).map(([name,val],i)=>
-    `<div class="step-item">
-      <div class="step-num">${i+1}</div>
-      <div class="step-body">
-        <div class="step-name">${name}</div>
-        <div class="step-val">${val||'<em class="text-mute">(kosong)</em>'}</div>
-      </div>
-    </div>`
-  ).join('');
-  const rc = r.replacements||[];
-  document.getElementById('pp-rep-chip').textContent = rc.length+' penggantian';
-  document.getElementById('pp-reps').innerHTML = rc.length>0
-    ? '<div class="replace-list">'+rc.map(x=>`<span class="replace-tag"><span class="orig">${x.original}</span><span class="arr">→</span><span class="repl">${x.replaced||'∅'}</span></span>`).join('')+'</div>'
-    : '<p class="text-sm text-mute" style="padding:8px 0;">Tidak ada penggantian.</p>';
-  document.getElementById('pp-s-raw').textContent = r.stats.raw_length;
-  document.getElementById('pp-s-cln').textContent = r.stats.cleansed_length;
-  document.getElementById('pp-s-tok').textContent = r.stats.tokens_raw;
-  document.getElementById('pp-s-rep').textContent = r.stats.replacements_made;
-}
-
-// ── Batch ─────────────────────────────────────────────────────────
-async function checkBatchPre() {
-  const ls = await api('/api/lexicon/status');
-  const ts = await api('/api/tfidf/status');
-  let html = '';
-  if (ts.corpus_size===0)
-    html += mkAlert('warn','Belum ada dataset. Upload dataset terlebih dahulu.');
-  else
-    html += mkAlert('success',`Dataset siap: ${ts.corpus_size} teks`);
-  html += mkAlert('info',`Kamus gabungan: ${ls.merged_count} entri`);
-  document.getElementById('batch-prereq').innerHTML = html;
-}
-
-async function runBatch() {
-  const btn = document.getElementById('batch-btn');
-  btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Memproses…';
-  const d = await api('/api/preprocess/batch','POST');
-  btn.disabled=false; btn.innerHTML='▶ Jalankan Batch Processing';
-  if (!d.success) { alert(d.error); return; }
-  document.getElementById('batch-results').classList.remove('hidden');
-  document.getElementById('b-total').textContent = d.aggregate_stats.total_texts;
-  document.getElementById('b-rep').textContent   = d.aggregate_stats.total_replacements;
-  document.getElementById('b-avg').textContent   = d.aggregate_stats.avg_replacements;
-  document.getElementById('batch-tbody').innerHTML = d.results.map((r,i)=>
-    `<tr>
-      <td class="text-mute">${i+1}</td>
-      <td class="${r.label=='1'||r.label?.toLowerCase()=='hate'?'label-hate':'label-ok'}">${r.label}</td>
-      <td title="${r.raw}">${r.raw}</td>
-      <td title="${r.normalized}">${r.normalized}</td>
-      <td style="color:var(--purple)">${r.stats.replacements_made}</td>
-    </tr>`
-  ).join('');
-  loadDashStats();
-}
-
-// ── TF-IDF Config ─────────────────────────────────────────────────
-async function loadTfidfPrereq() {
-  const ts = await api('/api/tfidf/status');
-  let html = '';
-  if (!ts.corpus_ready)
-    html += mkAlert('warn','Belum ada corpus. Jalankan Batch Processing terlebih dahulu.');
-  else
-    html += mkAlert('success',`Corpus siap: ${ts.corpus_size} dokumen`);
-  if (ts.tfidf_ready)
-    html += mkAlert('info',`TF-IDF sudah dihitung: ${ts.stats.n_features} fitur, sparsity ${ts.stats.sparsity_percent}%`);
-  document.getElementById('tfidf-prereq').innerHTML = html;
-}
-
-async function tfidfFit() {
-  const btn = document.getElementById('tfidf-fit-btn');
-  btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Menghitung…';
-
-  const mindf = parseInt(document.getElementById('tf-mindf').value)||1;
-  const maxdf = parseFloat(document.getElementById('tf-maxdf').value)||1.0;
-  const mf = document.getElementById('tf-maxfeat').value;
-  const maxfeat = mf ? parseInt(mf) : null;
-  const smooth  = document.getElementById('tf-smooth').value==='true';
-  const norm    = document.getElementById('tf-norm').value==='true';
-
-  const d = await api('/api/tfidf/fit','POST',{
-    min_df:mindf, max_df_ratio:maxdf,
-    max_features:maxfeat, smooth_idf:smooth, normalize:norm
-  });
-
-  btn.disabled=false; btn.innerHTML='▶ Fit & Transform';
-
-  if (!d.success) { alert(d.error); return; }
-
-  tfidfReady = true;
-  document.getElementById('tf-n-doc').textContent    = d.stats.n_documents;
-  document.getElementById('tf-n-feat').textContent   = d.stats.n_features;
-  document.getElementById('tf-total-el').textContent = d.stats.total_elements.toLocaleString();
-  document.getElementById('tf-sparsity').textContent = d.stats.sparsity_percent+'%';
-  document.getElementById('tfidf-fit-result').classList.remove('hidden');
-
-  // IDF bar chart
-  const topIdf = d.top_idf_terms;
-  maxIdf = topIdf.length > 0 ? topIdf[0].idf : 1;
-  document.getElementById('top-idf-list').innerHTML = topIdf.map(x=>`
-    <div class="idf-bar-item">
-      <span class="idf-term">${x.term}</span>
-      <div class="idf-bar-wrap"><div class="idf-bar-fill" style="width:${(x.idf/maxIdf*100).toFixed(1)}%"></div></div>
-      <span class="idf-val">${x.idf.toFixed(4)}</span>
-      <span class="idf-df">df=${x.df}</span>
-    </div>`
-  ).join('');
-
-  // Update dashboard
-  document.getElementById('d-vocab').textContent = d.stats.n_features;
-  document.getElementById('d-sparse').textContent = d.stats.sparsity_percent+'%';
-  document.getElementById('cnt-vocab').textContent = d.stats.n_features;
-}
-
-// ── Vocabulary ─────────────────────────────────────────────────────
-let vocabSrchT;
-function vocabSearch() {
-  clearTimeout(vocabSrchT);
-  vocabSrchT = setTimeout(()=>{ vocabPage=1; vocabLoad(); }, 300);
-}
-
-async function vocabLoad() {
-  const srch  = document.getElementById('vocab-srch')?.value||'';
-  const sort  = document.getElementById('vocab-sort')?.value||'alpha';
-  const d = await api(`/api/tfidf/vocabulary?page=${vocabPage}&per_page=${VOCAB_PP}&search=${encodeURIComponent(srch)}&sort=${sort}`);
-
-  const empty = document.getElementById('vocab-empty');
-  const tbl   = document.getElementById('vocab-tbl');
-
-  if (!d.success) {
-    empty.classList.remove('hidden'); tbl.classList.add('hidden'); return;
-  }
-  empty.classList.add('hidden'); tbl.classList.remove('hidden');
-
-  const items = d.items;
-  const maxIdfLocal = items.length>0 ? Math.max(...items.map(x=>x.idf)) : 1;
-
-  document.getElementById('vocab-tbody').innerHTML = items.map(x=>`
-    <tr>
-      <td class="text-mute text-mono">${x.index}</td>
-      <td style="color:var(--blue); font-family:var(--mono)">${x.term}</td>
-      <td class="text-mute">${x.df}</td>
-      <td class="text-mono">${x.idf.toFixed(6)}</td>
-      <td style="min-width:100px;">
-        <div class="idf-bar-wrap" style="height:6px;">
-          <div class="idf-bar-fill" style="width:${(x.idf/maxIdfLocal*100).toFixed(1)}%"></div>
-        </div>
-      </td>
-    </tr>`
-  ).join('');
-
-  const pages = Math.ceil(d.total/VOCAB_PP);
-  document.getElementById('vocab-pg-info').textContent = `Hal ${vocabPage}/${pages} — ${d.total} term`;
-}
-
-function vocabPg(dir) {
-  const srch = document.getElementById('vocab-srch')?.value||'';
-  const sort = document.getElementById('vocab-sort')?.value||'alpha';
-  fetch(`/api/tfidf/vocabulary?page=1&per_page=${VOCAB_PP}&search=${encodeURIComponent(srch)}&sort=${sort}`)
-    .then(r=>r.json()).then(d=>{
-      const np = vocabPage+dir;
-      if (np<1||np>Math.ceil(d.total/VOCAB_PP)) return;
-      vocabPage=np; vocabLoad();
-    });
-}
-
-// ── Matrix Preview ────────────────────────────────────────────────
-async function loadMatrix() {
-  const ts = await api('/api/tfidf/status');
-  const empty   = document.getElementById('matrix-empty');
-  const content = document.getElementById('matrix-content');
-
-  if (!ts.tfidf_ready) {
-    empty.classList.remove('hidden');
-    content.classList.add('hidden');
-    return;
-  }
-
-  empty.classList.add('hidden');
-  content.classList.remove('hidden');
-
-  const d = await api('/api/tfidf/fit','POST',{}); // re-use last result
-  if (!d.success) return;
-
-  const p = d.preview;
-  document.getElementById('matrix-shape-chip').textContent =
-    `${p.full_shape[0]} × ${p.full_shape[1]}${p.truncated?' (preview)':''}`;
-
-  // Build table
-  const cols = p.preview_cols;
-  let html = '<table class="matrix-tbl"><thead><tr><th class="row-header">doc\\term</th>';
-  cols.forEach(c => { html+=`<th title="${c}">${c.length>8?c.slice(0,8)+'…':c}</th>`; });
-  html += '</tr></thead><tbody>';
-
-  const allVals = p.preview_matrix.flat().filter(v=>v>0);
-  const hiThr = allVals.length>0 ? allVals.sort((a,b)=>b-a)[Math.floor(allVals.length*.2)] : 0.5;
-
-  p.preview_matrix.forEach((row, i) => {
-    html += `<tr><th class="row-header">d${i}</th>`;
-    row.forEach(v => {
-      const cls = v===0 ? 'zero' : (v>=hiThr ? 'high' : '');
-      html += `<td class="${cls}">${v===0?'·':v.toFixed(4)}</td>`;
-    });
-    html += '</tr>';
-  });
-  html += '</tbody></table>';
-  document.getElementById('matrix-wrap').innerHTML = html;
-}
-
-async function loadDocDetail() {
-  const idx = parseInt(document.getElementById('doc-idx-inp').value)||0;
-  const d = await api(`/api/tfidf/document/${idx}?top_n=10`);
-  if (!d.success) { document.getElementById('doc-detail').innerHTML = mkAlert('error',d.error); return; }
-
-  let html = `
-    <div class="diff mt-2">
-      <div class="diff-panel diff-before">
-        <div class="diff-label">Teks Asli <span style="font-weight:400;">[dok ${idx}]</span></div>
-        <div>${d.original_text||'(kosong)'}</div>
-      </div>
-      <div class="diff-panel diff-after">
-        <div class="diff-label">Ternormalisasi</div>
-        <div>${d.normalized_text||'(kosong)'}</div>
-      </div>
-    </div>
-    <div class="section-sep">Top TF-IDF — Dokumen ${idx}  ·  label: <strong>${d.label}</strong>  ·  L2 norm: ${d.l2_norm}  ·  non-zero: ${d.non_zero_count}</div>
-    <div style="margin-top:10px;">
-  `;
-  d.top_features.forEach(f => {
-    html += `
-      <div class="idf-bar-item">
-        <span class="idf-term">${f.term}</span>
-        <div class="idf-bar-wrap"><div class="idf-bar-fill" style="width:${(f.tfidf*100).toFixed(1)}%"></div></div>
-        <span class="idf-val">${f.tfidf.toFixed(6)}</span>
-      </div>`;
-  });
-  html += '</div>';
-  document.getElementById('doc-detail').innerHTML = html;
-}
-
-// ── TF-IDF Single ─────────────────────────────────────────────────
-function tfsEx() {
-  document.getElementById('tfs-inp').value =
-    'Dasar brengsek lo! gak tau diri bgt, emang ga ada otaknya ya?';
-  tfsRun();
-}
-
-async function tfsRun() {
-  const text = document.getElementById('tfs-inp').value.trim();
-  if (!text) return;
-  const d = await api('/api/tfidf/single','POST',{text});
-  if (!d.success) { alert(d.error); return; }
-
-  document.getElementById('tfs-raw').textContent  = d.raw_text;
-  document.getElementById('tfs-norm').textContent = d.normalized_text;
-  document.getElementById('tfs-vocab-chip').textContent =
-    (d.used_existing_vocab ? `vocab ${d.vocab_size} term` : 'standalone');
-  document.getElementById('tfs-result').classList.remove('hidden');
-
-  const terms = d.top_terms||[];
-  const maxTf = terms.length>0 ? Math.max(...terms.map(x=>x.tfidf)) : 1;
-  document.getElementById('tfs-terms').innerHTML = terms.map(x=>`
-    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:6px; padding:7px 0; border-bottom:1px solid var(--border); font-size:12px;">
-      <span class="text-mono" style="color:var(--blue)">${x.term}</span>
-      <span class="text-mono text-mute">${x.tf.toFixed(6)}</span>
-      <span class="text-mono text-mute">${x.idf.toFixed(6)}</span>
-      <span>
-        <div style="display:flex;align-items:center;gap:6px;">
-          <div class="idf-bar-wrap" style="flex:1;height:5px;"><div class="idf-bar-fill" style="width:${(x.tfidf/maxTf*100).toFixed(1)}%"></div></div>
-          <span class="text-mono" style="color:var(--purple);min-width:70px">${x.tfidf.toFixed(6)}</span>
-        </div>
-      </span>
-    </div>`
-  ).join('') || '<p class="text-sm text-mute">Tidak ada term yang cocok dengan vocabulary.</p>';
-}
-
-// ── SVM ───────────────────────────────────────────────────────────
-async function loadSVM() {
-  // loadHTML('svm') sudah dipanggil oleh go('svm'),
-  // di sini cukup populate dropdown label target dari dataset info.
-  const res = await api('/api/dataset/info');
-  if (res.success && res.label_cols) {
-    const sel = document.getElementById('svm-target');
-    if (sel) {
-      sel.innerHTML = res.label_cols.map(c => `<option value="${c}">${c}</option>`).join('');
-    }
-  }
-}
-
-async function trainSVM() {
-  const btn = document.querySelector('button[onclick="trainSVM()"]');
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Melatih...';
-  
-  const kernel = document.getElementById('svm-kernel').value;
-  const cVal = document.getElementById('svm-c').value;
-  const targetLabel = document.getElementById('svm-target').value;
-  
-  const res = await api('/api/svm/train', 'POST', { kernel: kernel, C: cVal, target_label: targetLabel });
-  
-  btn.disabled = false; btn.innerHTML = 'Latih Model';
-  
-  const statusEl = document.getElementById('svm-status');
-  if (res.success) {
-    statusEl.innerHTML = `<span style="color:var(--green)">✓ ${res.message}</span> (Support Vectors: ${res.support_vectors})`;
-  } else {
-    statusEl.innerHTML = `<span style="color:var(--red)">✗ ${res.error}</span>`;
-  }
-}
-
-async function predictSVM() {
-  const text = document.getElementById('input-deteksi').value.trim();
-  if (!text) return;
-  
-  const res = await api('/api/svm/predict', 'POST', { text: text });
-  
-  if (res.success) {
-    document.getElementById('result-area').classList.remove('hidden');
-    const predEl = document.getElementById('prediction-text');
-    predEl.textContent = res.prediction;
-    predEl.style.color = res.code === 1 ? 'var(--red)' : 'var(--green)';
-    document.getElementById('prediction-detail').textContent = 'Teks Ternormalisasi: ' + res.normalized;
-  } else {
-    alert(res.error);
-  }
-}
-
-// ── Naive Bayes ───────────────────────────────────────────────────
-async function loadNB() {
-  const res = await api('/api/dataset/info');
-  if (res.success && res.label_cols) {
-    const sel = document.getElementById('nb-target');
-    if (sel) {
-      sel.innerHTML = res.label_cols.map(c => `<option value="${c}">${c}</option>`).join('');
-    }
-  }
-}
-
-async function trainNB() {
-  const btn = document.querySelector('button[onclick="trainNB()"]');
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Melatih...';
-
-  const alpha = parseFloat(document.getElementById('nb-alpha').value) || 1.0;
-  const targetLabel = document.getElementById('nb-target').value;
-
-  const res = await api('/api/nb/train', 'POST', { alpha, target_label: targetLabel });
-
-  btn.disabled = false; btn.innerHTML = 'Latih Model';
-
-  const statusEl = document.getElementById('nb-status');
-  if (res.success) {
-    statusEl.innerHTML = `<span style="color:var(--green)">✓ ${res.message}</span>`;
-
-    // Show training result card
-    document.getElementById('nb-train-result').classList.remove('hidden');
-    document.getElementById('nb-total').textContent = res.training_info.n_features ? 
-      Object.values(res.training_info.class_distribution).reduce((a,b)=>a+b, 0) : '—';
-    document.getElementById('nb-feats').textContent = res.training_info.n_features;
-    document.getElementById('nb-alpha-val').textContent = res.training_info.alpha;
-
-    // Prior probabilities
-    const priorHtml = Object.entries(res.prior).map(([c, info]) => `
-      <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);">
-        <span class="chip ${c==='1'?'chip-red':'chip-green'}" style="min-width:80px;text-align:center;">
-          Kelas ${c}
-        </span>
-        <div style="flex:1;">
-          <div class="idf-bar-wrap" style="height:8px;">
-            <div class="idf-bar-fill" style="width:${(info.prior*100).toFixed(1)}%;background:${c==='1'?'var(--red)':'var(--green)'}"></div>
-          </div>
-        </div>
-        <span class="text-mono text-sm" style="min-width:60px;">${(info.prior*100).toFixed(2)}%</span>
-        <span class="text-mute text-sm">(${info.count} dok)</span>
-        <span class="text-mono text-sm text-mute">log: ${info.log_prior}</span>
-      </div>
-    `).join('');
-    document.getElementById('nb-prior').innerHTML = priorHtml;
-
-    // Top features per class
-    const topFeat = res.top_features;
-    let featHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;">';
-    for (const [c, features] of Object.entries(topFeat)) {
-      featHtml += `
-        <div style="padding:12px;border-radius:var(--r);background:var(--surface);">
-          <div class="text-sm" style="font-weight:600;color:${c==='1'?'var(--red)':'var(--green)'};">
-            Kelas ${c} — Kata Paling Khas
-          </div>
-          <div class="mt-1">
-            ${features.map(f => `
-              <div class="idf-bar-item" style="padding:3px 0;">
-                <span class="idf-term">${f.term}</span>
-                <div class="idf-bar-wrap" style="height:5px;">
-                  <div class="idf-bar-fill" style="width:${Math.min(Math.abs(f.log_prob)/10*100, 100).toFixed(1)}%;background:${c==='1'?'var(--red)':'var(--green)'}"></div>
-                </div>
-                <span class="idf-val">${f.prob.toExponential(3)}</span>
-              </div>
-            `).join('')}
-          </div>
-        </div>`;
-    }
-    featHtml += '</div>';
-    document.getElementById('nb-top-features').innerHTML = featHtml;
-  } else {
-    statusEl.innerHTML = `<span style="color:var(--red)">✗ ${res.error}</span>`;
-  }
-}
-
-async function predictNB() {
-  const text = document.getElementById('nb-input').value.trim();
-  if (!text) return;
-
-  const res = await api('/api/nb/predict', 'POST', { text });
-
-  if (res.success) {
-    document.getElementById('nb-result-area').classList.remove('hidden');
-    const predEl = document.getElementById('nb-prediction-text');
-    predEl.textContent = res.prediction;
-    predEl.style.color = res.code === 1 ? 'var(--red)' : 'var(--green)';
-
-    // Show probabilities
-    const probaHtml = Object.entries(res.probabilities).map(([c, p]) =>
-      `<span class="chip ${c==='1'?'chip-red':'chip-green'}" style="margin-right:8px;">
-        Kelas ${c}: ${(p*100).toFixed(2)}%
-      </span>`
-    ).join('');
-    document.getElementById('nb-prediction-proba').innerHTML = probaHtml;
-    document.getElementById('nb-prediction-detail').textContent = 'Teks Ternormalisasi: ' + res.normalized;
-  } else {
-    alert(res.error);
-  }
-}
-
-// ── Random Forest ───────────────────────────────────────────────────
-async function loadRF() {
-  const res = await api('/api/dataset/info');
-  if (res.success && res.label_cols) {
-    const sel = document.getElementById('rf-target');
-    if (sel) {
-      sel.innerHTML = res.label_cols.map(c => `<option value="${c}">${c}</option>`).join('');
-    }
-  }
-}
-
-async function trainRF() {
-  const btn = document.querySelector('button[onclick="trainRF()"]');
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Melatih...';
-
-  const n_trees = parseInt(document.getElementById('rf-ntrees').value) || 10;
-  const max_depth = parseInt(document.getElementById('rf-depth').value) || 10;
-  const min_samples = parseInt(document.getElementById('rf-minsamp').value) || 2;
-  const targetLabel = document.getElementById('rf-target').value;
-
-  const res = await api('/api/rf/train', 'POST', {
-    n_trees, max_depth, min_samples, target_label: targetLabel
-  });
-
-  btn.disabled = false; btn.innerHTML = 'Latih Model';
-
-  const statusEl = document.getElementById('rf-status');
-  if (res.success) {
-    statusEl.innerHTML = `<span style="color:var(--green)">✓ ${res.message}</span>`;
-
-    document.getElementById('rf-train-result').classList.remove('hidden');
-    document.getElementById('rf-info-trees').textContent = res.training_info.n_trees;
-    document.getElementById('rf-info-depth').textContent = res.training_info.max_depth;
-    document.getElementById('rf-info-feats').textContent = res.training_info.max_features;
-    document.getElementById('rf-info-samples').textContent = res.total_samples;
-
-    // Class distribution
-    const dist = res.class_distribution;
-    const total = Object.values(dist).reduce((a,b)=>a+b,0);
-    document.getElementById('rf-class-dist').innerHTML = Object.entries(dist).map(([c, n]) => `
-      <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);">
-        <span class="chip ${c==='1'?'chip-red':'chip-green'}" style="min-width:80px;text-align:center;">Kelas ${c}</span>
-        <div style="flex:1;"><div class="idf-bar-wrap" style="height:8px;"><div class="idf-bar-fill" style="width:${(n/total*100).toFixed(1)}%;background:${c==='1'?'var(--red)':'var(--green)'}"></div></div></div>
-        <span class="text-mono text-sm">${(n/total*100).toFixed(1)}%</span>
-        <span class="text-mute text-sm">(${n} dok)</span>
-      </div>
-    `).join('');
-  } else {
-    statusEl.innerHTML = `<span style="color:var(--red)">✗ ${res.error}</span>`;
-  }
-}
-
-async function predictRF() {
-  const text = document.getElementById('rf-input').value.trim();
-  if (!text) return;
-
-  const res = await api('/api/rf/predict', 'POST', { text });
-
-  if (res.success) {
-    document.getElementById('rf-result-area').classList.remove('hidden');
-    const predEl = document.getElementById('rf-prediction-text');
-    predEl.textContent = res.prediction;
-    predEl.style.color = res.code === 1 ? 'var(--red)' : 'var(--green)';
-
-    const probaHtml = Object.entries(res.probabilities).map(([c, p]) =>
-      `<span class="chip ${c==='1'?'chip-red':'chip-green'}" style="margin-right:8px;">Kelas ${c}: ${(p*100).toFixed(1)}%</span>`
-    ).join('');
-    document.getElementById('rf-prediction-proba').innerHTML = probaHtml;
-    document.getElementById('rf-prediction-detail').textContent = 'Teks Ternormalisasi: ' + res.normalized;
-
-    // Vote detail per tree
-    document.getElementById('rf-vote-detail').innerHTML = res.vote_detail.map(v =>
-      `<div style="padding:4px 8px;border-radius:6px;font-size:11px;font-family:var(--mono);background:${v.prediction===1?'rgba(239,68,68,0.15)':'rgba(34,197,94,0.15)'};color:${v.prediction===1?'var(--red)':'var(--green)'};">T${v.tree_id}:${v.prediction}</div>`
-    ).join('');
-  } else {
-    alert(res.error);
-  }
-}
-
-// ── Ensemble Majority Voting ───────────────────────────────────────────
-async function loadEnsemble() {
-  const res = await api('/api/dataset/info');
-  if (res.success && res.label_cols) {
-    const sel = document.getElementById('ens-target');
-    if (sel) {
-      sel.innerHTML = res.label_cols.map(c => `<option value="${c}">${c}</option>`).join('');
-    }
-  }
-}
-
-async function runEnsembleEval() {
-  const btn = document.querySelector('button[onclick="runEnsembleEval()"]');
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Evaluasi...';
-
-  const targetLabel = document.getElementById('ens-target').value;
-  const res = await api('/api/ensemble/evaluate', 'POST', { target_label: targetLabel });
-
-  btn.disabled = false; btn.innerHTML = '▶ Evaluasi Semua Model';
-
-  const statusEl = document.getElementById('ens-status');
-  if (!res.success) {
-    statusEl.innerHTML = `<span style="color:var(--red)">✗ ${res.error}</span>`;
-    return;
-  }
-
-  statusEl.innerHTML = `<span style="color:var(--green)">✓ Evaluasi selesai (${res.total_samples} sampel)</span>`;
-  document.getElementById('ens-comparison').classList.remove('hidden');
-
-  const comp = res.comparison;
-  const colors = {'SVM':'var(--blue)','Naive Bayes':'var(--purple)','Random Forest':'var(--green)','Ensemble (Voting)':'var(--amber)'};
-
-  // Tabel perbandingan
-  document.getElementById('ens-tbody').innerHTML = comp.map((m, i) => {
-    const isEns = m.model.includes('Ensemble');
-    const bg = isEns ? 'background:rgba(245,158,11,0.08);font-weight:600;' : '';
-    return `<tr style="${bg}">
-      <td>${i+1}</td>
-      <td><span style="color:${colors[m.model]||'var(--text-1)'}">${isEns?'🏆 ':''} ${m.model}</span></td>
-      <td class="text-mono">${(m.accuracy*100).toFixed(2)}%</td>
-      <td class="text-mono">${(m.precision*100).toFixed(2)}%</td>
-      <td class="text-mono">${(m.recall*100).toFixed(2)}%</td>
-      <td class="text-mono">${(m.f1_score*100).toFixed(2)}%</td>
-      <td class="text-mono">${m.confusion_matrix.TP}</td>
-      <td class="text-mono">${m.confusion_matrix.TN}</td>
-      <td class="text-mono">${m.confusion_matrix.FP}</td>
-      <td class="text-mono">${m.confusion_matrix.FN}</td>
-    </tr>`;
-  }).join('');
-
-  // Visualisasi bar
-  document.getElementById('ens-bars').innerHTML = comp.map(m => {
-    const col = colors[m.model] || 'var(--text-1)';
-    const isEns = m.model.includes('Ensemble');
-    return `<div style="display:flex;align-items:center;gap:12px;padding:6px 0;">
-      <span style="min-width:140px;font-size:13px;font-weight:${isEns?'700':'400'};color:${col}">${m.model}</span>
-      <div style="flex:1;"><div class="idf-bar-wrap" style="height:10px;"><div class="idf-bar-fill" style="width:${(m.accuracy*100).toFixed(1)}%;background:${col}"></div></div></div>
-      <span class="text-mono text-sm" style="min-width:60px;">${(m.accuracy*100).toFixed(2)}%</span>
-    </div>`;
-  }).join('');
-
-  // Confusion matrices grid
-  document.getElementById('ens-cm-grid').innerHTML = comp.map(m => {
-    const cm = m.confusion_matrix;
-    const col = colors[m.model] || 'var(--text-1)';
-    return `<div style="padding:14px;border-radius:var(--r);background:var(--surface);">
-      <div style="font-weight:600;font-size:13px;color:${col};margin-bottom:8px;">${m.model}</div>
-      <table style="width:100%;border-collapse:collapse;font-size:12px;font-family:var(--mono);text-align:center;">
-        <tr><td></td><td style="padding:4px;color:var(--text-2)">Pred 1</td><td style="padding:4px;color:var(--text-2)">Pred 0</td></tr>
-        <tr><td style="color:var(--text-2);padding:4px;">Actual 1</td>
-          <td style="padding:8px;background:rgba(34,197,94,0.15);border-radius:4px;"><strong>${cm.TP}</strong><br><span style="font-size:10px;color:var(--green)">TP</span></td>
-          <td style="padding:8px;background:rgba(239,68,68,0.1);border-radius:4px;">${cm.FN}<br><span style="font-size:10px;color:var(--red)">FN</span></td></tr>
-        <tr><td style="color:var(--text-2);padding:4px;">Actual 0</td>
-          <td style="padding:8px;background:rgba(239,68,68,0.1);border-radius:4px;">${cm.FP}<br><span style="font-size:10px;color:var(--red)">FP</span></td>
-          <td style="padding:8px;background:rgba(34,197,94,0.15);border-radius:4px;"><strong>${cm.TN}</strong><br><span style="font-size:10px;color:var(--green)">TN</span></td></tr>
-      </table>
-    </div>`;
-  }).join('');
-}
-
-async function predictEnsemble() {
-  const text = document.getElementById('ens-input').value.trim();
-  if (!text) return;
-
-  const res = await api('/api/ensemble/predict', 'POST', { text });
-  if (!res.success) { alert(res.error); return; }
-
-  document.getElementById('ens-result').classList.remove('hidden');
-  const predEl = document.getElementById('ens-pred-text');
-  predEl.textContent = res.prediction;
-  predEl.style.color = res.code === 1 ? 'var(--red)' : 'var(--green)';
-  document.getElementById('ens-pred-detail').textContent = 'Teks Ternormalisasi: ' + res.normalized;
-
-  // Model votes visualization
-  const colors = {'SVM':'var(--blue)','Naive Bayes':'var(--purple)','Random Forest':'var(--green)'};
-  document.getElementById('ens-model-votes').innerHTML = Object.entries(res.votes).map(([model, vote]) =>
-    `<div style="padding:8px 14px;border-radius:var(--r);background:${vote===1?'rgba(239,68,68,0.12)':'rgba(34,197,94,0.12)'};text-align:center;min-width:100px;">
-      <div style="font-size:11px;color:${colors[model]||'var(--text-2)'};font-weight:600;">${model}</div>
-      <div style="font-size:18px;font-weight:700;color:${vote===1?'var(--red)':'var(--green)'};">${vote}</div>
-    </div>`
-  ).join('');
-}
-
-// ── Drag & Drop ───────────────────────────────────────────────────
-function dov(e, id) { e.preventDefault(); document.getElementById(id).classList.add('drag'); }
-function dlv(id)    { document.getElementById(id).classList.remove('drag'); }
-
-function ddf(e, type) {
-  e.preventDefault(); dlv(`uz-${type==='internal'?'int':'ext'}`);
-  const file = e.dataTransfer.files[0]; if (!file) return;
-  const id   = type==='internal'?'fi-int':'fi-ext';
-  const inp  = document.getElementById(id);
-  const dt   = new DataTransfer(); dt.items.add(file); inp.files = dt.files;
-  uploadLex(inp, type);
-}
-
-function dds(e) {
-  e.preventDefault(); dlv('uz-ds');
-  const file = e.dataTransfer.files[0]; if (!file) return;
-  const inp = document.getElementById('fi-ds');
-  const dt  = new DataTransfer(); dt.items.add(file); inp.files = dt.files;
-  uploadDs(inp);
-}
-
-// ── Init ──────────────────────────────────────────────────────────
-window.addEventListener('DOMContentLoaded', async () => {
-  await go('dashboard');
-  
-  const qtInput = document.getElementById('qt-input');
-  if (qtInput) {
-    qtInput.value = 'Lo tau ga, org2 gitu emang brengsek bgt! Blm tobat juga. #kebencian https://spam.com @akun123';
-  }
-});
-</script>
+<!-- Javascript -->
+<script src="/js/state.js"></script>
+<script src="/js/api.js"></script>
+<script src="/js/navigation.js"></script>
+<script src="/js/dashboard.js"></script>
+<script src="/js/lexicon.js"></script>
+<script src="/js/dataset.js"></script>
+<script src="/js/preprocess.js"></script>
+<script src="/js/tfidf.js"></script>
+<script src="/js/svm.js"></script>
+<script src="/js/naive_bayes.js"></script>
+<script src="/js/random_forest.js"></script>
+<script src="/js/ensemble.js"></script>
+<script src="/js/drag_drop.js"></script>
+<script src="/js/main.js"></script>
 </body>
 </html>

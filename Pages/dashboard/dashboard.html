@@ -1,7 +1,7 @@
     <div class="page-header">
       <span class="module-tag">// OVERVIEW</span>
       <h1>Dashboard</h1>
-      <p>Pipeline lengkap: Preprocessing (Modul 1) → Feature Extraction TF-IDF (Modul 2) → Klasifikasi (Modul 3).</p>
+      <!-- <p>Pipeline lengkap: Preprocessing (Modul 1) → Feature Extraction TF-IDF (Modul 2) → Klasifikasi (Modul 3).</p> -->
     </div>
 
     <div class="stats-row cols-4 mb-1">
@@ -24,7 +24,7 @@
     </div>
 
     <!-- Quick test -->
-    <div class="card">
+    <!-- <div class="card">
       <div class="card-header">
         <div class="card-title">Quick Test — Preprocessing</div>
         <span class="chip chip-blue">Coba langsung</span>
@@ -53,40 +53,40 @@
         </div>
         <div id="qt-tags"></div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Pipeline visual -->
     <div class="card">
       <div class="card-header"><div class="card-title">Alur Pipeline</div></div>
       <div style="display:flex; gap:0; align-items:stretch; flex-wrap:wrap;">
         <div style="flex:1; min-width:110px; padding:14px; background:var(--off); border-radius:var(--r); text-align:center; font-size:12px;">
-          <div style="font-size:20px; margin-bottom:6px;">📄</div>
           <div style="font-weight:600; color:var(--ink);">Raw Text</div>
           <div style="color:var(--mute);">Input mentah</div>
         </div>
         <div style="display:flex;align-items:center;padding:0 6px;color:var(--mute);font-size:16px;">→</div>
         <div style="flex:1; min-width:110px; padding:14px; background:var(--amber-bg); border-radius:var(--r); text-align:center; font-size:12px;">
-          <div style="font-size:20px; margin-bottom:6px;">🧹</div>
           <div style="font-weight:600; color:var(--amber);">Cleansing</div>
           <div style="color:var(--mute);">URL, simbol, angka</div>
         </div>
         <div style="display:flex;align-items:center;padding:0 6px;color:var(--mute);font-size:16px;">→</div>
         <div style="flex:1; min-width:110px; padding:14px; background:var(--blue-bg); border-radius:var(--r); text-align:center; font-size:12px;">
-          <div style="font-size:20px; margin-bottom:6px;">📖</div>
           <div style="font-weight:600; color:var(--blue);">Normalisasi</div>
           <div style="color:var(--mute);">Slang → baku</div>
         </div>
         <div style="display:flex;align-items:center;padding:0 6px;color:var(--mute);font-size:16px;">→</div>
         <div style="flex:1; min-width:110px; padding:14px; background:var(--purple-bg); border-radius:var(--r); text-align:center; font-size:12px;">
-          <div style="font-size:20px; margin-bottom:6px;">∑</div>
           <div style="font-weight:600; color:var(--purple);">TF-IDF</div>
           <div style="color:var(--mute);">Feature extraction</div>
         </div>
         <div style="display:flex;align-items:center;padding:0 6px;color:var(--mute);font-size:16px;">→</div>
         <div style="flex:1; min-width:110px; padding:14px; background:var(--green-bg); border-radius:var(--r); text-align:center; font-size:12px;">
-          <div style="font-size:20px; margin-bottom:6px;">🤖</div>
           <div style="font-weight:600; color:var(--green);">Klasifikasi</div>
-          <div style="color:var(--mute);">Modul 3</div>
+          <div style="color:var(--mute);">SVM, Naive Bayes, Random Forest</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:0 6px;color:var(--mute);font-size:16px;">→</div>
+        <div style="flex:1; min-width:110px; padding:14px; background:var(--green-bg); border-radius:var(--r); text-align:center; font-size:12px;">
+          <div style="font-weight:600; color:var(--green);">Ensemble</div>
+          <div style="color:var(--mute);">Majority Voting</div>
         </div>
       </div>
     </div>
