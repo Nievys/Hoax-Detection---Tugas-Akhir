@@ -110,6 +110,8 @@ def run_cv():
             'fold_results': result['fold_results'],
             'average_metrics': result['average_metrics'],
             'std_metrics': result['std_metrics'],
+            'aggregated_confusion_matrix': result.get('aggregated_confusion_matrix', {}),
+            'average_execution_time_ms': result.get('average_execution_time_ms', {}),
             'report_text': report_text,
         })
 

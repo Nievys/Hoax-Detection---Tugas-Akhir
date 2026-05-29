@@ -52,6 +52,7 @@ Linear Congruential Generator (LCG) — PRNG Internal:
 """
 
 import math
+import time
 
 # Import modul internal proyek
 from modules.tfidf import fit_transform, transform
@@ -324,6 +325,10 @@ def run_cross_validation(dataset, k=5, seed=42,
 
     fold_results = []
 
+    # Akumulator untuk Aggregated Confusion Matrix dan Total Execution Time (ms)
+    total_cm = {name: {'TP': 0, 'TN': 0, 'FP': 0, 'FN': 0} for name in model_names}
+    execution_times_ms = {name: [] for name in model_names}
+
     # ── Langkah 2: Loop K-Fold ────────────────────────────────────────────
     for i in range(k):
         if progress_callback:
@@ -381,13 +386,14 @@ def run_cross_validation(dataset, k=5, seed=42,
         # SVM menggunakan label {-1, +1}
         train_labels_svm = [1 if lbl == 1 else -1 for lbl in train_labels]
 
-        # ── 2e: Latih model individu ──────────────────────────────────────
+        # ── 2e: Latih model individu & Prediksi (dengan Pengukuran Waktu) ─
         # Seed deterministik per fold: seed_utama + nomor_fold
         # Memastikan hasil SELALU sama untuk seed dan fold yang sama,
         # berapapun kali tombol "Jalankan" ditekan.
         fold_seed = seed + i
 
         # --- SVM ---
+        start_svm = time.time()
         svm_model = SVMScratch(
             kernel=svm_params.get('kernel', 'linear'),
             C=svm_params.get('C', 1.0),
@@ -397,14 +403,21 @@ def run_cross_validation(dataset, k=5, seed=42,
             seed=fold_seed,
         )
         svm_model.train(X_train, train_labels_svm)
+        svm_preds_raw = svm_model.predict(X_val)
+        svm_preds = [0 if p == -1 else 1 for p in svm_preds_raw]
+        execution_times_ms['SVM'].append((time.time() - start_svm) * 1000)
 
         # --- Naive Bayes ---
+        start_nb = time.time()
         nb_model = MultinomialNBScratch(
             alpha=nb_params.get('alpha', 1.0)
         )
         nb_model.train(X_train, train_labels)
+        nb_preds = nb_model.predict(X_val)
+        execution_times_ms['Naive Bayes'].append((time.time() - start_nb) * 1000)
 
         # --- Random Forest ---
+        start_rf = time.time()
         rf_model = RandomForestScratch(
             n_trees=rf_params.get('n_trees', 200),
             max_depth=rf_params.get('max_depth', 15),
@@ -413,15 +426,11 @@ def run_cross_validation(dataset, k=5, seed=42,
             seed=fold_seed,
         )
         rf_model.build_forest(X_train, train_labels)
-
-        # ── 2f: Prediksi pada validation set ──────────────────────────────
-        svm_preds_raw = svm_model.predict(X_val)
-        # Konversi SVM: -1 → 0
-        svm_preds = [0 if p == -1 else 1 for p in svm_preds_raw]
-        nb_preds = nb_model.predict(X_val)
         rf_preds = rf_model.predict(X_val)
+        execution_times_ms['Random Forest'].append((time.time() - start_rf) * 1000)
 
         # ── 2g: Ensemble Predict (Hard atau Soft) ─────────────────────────
+        start_ens = time.time()
         ensemble_preds = []
         if ensemble_method == 'soft':
             # Print trace log hanya untuk fold pertama (agar tidak spam)
@@ -444,6 +453,7 @@ def run_cross_validation(dataset, k=5, seed=42,
                     vote_count[v] = vote_count.get(v, 0) + 1
                 winner = max(vote_count, key=vote_count.get)
                 ensemble_preds.append(winner)
+        execution_times_ms['Ensemble (Voting)'].append((time.time() - start_ens) * 1000)
 
         # ── 2h: Evaluasi setiap model ─────────────────────────────────────
         all_preds = {
@@ -457,6 +467,13 @@ def run_cross_validation(dataset, k=5, seed=42,
         for model_name, preds in all_preds.items():
             eval_result = evaluate_model(val_labels, preds, positive_label=1)
             fold_eval[model_name] = eval_result
+            
+            # Akumulasi ke Aggregated Confusion Matrix
+            cm = eval_result['confusion_matrix']
+            total_cm[model_name]['TP'] += cm['TP']
+            total_cm[model_name]['TN'] += cm['TN']
+            total_cm[model_name]['FP'] += cm['FP']
+            total_cm[model_name]['FN'] += cm['FN']
 
             # Catat metrik untuk averaging nanti
             for m in metric_names:
@@ -486,9 +503,15 @@ def run_cross_validation(dataset, k=5, seed=42,
             std_metrics[model_name][m] = round(std, 6)
 
     # ── Langkah 4: Buat Tabel Ringkasan ───────────────────────────────────
+    
+    # Hitung rata-rata waktu eksekusi
+    avg_execution_time = {}
+    for model_name in model_names:
+        avg_execution_time[model_name] = _compute_mean(execution_times_ms[model_name])
+
     summary_table = _build_summary_table(
         model_names, metric_names, average_metrics, std_metrics,
-        all_metrics, k
+        all_metrics, k, avg_execution_time
     )
 
     return {
@@ -496,6 +519,8 @@ def run_cross_validation(dataset, k=5, seed=42,
         'average_metrics': average_metrics,
         'std_metrics': std_metrics,
         'summary_table': summary_table,
+        'aggregated_confusion_matrix': total_cm,
+        'average_execution_time_ms': avg_execution_time,
         'all_fold_metrics': {
             name: {m: all_metrics[name][m] for m in metric_names}
             for name in model_names
@@ -582,7 +607,7 @@ def _compute_std(values):
 
 def _build_summary_table(model_names, metric_names,
                          average_metrics, std_metrics,
-                         all_metrics, k):
+                         all_metrics, k, avg_execution_time=None):
     """
     Membangun tabel ringkasan performa rata-rata K-Fold Cross Validation.
 
@@ -615,6 +640,9 @@ def _build_summary_table(model_names, metric_names,
         for m in metric_names:
             row[f'{m}_mean'] = average_metrics[model_name][m]
             row[f'{m}_std'] = std_metrics[model_name][m]
+            
+        if avg_execution_time:
+            row['execution_time_ms'] = avg_execution_time[model_name]
 
         # Sertakan nilai per fold untuk detail
         row['per_fold'] = {

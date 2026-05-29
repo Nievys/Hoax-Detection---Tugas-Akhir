@@ -46,7 +46,7 @@ async function runCV() {
     return;
   }
 
-  statusEl.innerHTML = `<span style="color:var(--primary);">⏳ Menjalankan ${k}-Fold Cross Validation... Ini mungkin memakan waktu beberapa saat.</span>`;
+  statusEl.innerHTML = `<span style="color:var(--primary);">Executing K-Fold...</span>`;
   resultsContainer.classList.add('hidden');
   document.getElementById('btn-run-cv').disabled = true;
 
@@ -73,17 +73,19 @@ async function runCV() {
     });
 
     if (res.success) {
-      statusEl.innerHTML = `<span style="color:var(--green);">✅ Selesai! Evaluasi silang pada ${res.total_samples} sampel data.</span>`;
+      statusEl.innerHTML = `<span style="color:var(--green);">Selesai! Evaluasi silang pada ${res.total_samples} sampel data.</span>`;
       renderCVSummary(res.summary_table);
+      renderCVConfusionMatrix(res.aggregated_confusion_matrix);
       renderCVFoldDetails(res.fold_results);
-      document.getElementById('cv-report-text').textContent = res.report_text;
+      const reportEl = document.getElementById('cv-report-text');
+      if (reportEl) reportEl.textContent = res.report_text;
       resultsContainer.classList.remove('hidden');
     } else {
-      statusEl.innerHTML = `<span style="color:var(--red);">❌ Gagal: ${res.error}</span>`;
+      statusEl.innerHTML = `<span style="color:var(--red);">Gagal: ${res.error}</span>`;
       alert(res.error);
     }
   } catch (err) {
-    statusEl.innerHTML = `<span style="color:var(--red);">❌ Terjadi kesalahan jaringan.</span>`;
+    statusEl.innerHTML = `<span style="color:var(--red);">Terjadi kesalahan jaringan.</span>`;
     console.error(err);
   } finally {
     document.getElementById('btn-run-cv').disabled = false;
@@ -96,6 +98,7 @@ function renderCVSummary(summaryTable) {
 
   summaryTable.forEach((row, idx) => {
     const tr = document.createElement('tr');
+    const timeMs = row.execution_time_ms ? row.execution_time_ms.toFixed(1) + ' ms' : '-';
     tr.innerHTML = `
       <td>#${idx + 1}</td>
       <td style="font-weight:500; color:var(--primary);">${row.model}</td>
@@ -103,8 +106,61 @@ function renderCVSummary(summaryTable) {
       <td>${(row.precision_mean).toFixed(4)} <span class="text-mute text-sm">±${(row.precision_std).toFixed(4)}</span></td>
       <td>${(row.recall_mean).toFixed(4)} <span class="text-mute text-sm">±${(row.recall_std).toFixed(4)}</span></td>
       <td style="font-weight:600;">${(row.f1_score_mean).toFixed(4)} <span class="text-mute text-sm" style="font-weight:normal">±${(row.f1_score_std).toFixed(4)}</span></td>
+      <td style="font-family:monospace; font-size:12px;">${timeMs}</td>
     `;
     tbody.appendChild(tr);
+  });
+}
+
+function renderCVConfusionMatrix(cmData) {
+  const container = document.getElementById('cv-confusion-matrices');
+  if (!container) return;
+  container.innerHTML = '';
+
+  if (!cmData) return;
+
+  const models = ['SVM', 'Naive Bayes', 'Random Forest', 'Ensemble (Voting)'];
+  models.forEach(model => {
+    const cm = cmData[model];
+    if (!cm) return;
+
+    const total = cm.TP + cm.TN + cm.FP + cm.FN;
+
+    const div = document.createElement('div');
+    div.style.background = 'var(--surface)';
+    div.style.padding = '16px';
+    div.style.borderRadius = 'var(--r)';
+    
+    div.innerHTML = `
+      <div style="font-weight:600; margin-bottom:12px; color:var(--primary);">${model}</div>
+      <div style="display:grid; grid-template-columns: 80px 1fr 1fr; gap:4px; text-align:center; font-size:12px;">
+        <div></div>
+        <div style="font-weight:600;">Pred Positif</div>
+        <div style="font-weight:600;">Pred Negatif</div>
+        
+        <div style="font-weight:600; display:flex; align-items:center; justify-content:flex-end; padding-right:8px;">Aktual Positif</div>
+        <div style="background:rgba(239, 248, 239, 0.89); border:1px solid var(--green); padding:8px; border-radius:4px;">
+          <div style="font-weight:bold; font-size:16px;">${cm.TP}</div>
+          <div class="text-mute" style="font-size:10px;">True Positive</div>
+        </div>
+        <div style="background:rgba(248, 239, 239, 0.89); border:1px solid var(--red); padding:8px; border-radius:4px;">
+          <div style="font-weight:bold; font-size:16px;">${cm.FN}</div>
+          <div class="text-mute" style="font-size:10px;">False Negative</div>
+        </div>
+        
+        <div style="font-weight:600; display:flex; align-items:center; justify-content:flex-end; padding-right:8px;">Aktual Negatif</div>
+        <div style="background:rgba(248, 239, 239, 0.89); border:1px solid var(--red); padding:8px; border-radius:4px;">
+          <div style="font-weight:bold; font-size:16px;">${cm.FP}</div>
+          <div class="text-mute" style="font-size:10px;">False Positive</div>
+        </div>
+        <div style="background:rgba(239, 248, 239, 0.89); border:1px solid var(--green); padding:8px; border-radius:4px;">
+          <div style="font-weight:bold; font-size:16px;">${cm.TN}</div>
+          <div class="text-mute" style="font-size:10px;">True Negative</div>
+        </div>
+      </div>
+      <div class="text-mute mt-2 text-center" style="font-size:11px;">Total Sampel: ${total}</div>
+    `;
+    container.appendChild(div);
   });
 }
 

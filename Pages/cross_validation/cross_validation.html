@@ -6,7 +6,7 @@
 
 <!-- Konfigurasi CV -->
 <div class="card mt-3">
-  <h3>⚙️ Konfigurasi K-Fold</h3>
+  <h3>Konfigurasi K-Fold</h3>
   <div class="mt-2 text-sm text-mute">Atur parameter untuk proses pembagian dan pengujian data.</div>
   
   <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;" class="mt-2">
@@ -61,7 +61,7 @@
 <div id="cv-results-container" class="hidden mt-3">
   <!-- Rata-rata & Standar Deviasi -->
   <div class="card">
-    <h3>📊 Rata-Rata Performa Model (Mean ± Std)</h3>
+    <h3>Rata-Rata Performa Model (Mean ± Std)</h3>
     <div class="table-scroll mt-2">
       <table id="cv-summary-table" class="data-tbl" style="width:100%;">
         <thead>
@@ -72,10 +72,20 @@
             <th>Presisi</th>
             <th>Recall</th>
             <th>F1-Score</th>
+            <th>Waktu (ms)</th>
           </tr>
         </thead>
         <tbody id="cv-summary-tbody"></tbody>
       </table>
+    </div>
+  </div>
+
+  <!-- Aggregated Confusion Matrix -->
+  <div class="card mt-3">
+    <h3>Aggregated Confusion Matrix (Seluruh Fold)</h3>
+    <div class="mt-2 text-sm text-mute">Akumulasi total True Positives (TP), True Negatives (TN), False Positives (FP), dan False Negatives (FN) dari seluruh proses K-Fold Cross Validation.</div>
+    <div id="cv-confusion-matrices" class="mt-3" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;">
+      <!-- Heatmaps akan di-render di sini -->
     </div>
   </div>
 
@@ -87,9 +97,9 @@
   </div>
 
   <!-- Laporan Teks -->
-  <div class="card mt-3">
+  <!-- <div class="card mt-3">
     <h3>📄 Laporan Teks</h3>
     <div class="mt-2 text-sm text-mute">Laporan hasil validasi silang yang siap di-copy untuk keperluan dokumentasi.</div>
     <pre id="cv-report-text" class="mt-2" style="background:var(--surface); padding:16px; border-radius:var(--r); font-family:monospace; font-size:12px; overflow-x:auto;"></pre>
-  </div>
+  </div> -->
 </div>
