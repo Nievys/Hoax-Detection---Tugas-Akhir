@@ -13,7 +13,7 @@
                       "component": "latest_nightowl_recency",
                       "details": {
                         "timelinesDetails": {
-                          "controllerData": "DAACDAAFDAABDAABDAABCgABAAAAAAAAAAAAAAwAAgoAAQAAAAAAAABBCgACSh+9p8w/TwQKAAUQ7+hM0ZdT2ggABgAAAAEKAAehzD26EBDQYQoACAAAAZ4fUioEAAAAAAA="
+                          "controllerData": "DAACDAAFDAABDAABDAABCgABAAAAAAAAAAAAAAwAAgoAAQAAAAAAAAABCgACF1QwyS4ErdYKAAUDIbGyNzej2wgABgAAAAEKAAdu5Yh6fJ9ROAoACAAAAZ46WJWfAAAAAAA="
                         }
                       },
                       "element": "tweet"
@@ -24,12 +24,305 @@
                       "highlights": {
                         "textHighlights": [
                           {
-                            "endIndex": 17,
-                            "startIndex": 14
+                            "endIndex": 5,
+                            "startIndex": 0
                           },
                           {
-                            "endIndex": 24,
-                            "startIndex": 18
+                            "endIndex": 9,
+                            "startIndex": 6
+                          },
+                          {
+                            "endIndex": 14,
+                            "startIndex": 10
+                          }
+                        ]
+                      },
+                      "itemType": "TimelineTweet",
+                      "tweetDisplayType": "Tweet",
+                      "tweet_results": {
+                        "result": {
+                          "__typename": "Tweet",
+                          "card": {
+                            "legacy": {
+                              "binding_values": [
+                                {
+                                  "key": "description",
+                                  "value": {
+                                    "string_value": "Presiden Amerika Serikat, Donald Trump, melontarkan kritik keras terhadap sejumlah negara sekutu yang dinilai tidak memberikan dukungan maksimal dalam",
+                                    "type": "STRING"
+                                  }
+                                },
+                                {
+                                  "key": "domain",
+                                  "value": {
+                                    "string_value": "terkenal.co.id",
+                                    "type": "STRING"
+                                  }
+                                },
+                                {
+                                  "key": "photo_image_full_size_alt_text",
+                                  "value": {
+                                    "string_value": "Trump",
+                                    "type": "STRING"
+                                  }
+                                },
+                                {
+                                  "key": "vanity_url",
+                                  "value": {
+                                    "scribe_key": "vanity_url",
+                                    "string_value": "terkenal.co.id",
+                                    "type": "STRING"
+                                  }
+                                },
+                                {
+                                  "key": "summary_photo_image_alt_text",
+                                  "value": {
+                                    "string_value": "Trump",
+                                    "type": "STRING"
+                                  }
+                                },
+                                {
+                                  "key": "title",
+                                  "value": {
+                                    "string_value": "Harga BBM Naik, Trump Salahkan Minimnya Dukungan Sekutu - terkenal.co.id",
+                                    "type": "STRING"
+                                  }
+                                },
+                                {
+                                  "key": "card_url",
+                                  "value": {
+                                    "scribe_key": "card_url",
+                                    "string_value": "https://t.co/0Wke6IooV7",
+                                    "type": "STRING"
+                                  }
+                                }
+                              ],
+                              "card_platform": {
+                                "platform": {
+                                  "audience": {
+                                    "name": "production"
+                                  },
+                                  "device": {
+                                    "name": "Swift",
+                                    "version": "12"
+                                  }
+                                }
+                              },
+                              "name": "summary_large_image",
+                              "url": "https://t.co/0Wke6IooV7",
+                              "user_refs_results": []
+                            },
+                            "rest_id": "https://t.co/0Wke6IooV7"
+                          },
+                          "core": {
+                            "user_results": {
+                              "result": {
+                                "__typename": "User",
+                                "affiliates_highlighted_label": {},
+                                "avatar": {
+                                  "image_url": "https://pbs.twimg.com/profile_images/1913958086437646336/1kjGCaJ3_normal.jpg"
+                                },
+                                "core": {
+                                  "created_at": "Wed Aug 31 07:51:49 +0000 2011",
+                                  "name": "terkenal.co.id",
+                                  "screen_name": "terkenalcoid"
+                                },
+                                "dm_permissions": {
+                                  "can_dm": false
+                                },
+                                "follow_request_sent": false,
+                                "grok_translated_bio_with_availability": {
+                                  "is_available": false
+                                },
+                                "has_graduated_access": true,
+                                "id": "VXNlcjozNjUzMzIzMzQ=",
+                                "is_blue_verified": false,
+                                "legacy": {
+                                  "default_profile": false,
+                                  "default_profile_image": false,
+                                  "description": "Mediapreneur yang tersebar di setiap Kabupaten/Kota seluruh Indonesia | JMSI | Baca berita di sini\ud83d\udc47\ud83c\udffb",
+                                  "entities": {
+                                    "description": {},
+                                    "url": {
+                                      "urls": [
+                                        {
+                                          "display_url": "terkenal.co.id",
+                                          "expanded_url": "http://terkenal.co.id",
+                                          "indices": [
+                                            0,
+                                            23
+                                          ],
+                                          "url": "https://t.co/wU8vTjL3pa"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "fast_followers_count": 0,
+                                  "favourites_count": 122,
+                                  "follow_request_sent": false,
+                                  "followers_count": 521,
+                                  "friends_count": 24,
+                                  "has_custom_timelines": true,
+                                  "is_translator": false,
+                                  "listed_count": 1,
+                                  "media_count": 650,
+                                  "needs_phone_verification": false,
+                                  "normal_followers_count": 521,
+                                  "notifications": false,
+                                  "possibly_sensitive": false,
+                                  "profile_banner_url": "https://pbs.twimg.com/profile_banners/365332334/1777666047",
+                                  "profile_interstitial_type": "",
+                                  "statuses_count": 6613,
+                                  "time_zone": "",
+                                  "translator_type": "none",
+                                  "url": "https://t.co/wU8vTjL3pa",
+                                  "utc_offset": 0,
+                                  "want_retweets": false,
+                                  "withheld_description": "",
+                                  "withheld_scope": ""
+                                },
+                                "location": {
+                                  "location": ""
+                                },
+                                "media_permissions": {
+                                  "can_media_tag": true
+                                },
+                                "parody_commentary_fan_label": "None",
+                                "privacy": {
+                                  "protected": false
+                                },
+                                "professional": {
+                                  "category": [
+                                    {
+                                      "icon_name": "IconBriefcaseStroke",
+                                      "id": 580,
+                                      "name": "Media & News Company"
+                                    }
+                                  ],
+                                  "professional_type": "Business",
+                                  "rest_id": "1663306123439636480"
+                                },
+                                "profile_bio": {
+                                  "description": "Mediapreneur yang tersebar di setiap Kabupaten/Kota seluruh Indonesia | JMSI | Baca berita di sini\ud83d\udc47\ud83c\udffb"
+                                },
+                                "profile_description_language": "id",
+                                "profile_image_shape": "Circle",
+                                "relationship_perspectives": {
+                                  "blocked_by": false,
+                                  "blocking": false,
+                                  "followed_by": false,
+                                  "following": false,
+                                  "muting": false
+                                },
+                                "rest_id": "365332334",
+                                "super_follow_eligible": false,
+                                "super_followed_by": false,
+                                "super_following": false,
+                                "verification": {
+                                  "verified": false
+                                }
+                              }
+                            }
+                          },
+                          "edit_control": {
+                            "edit_tweet_ids": [
+                              "2039748096872309085"
+                            ],
+                            "editable_until_msecs": "1775152417000",
+                            "edits_remaining": "5",
+                            "is_edit_eligible": true
+                          },
+                          "grok_analysis_button": true,
+                          "grok_annotations": {
+                            "is_image_editable_by_grok": true
+                          },
+                          "grok_translated_post_with_availability": {
+                            "is_available": false
+                          },
+                          "is_translatable": true,
+                          "legacy": {
+                            "bookmark_count": 0,
+                            "bookmarked": false,
+                            "conversation_id_str": "2039748096872309085",
+                            "created_at": "Thu Apr 02 16:53:37 +0000 2026",
+                            "display_text_range": [
+                              0,
+                              79
+                            ],
+                            "entities": {
+                              "hashtags": [],
+                              "smarttags": [],
+                              "symbols": [],
+                              "timestamps": [],
+                              "urls": [
+                                {
+                                  "display_url": "terkenal.co.id/harga-bbm-naik\u2026",
+                                  "expanded_url": "https://terkenal.co.id/harga-bbm-naik-trump-salahkan-minimnya-dukungan-sekutu/",
+                                  "indices": [
+                                    56,
+                                    79
+                                  ],
+                                  "url": "https://t.co/0Wke6IooV7"
+                                }
+                              ],
+                              "user_mentions": []
+                            },
+                            "favorite_count": 0,
+                            "favorited": false,
+                            "full_text": "Harga BBM Naik, Trump Salahkan Minimnya Dukungan Sekutu https://t.co/0Wke6IooV7",
+                            "id_str": "2039748096872309085",
+                            "is_quote_status": false,
+                            "lang": "in",
+                            "possibly_sensitive": false,
+                            "possibly_sensitive_editable": true,
+                            "quote_count": 0,
+                            "reply_count": 0,
+                            "retweet_count": 0,
+                            "retweeted": false,
+                            "user_id_str": "365332334"
+                          },
+                          "rest_id": "2039748096872309085",
+                          "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                          "unmention_data": {},
+                          "views": {
+                            "count": "29",
+                            "state": "EnabledWithCount"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "entryId": "tweet-2039748096872309085",
+                  "sortIndex": "2056301030563381248"
+                },
+                {
+                  "content": {
+                    "__typename": "TimelineTimelineItem",
+                    "clientEventInfo": {
+                      "component": "latest_nightowl_recency",
+                      "details": {
+                        "timelinesDetails": {
+                          "controllerData": "DAACDAAFDAABDAABDAABCgABAAAAAAAAAAAAAAwAAgoAAQAAAAAAAAABCgACF1QwyS4ErdYKAAUDIbGyNzej2wgABgAAAAEKAAdu5Yh6fJ9ROAoACAAAAZ46WJWfAAAAAAA="
+                        }
+                      },
+                      "element": "tweet"
+                    },
+                    "entryType": "TimelineTimelineItem",
+                    "itemContent": {
+                      "__typename": "TimelineTweet",
+                      "highlights": {
+                        "textHighlights": [
+                          {
+                            "endIndex": 87,
+                            "startIndex": 82
+                          },
+                          {
+                            "endIndex": 91,
+                            "startIndex": 88
+                          },
+                          {
+                            "endIndex": 96,
+                            "startIndex": 92
                           }
                         ]
                       },
@@ -43,415 +336,968 @@
                               "result": {
                                 "__typename": "User",
                                 "affiliates_highlighted_label": {},
+                                "avatar": {
+                                  "image_url": "https://pbs.twimg.com/profile_images/2006455691008147457/PhBe63N3_normal.jpg"
+                                },
+                                "core": {
+                                  "created_at": "Thu Aug 01 10:10:56 +0000 2019",
+                                  "name": "Catholic \ud801\udd63",
+                                  "screen_name": "myshawti"
+                                },
+                                "dm_permissions": {
+                                  "can_dm": true
+                                },
+                                "follow_request_sent": false,
+                                "grok_translated_bio_with_availability": {
+                                  "is_available": false
+                                },
                                 "has_graduated_access": true,
-                                "id": "VXNlcjoxOTk5NDY4NzcwODcyNzU0MTc2",
-                                "is_blue_verified": false,
+                                "id": "VXNlcjoxMTU2ODY5OTE4MzcwODczMzQ0",
+                                "is_blue_verified": true,
                                 "legacy": {
-                                  "blocked_by": false,
-                                  "blocking": false,
-                                  "can_dm": true,
-                                  "can_media_tag": true,
-                                  "created_at": "Fri Dec 12 13:18:12 +0000 2025",
                                   "default_profile": true,
                                   "default_profile_image": false,
-                                  "description": "\u2740 \ud835\udcaberfume of love wafts over the garden in full bloom,\u00a0unfurling the repletion of petals once curled in clandestinity to hail the immensities beyond. \u00a0\u05b4\u05b6\u05b8\u0cc3",
+                                  "description": "HAha\u2095\u1d62\u2095\u1d62HIhi\u2095\u2090\u2095\u2090haHA\u2095\u1d62\u2095\u1d62HIhi\u2095\u2090\u2095\u2090haHA\u2095\u1d62\u2095\u1d62HIhi\n\ni\u2019d rather have loyalty than love",
                                   "entities": {
-                                    "description": {},
-                                    "url": {
-                                      "urls": [
-                                        {
-                                          "display_url": "t.me/nanyejun",
-                                          "expanded_url": "http://t.me/nanyejun",
-                                          "indices": [
-                                            0,
-                                            23
-                                          ],
-                                          "url": "https://t.co/BEPdoWA5mH"
-                                        }
-                                      ]
-                                    }
+                                    "description": {}
                                   },
                                   "fast_followers_count": 0,
-                                  "favourites_count": 20,
+                                  "favourites_count": 173849,
                                   "follow_request_sent": false,
-                                  "followed_by": false,
-                                  "followers_count": 161,
-                                  "following": false,
-                                  "friends_count": 173,
-                                  "has_custom_timelines": false,
+                                  "followers_count": 54940,
+                                  "friends_count": 3493,
+                                  "has_custom_timelines": true,
                                   "is_translator": false,
-                                  "listed_count": 0,
-                                  "location": "any pronouns",
-                                  "media_count": 279,
-                                  "muting": false,
-                                  "name": "Krisan.",
+                                  "listed_count": 66,
+                                  "media_count": 16366,
                                   "needs_phone_verification": false,
-                                  "normal_followers_count": 161,
+                                  "normal_followers_count": 54940,
                                   "notifications": false,
                                   "pinned_tweet_ids_str": [
-                                    "2036752052932718808"
+                                    "1809890538986020896"
                                   ],
                                   "possibly_sensitive": false,
-                                  "profile_banner_url": "https://pbs.twimg.com/profile_banners/1999468770872754176/1778087419",
-                                  "profile_image_url_https": "https://pbs.twimg.com/profile_images/2052073477423902721/UiP5P1tC_normal.png",
+                                  "profile_banner_url": "https://pbs.twimg.com/profile_banners/1156869918370873344/1770122908",
                                   "profile_interstitial_type": "",
-                                  "protected": false,
-                                  "screen_name": "krisanishwari",
-                                  "statuses_count": 1854,
+                                  "statuses_count": 76775,
                                   "time_zone": "",
                                   "translator_type": "none",
-                                  "url": "https://t.co/BEPdoWA5mH",
+                                  "url": "",
                                   "utc_offset": 0,
-                                  "verified": false,
                                   "want_retweets": false,
                                   "withheld_description": "",
                                   "withheld_scope": ""
                                 },
+                                "location": {
+                                  "location": "Jakarta Selatan, DKI Jakarta"
+                                },
+                                "media_permissions": {
+                                  "can_media_tag": false
+                                },
+                                "parody_commentary_fan_label": "None",
+                                "privacy": {
+                                  "protected": false
+                                },
+                                "professional": {
+                                  "category": [
+                                    {
+                                      "icon_name": "IconBriefcaseStroke",
+                                      "id": 922,
+                                      "name": "Tobacco Company"
+                                    }
+                                  ],
+                                  "professional_type": "Creator",
+                                  "rest_id": "1622531795102363648"
+                                },
+                                "profile_bio": {
+                                  "description": "HAha\u2095\u1d62\u2095\u1d62HIhi\u2095\u2090\u2095\u2090haHA\u2095\u1d62\u2095\u1d62HIhi\u2095\u2090\u2095\u2090haHA\u2095\u1d62\u2095\u1d62HIhi\n\ni\u2019d rather have loyalty than love"
+                                },
+                                "profile_description_language": "tl",
                                 "profile_image_shape": "Circle",
-                                "rest_id": "1999468770872754176",
-                                "super_follow_eligible": false,
+                                "relationship_perspectives": {
+                                  "blocked_by": false,
+                                  "blocking": false,
+                                  "followed_by": false,
+                                  "following": false,
+                                  "muting": false
+                                },
+                                "rest_id": "1156869918370873344",
+                                "super_follow_eligible": true,
                                 "super_followed_by": false,
-                                "super_following": false
+                                "super_following": false,
+                                "verification": {
+                                  "verified": false
+                                }
                               }
                             }
                           },
                           "edit_control": {
                             "edit_tweet_ids": [
-                              "2049869487424544929"
+                              "2039742963602145557"
                             ],
-                            "editable_until_msecs": "1777565545000",
+                            "editable_until_msecs": "1775151193000",
                             "edits_remaining": "5",
-                            "is_edit_eligible": true
+                            "is_edit_eligible": false
+                          },
+                          "grok_analysis_button": true,
+                          "grok_annotations": {},
+                          "grok_translated_post_with_availability": {
+                            "is_available": false
                           },
                           "is_translatable": true,
                           "legacy": {
                             "bookmark_count": 0,
                             "bookmarked": false,
-                            "conversation_id_str": "2049869487424544929",
-                            "created_at": "Thu Apr 30 15:12:25 +0000 2026",
+                            "conversation_id_str": "2039599865827872803",
+                            "created_at": "Thu Apr 02 16:33:13 +0000 2026",
                             "display_text_range": [
-                              0,
-                              58
+                              11,
+                              143
                             ],
                             "entities": {
                               "hashtags": [],
+                              "smarttags": [],
                               "symbols": [],
+                              "timestamps": [],
                               "urls": [],
-                              "user_mentions": []
+                              "user_mentions": [
+                                {
+                                  "id_str": "723105784507158528",
+                                  "indices": [
+                                    0,
+                                    10
+                                  ],
+                                  "name": "Aikuhaku",
+                                  "screen_name": "Rezero_43"
+                                }
+                              ]
                             },
-                            "favorite_count": 2,
+                            "favorite_count": 1,
                             "favorited": false,
-                            "full_text": "konon katanya pln merugi karena wonbin menyala tanpa token",
-                            "id_str": "2049869487424544929",
-                            "is_quote_status": true,
+                            "full_text": "@Rezero_43 Iran pegang \u201cpintu gerbang\u201d minyak dunia, makanya gampang banget bikin harga BBM naik global kalau lagi bete. Pantes sering panas. \ud83d\ude2e",
+                            "id_str": "2039742963602145557",
+                            "in_reply_to_screen_name": "Rezero_43",
+                            "in_reply_to_status_id_str": "2039599865827872803",
+                            "in_reply_to_user_id_str": "723105784507158528",
+                            "is_quote_status": false,
                             "lang": "in",
                             "quote_count": 0,
-                            "quoted_status_id_str": "2049754835818619256",
-                            "quoted_status_permalink": {
-                              "display": "x.com/riize_archives\u2026",
-                              "expanded": "https://twitter.com/riize_archives/status/2049754835818619256",
-                              "url": "https://t.co/ccHRGtqQDu"
-                            },
-                            "reply_count": 0,
+                            "reply_count": 1,
                             "retweet_count": 0,
                             "retweeted": false,
-                            "user_id_str": "1999468770872754176"
+                            "user_id_str": "1156869918370873344"
                           },
-                          "quoted_status_result": {
-                            "result": {
-                              "__typename": "Tweet",
-                              "core": {
-                                "user_results": {
-                                  "result": {
-                                    "__typename": "User",
-                                    "affiliates_highlighted_label": {},
-                                    "has_graduated_access": true,
-                                    "id": "VXNlcjoxNjk1OTk5NzI0ODMzMzc4MzA0",
-                                    "is_blue_verified": true,
-                                    "legacy": {
-                                      "blocked_by": false,
-                                      "blocking": false,
-                                      "can_dm": false,
-                                      "can_media_tag": false,
-                                      "created_at": "Mon Aug 28 03:20:52 +0000 2023",
-                                      "default_profile": true,
-                                      "default_profile_image": false,
-                                      "description": "update & archive account for RIIZE \u2014 (backup: @riizearchive)",
-                                      "entities": {
-                                        "description": {}
-                                      },
-                                      "fast_followers_count": 0,
-                                      "favourites_count": 607,
-                                      "follow_request_sent": false,
-                                      "followed_by": false,
-                                      "followers_count": 103453,
-                                      "following": false,
-                                      "friends_count": 3,
-                                      "has_custom_timelines": false,
-                                      "is_translator": false,
-                                      "listed_count": 365,
-                                      "location": "",
-                                      "media_count": 14134,
-                                      "muting": false,
-                                      "name": "riize archive",
-                                      "needs_phone_verification": false,
-                                      "normal_followers_count": 103453,
-                                      "notifications": false,
-                                      "possibly_sensitive": false,
-                                      "profile_banner_url": "https://pbs.twimg.com/profile_banners/1695999724833378304/1768750948",
-                                      "profile_image_url_https": "https://pbs.twimg.com/profile_images/2012913492290846720/AnG4LM3z_normal.jpg",
-                                      "profile_interstitial_type": "",
-                                      "protected": false,
-                                      "screen_name": "riize_archives",
-                                      "statuses_count": 16703,
-                                      "time_zone": "",
-                                      "translator_type": "none",
-                                      "url": "",
-                                      "utc_offset": 0,
-                                      "verified": false,
-                                      "want_retweets": false,
-                                      "withheld_description": "",
-                                      "withheld_scope": ""
-                                    },
-                                    "profile_image_shape": "Circle",
-                                    "rest_id": "1695999724833378304",
-                                    "super_follow_eligible": false,
-                                    "super_followed_by": false,
-                                    "super_following": false
-                                  }
-                                }
-                              },
-                              "edit_control": {
-                                "edit_tweet_ids": [
-                                  "2049754835818619256"
-                                ],
-                                "editable_until_msecs": "1777538210000",
-                                "edits_remaining": "5",
-                                "is_edit_eligible": true
-                              },
-                              "is_translatable": false,
-                              "legacy": {
-                                "bookmark_count": 155,
-                                "bookmarked": false,
-                                "conversation_id_str": "2049754835818619256",
-                                "created_at": "Thu Apr 30 07:36:50 +0000 2026",
-                                "display_text_range": [
-                                  0,
-                                  29
-                                ],
-                                "entities": {
-                                  "hashtags": [],
-                                  "media": [
-                                    {
-                                      "additional_media_info": {
-                                        "monetizable": false
-                                      },
-                                      "display_url": "pic.x.com/vnYtfzyGoT",
-                                      "expanded_url": "https://x.com/riize_archives/status/2049754835818619256/video/1",
-                                      "ext_media_availability": {
-                                        "status": "Available"
-                                      },
-                                      "id_str": "2049754804457803776",
-                                      "indices": [
-                                        30,
-                                        53
-                                      ],
-                                      "media_key": "7_2049754804457803776",
-                                      "media_results": {
-                                        "result": {
-                                          "media_key": "7_2049754804457803776"
-                                        }
-                                      },
-                                      "media_url_https": "https://pbs.twimg.com/ext_tw_video_thumb/2049754804457803776/pu/img/w-3n8OpSQSput4Pw.jpg",
-                                      "original_info": {
-                                        "focus_rects": [],
-                                        "height": 720,
-                                        "width": 960
-                                      },
-                                      "sizes": {
-                                        "large": {
-                                          "h": 720,
-                                          "resize": "fit",
-                                          "w": 960
-                                        },
-                                        "medium": {
-                                          "h": 720,
-                                          "resize": "fit",
-                                          "w": 960
-                                        },
-                                        "small": {
-                                          "h": 510,
-                                          "resize": "fit",
-                                          "w": 680
-                                        },
-                                        "thumb": {
-                                          "h": 150,
-                                          "resize": "crop",
-                                          "w": 150
-                                        }
-                                      },
-                                      "type": "video",
-                                      "url": "https://t.co/vnYtfzyGoT",
-                                      "video_info": {
-                                        "aspect_ratio": [
-                                          4,
-                                          3
-                                        ],
-                                        "duration_millis": 20504,
-                                        "variants": [
-                                          {
-                                            "content_type": "application/x-mpegURL",
-                                            "url": "https://video.twimg.com/ext_tw_video/2049754804457803776/pu/pl/beVtQAt_kwZAIoap.m3u8?tag=19&v=cfc"
-                                          },
-                                          {
-                                            "bitrate": 256000,
-                                            "content_type": "video/mp4",
-                                            "url": "https://video.twimg.com/ext_tw_video/2049754804457803776/pu/vid/avc1/360x270/-eCYLvYGT1075X1u.mp4?tag=19"
-                                          },
-                                          {
-                                            "bitrate": 832000,
-                                            "content_type": "video/mp4",
-                                            "url": "https://video.twimg.com/ext_tw_video/2049754804457803776/pu/vid/avc1/480x360/3daxso73pW1kDrL9.mp4?tag=19"
-                                          },
-                                          {
-                                            "bitrate": 2176000,
-                                            "content_type": "video/mp4",
-                                            "url": "https://video.twimg.com/ext_tw_video/2049754804457803776/pu/vid/avc1/960x720/JSR79UPdjOiOzo_e.mp4?tag=19"
-                                          }
-                                        ]
-                                      }
-                                    }
-                                  ],
-                                  "symbols": [],
-                                  "urls": [],
-                                  "user_mentions": []
-                                },
-                                "extended_entities": {
-                                  "media": [
-                                    {
-                                      "additional_media_info": {
-                                        "monetizable": false
-                                      },
-                                      "display_url": "pic.x.com/vnYtfzyGoT",
-                                      "expanded_url": "https://x.com/riize_archives/status/2049754835818619256/video/1",
-                                      "ext_media_availability": {
-                                        "status": "Available"
-                                      },
-                                      "id_str": "2049754804457803776",
-                                      "indices": [
-                                        30,
-                                        53
-                                      ],
-                                      "media_key": "7_2049754804457803776",
-                                      "media_results": {
-                                        "result": {
-                                          "media_key": "7_2049754804457803776"
-                                        }
-                                      },
-                                      "media_url_https": "https://pbs.twimg.com/ext_tw_video_thumb/2049754804457803776/pu/img/w-3n8OpSQSput4Pw.jpg",
-                                      "original_info": {
-                                        "focus_rects": [],
-                                        "height": 720,
-                                        "width": 960
-                                      },
-                                      "sizes": {
-                                        "large": {
-                                          "h": 720,
-                                          "resize": "fit",
-                                          "w": 960
-                                        },
-                                        "medium": {
-                                          "h": 720,
-                                          "resize": "fit",
-                                          "w": 960
-                                        },
-                                        "small": {
-                                          "h": 510,
-                                          "resize": "fit",
-                                          "w": 680
-                                        },
-                                        "thumb": {
-                                          "h": 150,
-                                          "resize": "crop",
-                                          "w": 150
-                                        }
-                                      },
-                                      "type": "video",
-                                      "url": "https://t.co/vnYtfzyGoT",
-                                      "video_info": {
-                                        "aspect_ratio": [
-                                          4,
-                                          3
-                                        ],
-                                        "duration_millis": 20504,
-                                        "variants": [
-                                          {
-                                            "content_type": "application/x-mpegURL",
-                                            "url": "https://video.twimg.com/ext_tw_video/2049754804457803776/pu/pl/beVtQAt_kwZAIoap.m3u8?tag=19&v=cfc"
-                                          },
-                                          {
-                                            "bitrate": 256000,
-                                            "content_type": "video/mp4",
-                                            "url": "https://video.twimg.com/ext_tw_video/2049754804457803776/pu/vid/avc1/360x270/-eCYLvYGT1075X1u.mp4?tag=19"
-                                          },
-                                          {
-                                            "bitrate": 832000,
-                                            "content_type": "video/mp4",
-                                            "url": "https://video.twimg.com/ext_tw_video/2049754804457803776/pu/vid/avc1/480x360/3daxso73pW1kDrL9.mp4?tag=19"
-                                          },
-                                          {
-                                            "bitrate": 2176000,
-                                            "content_type": "video/mp4",
-                                            "url": "https://video.twimg.com/ext_tw_video/2049754804457803776/pu/vid/avc1/960x720/JSR79UPdjOiOzo_e.mp4?tag=19"
-                                          }
-                                        ]
-                                      }
-                                    }
-                                  ]
-                                },
-                                "favorite_count": 2118,
-                                "favorited": false,
-                                "full_text": "WONBIN for ARENA HOMME+ CHINA https://t.co/vnYtfzyGoT",
-                                "id_str": "2049754835818619256",
-                                "is_quote_status": false,
-                                "lang": "en",
-                                "possibly_sensitive": false,
-                                "possibly_sensitive_editable": true,
-                                "quote_count": 66,
-                                "reply_count": 1,
-                                "retweet_count": 824,
-                                "retweeted": false,
-                                "user_id_str": "1695999724833378304"
-                              },
-                              "rest_id": "2049754835818619256",
-                              "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
-                              "unmention_info": {},
-                              "views": {
-                                "count": "42452",
-                                "state": "EnabledWithCount"
-                              }
-                            }
-                          },
-                          "rest_id": "2049869487424544929",
-                          "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
-                          "unmention_info": {},
+                          "rest_id": "2039742963602145557",
+                          "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                          "unmention_data": {},
                           "views": {
-                            "count": "199",
+                            "count": "224",
                             "state": "EnabledWithCount"
                           }
                         }
                       }
                     }
                   },
-                  "entryId": "tweet-2049869487424544929",
-                  "sortIndex": "2054399309637484544"
+                  "entryId": "tweet-2039742963602145557",
+                  "sortIndex": "2056301030563381247"
+                },
+                {
+                  "content": {
+                    "__typename": "TimelineTimelineItem",
+                    "clientEventInfo": {
+                      "component": "latest_nightowl_recency",
+                      "details": {
+                        "timelinesDetails": {
+                          "controllerData": "DAACDAAFDAABDAABDAABCgABAAAAAAAAAAAAAAwAAgoAAQAAAAAAAAABCgACF1QwyS4ErdYKAAUDIbGyNzej2wgABgAAAAEKAAdu5Yh6fJ9ROAoACAAAAZ46WJWfAAAAAAA="
+                        }
+                      },
+                      "element": "tweet"
+                    },
+                    "entryType": "TimelineTimelineItem",
+                    "itemContent": {
+                      "__typename": "TimelineTweet",
+                      "highlights": {
+                        "textHighlights": [
+                          {
+                            "endIndex": 13,
+                            "startIndex": 8
+                          },
+                          {
+                            "endIndex": 17,
+                            "startIndex": 14
+                          },
+                          {
+                            "endIndex": 32,
+                            "startIndex": 28
+                          }
+                        ]
+                      },
+                      "itemType": "TimelineTweet",
+                      "tweetDisplayType": "Tweet",
+                      "tweet_results": {
+                        "result": {
+                          "__typename": "Tweet",
+                          "core": {
+                            "user_results": {
+                              "result": {
+                                "__typename": "User",
+                                "affiliates_highlighted_label": {},
+                                "avatar": {
+                                  "image_url": "https://pbs.twimg.com/profile_images/1973996420500963328/roQCTTny_normal.jpg"
+                                },
+                                "core": {
+                                  "created_at": "Sun Jul 18 09:50:31 +0000 2010",
+                                  "name": "Sigit Widodo - \ua9b1\ua9b6\ua992\ua9b6\ua9a0\ua9c0\ua9ae\ua9b6\ua9a2\ua9ba\ua9b4\ua9a2\ua9ba\ua9b4",
+                                  "screen_name": "sigitwid"
+                                },
+                                "dm_permissions": {
+                                  "can_dm": false
+                                },
+                                "follow_request_sent": false,
+                                "grok_translated_bio_with_availability": {
+                                  "is_available": false
+                                },
+                                "has_graduated_access": true,
+                                "id": "VXNlcjoxNjgwODIyOTg=",
+                                "is_blue_verified": true,
+                                "legacy": {
+                                  "default_profile": false,
+                                  "default_profile_image": false,
+                                  "description": "Tenaga Ahli Dirjen KSDAE Kementerian Kehutanan RI | Direktur Kehutanan DPP Partai Solidaritas Indonesia | Penyayang Kucing dan Satwa Lainnya",
+                                  "entities": {
+                                    "description": {},
+                                    "url": {
+                                      "urls": [
+                                        {
+                                          "display_url": "sigit.id",
+                                          "expanded_url": "http://www.sigit.id",
+                                          "indices": [
+                                            0,
+                                            23
+                                          ],
+                                          "url": "https://t.co/VuIL7ICK6G"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "fast_followers_count": 0,
+                                  "favourites_count": 9600,
+                                  "follow_request_sent": false,
+                                  "followers_count": 11507,
+                                  "friends_count": 4375,
+                                  "has_custom_timelines": true,
+                                  "is_translator": false,
+                                  "listed_count": 23,
+                                  "media_count": 6434,
+                                  "needs_phone_verification": false,
+                                  "normal_followers_count": 11507,
+                                  "notifications": false,
+                                  "possibly_sensitive": false,
+                                  "profile_banner_url": "https://pbs.twimg.com/profile_banners/168082298/1763314975",
+                                  "profile_interstitial_type": "",
+                                  "statuses_count": 81121,
+                                  "time_zone": "",
+                                  "translator_type": "none",
+                                  "url": "https://t.co/VuIL7ICK6G",
+                                  "utc_offset": 0,
+                                  "want_retweets": false,
+                                  "withheld_description": "",
+                                  "withheld_scope": ""
+                                },
+                                "location": {
+                                  "location": "\u00dcT: 55.753181,37.618633"
+                                },
+                                "media_permissions": {
+                                  "can_media_tag": false
+                                },
+                                "parody_commentary_fan_label": "None",
+                                "privacy": {
+                                  "protected": false
+                                },
+                                "professional": {
+                                  "category": [
+                                    {
+                                      "icon_name": "IconBriefcaseStroke",
+                                      "id": 933,
+                                      "name": "Media Personality"
+                                    }
+                                  ],
+                                  "professional_type": "Creator",
+                                  "rest_id": "1457400568591183873"
+                                },
+                                "profile_bio": {
+                                  "description": "Tenaga Ahli Dirjen KSDAE Kementerian Kehutanan RI | Direktur Kehutanan DPP Partai Solidaritas Indonesia | Penyayang Kucing dan Satwa Lainnya"
+                                },
+                                "profile_description_language": "id",
+                                "profile_image_shape": "Circle",
+                                "relationship_perspectives": {
+                                  "blocked_by": false,
+                                  "blocking": false,
+                                  "followed_by": false,
+                                  "following": false,
+                                  "muting": false
+                                },
+                                "rest_id": "168082298",
+                                "super_follow_eligible": false,
+                                "super_followed_by": false,
+                                "super_following": false,
+                                "verification": {
+                                  "verified": false
+                                }
+                              }
+                            }
+                          },
+                          "edit_control": {
+                            "edit_tweet_ids": [
+                              "2039740450492559654"
+                            ],
+                            "editable_until_msecs": "1775150594000",
+                            "edits_remaining": "5",
+                            "is_edit_eligible": true
+                          },
+                          "grok_analysis_button": true,
+                          "grok_annotations": {
+                            "is_image_editable_by_grok": false
+                          },
+                          "grok_translated_post_with_availability": {
+                            "is_available": false
+                          },
+                          "is_translatable": true,
+                          "legacy": {
+                            "bookmark_count": 1,
+                            "bookmarked": false,
+                            "conversation_id_str": "2039740450492559654",
+                            "created_at": "Thu Apr 02 16:23:14 +0000 2026",
+                            "display_text_range": [
+                              0,
+                              103
+                            ],
+                            "entities": {
+                              "hashtags": [],
+                              "media": [
+                                {
+                                  "additional_media_info": {
+                                    "monetizable": false
+                                  },
+                                  "display_url": "pic.x.com/tU3ghFw6at",
+                                  "expanded_url": "https://x.com/sigitwid/status/2039740450492559654/video/1",
+                                  "ext_media_availability": {
+                                    "status": "Available"
+                                  },
+                                  "id_str": "2039740338806632452",
+                                  "indices": [
+                                    104,
+                                    127
+                                  ],
+                                  "media_key": "7_2039740338806632452",
+                                  "media_results": {
+                                    "result": {
+                                      "media_key": "7_2039740338806632452"
+                                    }
+                                  },
+                                  "media_url_https": "https://pbs.twimg.com/ext_tw_video_thumb/2039740338806632452/pu/img/jkMcOqCpozjOljuC.jpg",
+                                  "original_info": {
+                                    "focus_rects": [],
+                                    "height": 1280,
+                                    "width": 712
+                                  },
+                                  "sizes": {
+                                    "large": {
+                                      "h": 1280,
+                                      "resize": "fit",
+                                      "w": 712
+                                    },
+                                    "medium": {
+                                      "h": 1200,
+                                      "resize": "fit",
+                                      "w": 668
+                                    },
+                                    "small": {
+                                      "h": 680,
+                                      "resize": "fit",
+                                      "w": 378
+                                    },
+                                    "thumb": {
+                                      "h": 150,
+                                      "resize": "crop",
+                                      "w": 150
+                                    }
+                                  },
+                                  "type": "video",
+                                  "url": "https://t.co/tU3ghFw6at",
+                                  "video_info": {
+                                    "aspect_ratio": [
+                                      89,
+                                      160
+                                    ],
+                                    "duration_millis": 42028,
+                                    "variants": [
+                                      {
+                                        "content_type": "application/x-mpegURL",
+                                        "url": "https://video.twimg.com/ext_tw_video/2039740338806632452/pu/pl/1bloXC7dlIzdCG1J.m3u8?tag=19"
+                                      },
+                                      {
+                                        "bitrate": 632000,
+                                        "content_type": "video/mp4",
+                                        "url": "https://video.twimg.com/ext_tw_video/2039740338806632452/pu/vid/avc1/320x574/Zx5rdIKnkqkwaZT3.mp4?tag=19"
+                                      },
+                                      {
+                                        "bitrate": 950000,
+                                        "content_type": "video/mp4",
+                                        "url": "https://video.twimg.com/ext_tw_video/2039740338806632452/pu/vid/avc1/480x862/ESIa48E5jFfBX-NY.mp4?tag=19"
+                                      },
+                                      {
+                                        "bitrate": 2176000,
+                                        "content_type": "video/mp4",
+                                        "url": "https://video.twimg.com/ext_tw_video/2039740338806632452/pu/vid/avc1/712x1280/h8NTsiDlLRJPJ_fJ.mp4?tag=19"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "smarttags": [],
+                              "symbols": [],
+                              "timestamps": [],
+                              "urls": [],
+                              "user_mentions": []
+                            },
+                            "extended_entities": {
+                              "media": [
+                                {
+                                  "additional_media_info": {
+                                    "monetizable": false
+                                  },
+                                  "display_url": "pic.x.com/tU3ghFw6at",
+                                  "expanded_url": "https://x.com/sigitwid/status/2039740450492559654/video/1",
+                                  "ext_media_availability": {
+                                    "status": "Available"
+                                  },
+                                  "id_str": "2039740338806632452",
+                                  "indices": [
+                                    104,
+                                    127
+                                  ],
+                                  "media_key": "7_2039740338806632452",
+                                  "media_results": {
+                                    "result": {
+                                      "media_key": "7_2039740338806632452"
+                                    }
+                                  },
+                                  "media_url_https": "https://pbs.twimg.com/ext_tw_video_thumb/2039740338806632452/pu/img/jkMcOqCpozjOljuC.jpg",
+                                  "original_info": {
+                                    "focus_rects": [],
+                                    "height": 1280,
+                                    "width": 712
+                                  },
+                                  "sizes": {
+                                    "large": {
+                                      "h": 1280,
+                                      "resize": "fit",
+                                      "w": 712
+                                    },
+                                    "medium": {
+                                      "h": 1200,
+                                      "resize": "fit",
+                                      "w": 668
+                                    },
+                                    "small": {
+                                      "h": 680,
+                                      "resize": "fit",
+                                      "w": 378
+                                    },
+                                    "thumb": {
+                                      "h": 150,
+                                      "resize": "crop",
+                                      "w": 150
+                                    }
+                                  },
+                                  "type": "video",
+                                  "url": "https://t.co/tU3ghFw6at",
+                                  "video_info": {
+                                    "aspect_ratio": [
+                                      89,
+                                      160
+                                    ],
+                                    "duration_millis": 42028,
+                                    "variants": [
+                                      {
+                                        "content_type": "application/x-mpegURL",
+                                        "url": "https://video.twimg.com/ext_tw_video/2039740338806632452/pu/pl/1bloXC7dlIzdCG1J.m3u8?tag=19"
+                                      },
+                                      {
+                                        "bitrate": 632000,
+                                        "content_type": "video/mp4",
+                                        "url": "https://video.twimg.com/ext_tw_video/2039740338806632452/pu/vid/avc1/320x574/Zx5rdIKnkqkwaZT3.mp4?tag=19"
+                                      },
+                                      {
+                                        "bitrate": 950000,
+                                        "content_type": "video/mp4",
+                                        "url": "https://video.twimg.com/ext_tw_video/2039740338806632452/pu/vid/avc1/480x862/ESIa48E5jFfBX-NY.mp4?tag=19"
+                                      },
+                                      {
+                                        "bitrate": 2176000,
+                                        "content_type": "video/mp4",
+                                        "url": "https://video.twimg.com/ext_tw_video/2039740338806632452/pu/vid/avc1/712x1280/h8NTsiDlLRJPJ_fJ.mp4?tag=19"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ]
+                            },
+                            "favorite_count": 10,
+                            "favorited": false,
+                            "full_text": "Padahal harga BBM kan nggak naik. \ud83d\ude48\n\nTapi saya suka latar belakang lagu 'Darah Juang' yang digunakan. \ud83e\udd70 https://t.co/tU3ghFw6at",
+                            "id_str": "2039740450492559654",
+                            "is_quote_status": false,
+                            "lang": "in",
+                            "possibly_sensitive": false,
+                            "possibly_sensitive_editable": true,
+                            "quote_count": 3,
+                            "reply_count": 6,
+                            "retweet_count": 8,
+                            "retweeted": false,
+                            "user_id_str": "168082298"
+                          },
+                          "rest_id": "2039740450492559654",
+                          "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                          "unmention_data": {},
+                          "views": {
+                            "count": "2160",
+                            "state": "EnabledWithCount"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "entryId": "tweet-2039740450492559654",
+                  "sortIndex": "2056301030563381246"
+                },
+                {
+                  "content": {
+                    "__typename": "TimelineTimelineItem",
+                    "clientEventInfo": {
+                      "component": "latest_nightowl_recency",
+                      "details": {
+                        "timelinesDetails": {
+                          "controllerData": "DAACDAAFDAABDAABDAABCgABAAAAAAAAAAAAAAwAAgoAAQAAAAAAAAABCgACF1QwyS4ErdYKAAUDIbGyNzej2wgABgAAAAEKAAdu5Yh6fJ9ROAoACAAAAZ46WJWfAAAAAAA="
+                        }
+                      },
+                      "element": "tweet"
+                    },
+                    "entryType": "TimelineTimelineItem",
+                    "itemContent": {
+                      "__typename": "TimelineTweet",
+                      "highlights": {
+                        "textHighlights": [
+                          {
+                            "endIndex": 48,
+                            "startIndex": 44
+                          },
+                          {
+                            "endIndex": 54,
+                            "startIndex": 49
+                          },
+                          {
+                            "endIndex": 58,
+                            "startIndex": 55
+                          }
+                        ]
+                      },
+                      "itemType": "TimelineTweet",
+                      "tweetDisplayType": "Tweet",
+                      "tweet_results": {
+                        "result": {
+                          "__typename": "Tweet",
+                          "core": {
+                            "user_results": {
+                              "result": {
+                                "__typename": "User",
+                                "affiliates_highlighted_label": {},
+                                "avatar": {
+                                  "image_url": "https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png"
+                                },
+                                "core": {
+                                  "created_at": "Tue Apr 18 17:57:23 +0000 2023",
+                                  "name": "ronaldomessi",
+                                  "screen_name": "ronaldomessi_17"
+                                },
+                                "dm_permissions": {
+                                  "can_dm": false
+                                },
+                                "follow_request_sent": false,
+                                "grok_translated_bio_with_availability": {
+                                  "is_available": false
+                                },
+                                "has_graduated_access": true,
+                                "id": "VXNlcjoxNjQ4Mzg1MjEyMzcwNTE4MDE3",
+                                "is_blue_verified": false,
+                                "legacy": {
+                                  "default_profile": true,
+                                  "default_profile_image": true,
+                                  "description": "Use Your Illusions",
+                                  "entities": {
+                                    "description": {}
+                                  },
+                                  "fast_followers_count": 0,
+                                  "favourites_count": 5815,
+                                  "follow_request_sent": false,
+                                  "followers_count": 12,
+                                  "friends_count": 476,
+                                  "has_custom_timelines": false,
+                                  "is_translator": false,
+                                  "listed_count": 0,
+                                  "media_count": 139,
+                                  "needs_phone_verification": false,
+                                  "normal_followers_count": 12,
+                                  "notifications": false,
+                                  "possibly_sensitive": false,
+                                  "profile_banner_url": "",
+                                  "profile_interstitial_type": "",
+                                  "statuses_count": 3436,
+                                  "time_zone": "",
+                                  "translator_type": "none",
+                                  "url": "",
+                                  "utc_offset": 0,
+                                  "want_retweets": false,
+                                  "withheld_description": "",
+                                  "withheld_scope": ""
+                                },
+                                "location": {
+                                  "location": ""
+                                },
+                                "media_permissions": {
+                                  "can_media_tag": true
+                                },
+                                "parody_commentary_fan_label": "None",
+                                "privacy": {
+                                  "protected": false
+                                },
+                                "profile_bio": {
+                                  "description": "Use Your Illusions"
+                                },
+                                "profile_description_language": "en",
+                                "profile_image_shape": "Circle",
+                                "relationship_perspectives": {
+                                  "blocked_by": false,
+                                  "blocking": false,
+                                  "followed_by": false,
+                                  "following": false,
+                                  "muting": false
+                                },
+                                "rest_id": "1648385212370518017",
+                                "super_follow_eligible": false,
+                                "super_followed_by": false,
+                                "super_following": false,
+                                "verification": {
+                                  "verified": false
+                                }
+                              }
+                            }
+                          },
+                          "edit_control": {
+                            "edit_tweet_ids": [
+                              "2039739258916020468"
+                            ],
+                            "editable_until_msecs": "1775150310000",
+                            "edits_remaining": "5",
+                            "is_edit_eligible": false
+                          },
+                          "grok_analysis_button": true,
+                          "grok_annotations": {},
+                          "grok_translated_post_with_availability": {
+                            "is_available": false
+                          },
+                          "is_translatable": true,
+                          "legacy": {
+                            "bookmark_count": 0,
+                            "bookmarked": false,
+                            "conversation_id_str": "2039549987630232002",
+                            "created_at": "Thu Apr 02 16:18:30 +0000 2026",
+                            "display_text_range": [
+                              23,
+                              113
+                            ],
+                            "entities": {
+                              "hashtags": [],
+                              "smarttags": [],
+                              "symbols": [],
+                              "timestamps": [],
+                              "urls": [],
+                              "user_mentions": [
+                                {
+                                  "id_str": "1599743494892896256",
+                                  "indices": [
+                                    0,
+                                    12
+                                  ],
+                                  "name": "nino_baba",
+                                  "screen_name": "nino_baba11"
+                                },
+                                {
+                                  "id_str": "168082298",
+                                  "indices": [
+                                    13,
+                                    22
+                                  ],
+                                  "name": "Sigit Widodo - \ua9b1\ua9b6\ua992\ua9b6\ua9a0\ua9c0\ua9ae\ua9b6\ua9a2\ua9ba\ua9b4\ua9a2\ua9ba\ua9b4",
+                                  "screen_name": "sigitwid"
+                                }
+                              ]
+                            },
+                            "favorite_count": 1,
+                            "favorited": false,
+                            "full_text": "@nino_baba11 @sigitwid Jadi harapanmu apa?? Naik harga BBM biar rakyat sengsara?? Macam kaya aja semua keluargamu",
+                            "id_str": "2039739258916020468",
+                            "in_reply_to_screen_name": "nino_baba11",
+                            "in_reply_to_status_id_str": "2039727709279121661",
+                            "in_reply_to_user_id_str": "1599743494892896256",
+                            "is_quote_status": false,
+                            "lang": "in",
+                            "quote_count": 0,
+                            "reply_count": 0,
+                            "retweet_count": 0,
+                            "retweeted": false,
+                            "user_id_str": "1648385212370518017"
+                          },
+                          "rest_id": "2039739258916020468",
+                          "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                          "unmention_data": {},
+                          "views": {
+                            "count": "56",
+                            "state": "EnabledWithCount"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "entryId": "tweet-2039739258916020468",
+                  "sortIndex": "2056301030563381245"
+                },
+                {
+                  "content": {
+                    "__typename": "TimelineTimelineItem",
+                    "clientEventInfo": {
+                      "component": "latest_nightowl_recency",
+                      "details": {
+                        "timelinesDetails": {
+                          "controllerData": "DAACDAAFDAABDAABDAABCgABAAAAAAAAAAAAAAwAAgoAAQAAAAAAAAABCgACF1QwyS4ErdYKAAUDIbGyNzej2wgABgAAAAEKAAdu5Yh6fJ9ROAoACAAAAZ46WJWfAAAAAAA="
+                        }
+                      },
+                      "element": "tweet"
+                    },
+                    "entryType": "TimelineTimelineItem",
+                    "itemContent": {
+                      "__typename": "TimelineTweet",
+                      "highlights": {
+                        "textHighlights": [
+                          {
+                            "endIndex": 27,
+                            "startIndex": 24
+                          },
+                          {
+                            "endIndex": 35,
+                            "startIndex": 31
+                          },
+                          {
+                            "endIndex": 47,
+                            "startIndex": 42
+                          },
+                          {
+                            "endIndex": 68,
+                            "startIndex": 64
+                          },
+                          {
+                            "endIndex": 120,
+                            "startIndex": 115
+                          },
+                          {
+                            "endIndex": 124,
+                            "startIndex": 121
+                          },
+                          {
+                            "endIndex": 170,
+                            "startIndex": 165
+                          },
+                          {
+                            "endIndex": 199,
+                            "startIndex": 195
+                          },
+                          {
+                            "endIndex": 225,
+                            "startIndex": 220
+                          },
+                          {
+                            "endIndex": 229,
+                            "startIndex": 226
+                          }
+                        ]
+                      },
+                      "itemType": "TimelineTweet",
+                      "tweetDisplayType": "Tweet",
+                      "tweet_results": {
+                        "result": {
+                          "__typename": "Tweet",
+                          "core": {
+                            "user_results": {
+                              "result": {
+                                "__typename": "User",
+                                "affiliates_highlighted_label": {},
+                                "avatar": {
+                                  "image_url": "https://pbs.twimg.com/profile_images/1644891245343567873/x_N-AHfK_normal.jpg"
+                                },
+                                "core": {
+                                  "created_at": "Sun Apr 09 02:31:48 +0000 2023",
+                                  "name": "elomas",
+                                  "screen_name": "elomas1352640"
+                                },
+                                "dm_permissions": {
+                                  "can_dm": false
+                                },
+                                "follow_request_sent": false,
+                                "grok_translated_bio_with_availability": {
+                                  "is_available": false
+                                },
+                                "has_graduated_access": true,
+                                "id": "VXNlcjoxNjQ0ODkwNzczMTA2ODUxODQx",
+                                "is_blue_verified": false,
+                                "legacy": {
+                                  "default_profile": true,
+                                  "default_profile_image": false,
+                                  "description": "",
+                                  "entities": {
+                                    "description": {}
+                                  },
+                                  "fast_followers_count": 0,
+                                  "favourites_count": 45,
+                                  "follow_request_sent": false,
+                                  "followers_count": 8,
+                                  "friends_count": 80,
+                                  "has_custom_timelines": false,
+                                  "is_translator": false,
+                                  "listed_count": 0,
+                                  "media_count": 17,
+                                  "needs_phone_verification": false,
+                                  "normal_followers_count": 8,
+                                  "notifications": false,
+                                  "possibly_sensitive": false,
+                                  "profile_banner_url": "",
+                                  "profile_interstitial_type": "",
+                                  "statuses_count": 483,
+                                  "time_zone": "",
+                                  "translator_type": "none",
+                                  "url": "",
+                                  "utc_offset": 0,
+                                  "want_retweets": false,
+                                  "withheld_description": "",
+                                  "withheld_scope": ""
+                                },
+                                "location": {
+                                  "location": ""
+                                },
+                                "media_permissions": {
+                                  "can_media_tag": true
+                                },
+                                "parody_commentary_fan_label": "None",
+                                "privacy": {
+                                  "protected": false
+                                },
+                                "profile_bio": {
+                                  "description": ""
+                                },
+                                "profile_image_shape": "Circle",
+                                "relationship_perspectives": {
+                                  "blocked_by": false,
+                                  "blocking": false,
+                                  "followed_by": false,
+                                  "following": false,
+                                  "muting": false
+                                },
+                                "rest_id": "1644890773106851841",
+                                "super_follow_eligible": false,
+                                "super_followed_by": false,
+                                "super_following": false,
+                                "verification": {
+                                  "verified": false
+                                }
+                              }
+                            }
+                          },
+                          "edit_control": {
+                            "edit_tweet_ids": [
+                              "2039738849912664320"
+                            ],
+                            "editable_until_msecs": "1775150212000",
+                            "edits_remaining": "5",
+                            "is_edit_eligible": false
+                          },
+                          "grok_analysis_button": true,
+                          "grok_annotations": {},
+                          "grok_translated_post_with_availability": {
+                            "is_available": false
+                          },
+                          "is_translatable": true,
+                          "legacy": {
+                            "bookmark_count": 0,
+                            "bookmarked": false,
+                            "conversation_id_str": "2039593114005086287",
+                            "created_at": "Thu Apr 02 16:16:52 +0000 2026",
+                            "display_text_range": [
+                              15,
+                              242
+                            ],
+                            "entities": {
+                              "hashtags": [],
+                              "smarttags": [],
+                              "symbols": [],
+                              "timestamps": [],
+                              "urls": [],
+                              "user_mentions": [
+                                {
+                                  "id_str": "1772323119111487490",
+                                  "indices": [
+                                    0,
+                                    14
+                                  ],
+                                  "name": "Lambe Saham",
+                                  "screen_name": "LambeSahamjja"
+                                }
+                              ]
+                            },
+                            "favorite_count": 0,
+                            "favorited": false,
+                            "full_text": "@LambeSahamjja Iya sih. Bbm ga naik, tapi harga bahan pokok udh naik duluan\n Ntar klo pemerintah udh ga kuat nahan harga bbm, otomatis harus dinaikan harganya. Tapi harga bahan pokok sekali lagi naik, mengikuti kenaikan harga bbm. Kan runyam?",
+                            "id_str": "2039738849912664320",
+                            "in_reply_to_screen_name": "LambeSahamjja",
+                            "in_reply_to_status_id_str": "2039593114005086287",
+                            "in_reply_to_user_id_str": "1772323119111487490",
+                            "is_quote_status": false,
+                            "lang": "in",
+                            "quote_count": 0,
+                            "reply_count": 0,
+                            "retweet_count": 0,
+                            "retweeted": false,
+                            "user_id_str": "1644890773106851841"
+                          },
+                          "rest_id": "2039738849912664320",
+                          "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                          "unmention_data": {},
+                          "views": {
+                            "count": "909",
+                            "state": "EnabledWithCount"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "entryId": "tweet-2039738849912664320",
+                  "sortIndex": "2056301030563381244"
                 },
                 {
                   "content": {
                     "__typename": "TimelineTimelineCursor",
                     "cursorType": "Top",
                     "entryType": "TimelineTimelineCursor",
-                    "value": "DAADDAABCgABHHKZcCnaIKEKAAIccplwKdogoQAIAAIAAAABCAADAAAAAAgABAAAAAAKAAUcgrFJlcAnEAoABhyCsUmVv9jwAAA"
+                    "value": "DAADDAABCgABHE6kFklaYV0KAAIcTputT5uxAAAIAAIAAAABCAADAAAAAAgABAAAAAAKAAUciXLkfgAnEAoABhyJcuR9_9jwAAA"
                   },
                   "entryId": "cursor-top-9223372036854775807",
                   "sortIndex": "9223372036854775807"
@@ -461,7 +1307,7 @@
                     "__typename": "TimelineTimelineCursor",
                     "cursorType": "Bottom",
                     "entryType": "TimelineTimelineCursor",
-                    "value": "DAADDAABCgABHHKZcCnaIKEKAAIccplwKdogoQAIAAIAAAACCAADAAAAAAgABAAAAAAKAAUcgrFJlcAnEAoABhyCsUmVv9jwAAA"
+                    "value": "DAADDAABCgABHE6kFklaYV0KAAIcTputT5uxAAAIAAIAAAACCAADAAAAAAgABAAAAAAKAAUciXLkfgAnEAoABhyJcuR9_9jwAAA"
                   },
                   "entryId": "cursor-bottom-0",
                   "sortIndex": "0"
