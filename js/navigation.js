@@ -38,5 +38,6 @@ async function go(id) {
   if (id==='naive-bayes')   loadNB();
   if (id==='random-forest') loadRF();
   if (id==='ensemble')      loadEnsemble();
+  if (id==='soft_voting')   loadSoftVoting();
   if (id==='cross_validation') loadCV();
 }

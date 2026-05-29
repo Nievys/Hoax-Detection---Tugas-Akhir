@@ -1,0 +1,86 @@
+<div class="page-header">
+  <span class="module-tag">// MODUL 6.5 — ENSEMBLE WEIGHTED SOFT VOTING</span>
+  <h1>Weighted Soft Voting Ensemble</h1>
+  <p>Gabungkan prediksi probabilitas dari SVM, Naive Bayes, dan Random Forest menggunakan bobot manual (Weighted Soft Voting).</p>
+</div>
+
+<!-- Teori & Pengaturan Bobot -->
+<div class="card">
+  <h3>⚙️ Pengaturan Bobot Probabilitas</h3>
+  <div class="mt-2 text-sm" style="line-height:1.8; color:var(--text-2);">
+    <strong style="color:var(--blue)">Aturan:</strong>
+    <code style="background:var(--surface);padding:2px 6px;border-radius:4px;">P_final = (w_svm * P_svm) + (w_nb * P_nb) + (w_rf * P_rf)</code><br>
+    Bobot akan otomatis dinormalisasi jika jumlahnya tidak sama dengan 1.0.
+  </div>
+
+  <div class="mt-3" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px;">
+    <div>
+      <label class="text-sm">Bobot SVM</label>
+      <input type="number" id="w-svm-page" step="0.01" class="input-area mt-1 text-sm" value="0.4" style="width:100%; height:36px;">
+    </div>
+    <div>
+      <label class="text-sm">Bobot Naive Bayes</label>
+      <input type="number" id="w-nb-page" step="0.01" class="input-area mt-1 text-sm" value="0.32" style="width:100%; height:36px;">
+    </div>
+    <div>
+      <label class="text-sm">Bobot Random Forest</label>
+      <input type="number" id="w-rf-page" step="0.01" class="input-area mt-1 text-sm" value="0.28" style="width:100%; height:36px;">
+    </div>
+  </div>
+</div>
+
+<!-- Evaluasi Training -->
+<div class="card mt-3">
+  <h3>Evaluasi & Perbandingan Model</h3>
+  <p class="text-sm text-mute mt-1">Evaluasi akurasi menggunakan data training.</p>
+  <div class="mt-2">
+    <select id="soft-target" class="btn" style="min-width:120px;">
+      <option value="">(Pilih Label Target)</option>
+    </select>
+    <button class="btn btn-primary" onclick="runSoftEval()">▶ Evaluasi Soft Voting</button>
+  </div>
+  <div id="soft-status" class="mt-2 text-sm text-mute"></div>
+</div>
+
+<!-- Tabel Perbandingan -->
+<div id="soft-comparison" class="hidden mt-3">
+  <div class="card">
+    <h3>📊 Tabel Perbandingan Akurasi (Soft Voting)</h3>
+    <div class="section-sep mt-2">Model Individual vs Ensemble</div>
+    <div class="table-scroll mt-1">
+      <table class="data-tbl" style="width:100%;">
+        <thead>
+          <tr>
+            <th>Rank</th><th>Model</th><th>Akurasi</th><th>Presisi</th><th>Recall</th><th>F1-Score</th>
+            <th>TP</th><th>TN</th><th>FP</th><th>FN</th>
+          </tr>
+        </thead>
+        <tbody id="soft-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- Visualisasi bar -->
+    <div class="section-sep mt-3">Visualisasi Akurasi</div>
+    <div id="soft-bars" class="mt-1"></div>
+  </div>
+
+  <div class="card mt-3">
+    <h3>Confusion Matrix Detail</h3>
+    <div id="soft-cm-grid" class="mt-2" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;"></div>
+  </div>
+</div>
+
+<!-- Uji Prediksi Ensemble -->
+<div class="card mt-3">
+  <h3>Uji Prediksi Soft Voting Real-time</h3>
+  <div class="mt-2">
+    <textarea id="soft-input" class="input-area" placeholder="Masukkan teks untuk diprediksi..."></textarea>
+    <button class="btn btn-primary mt-1" onclick="predictSoft()">Prediksi Soft Voting</button>
+  </div>
+  <div id="soft-result" class="hidden mt-3 p-2" style="border-radius:var(--r);background:var(--surface);">
+    <div class="text-sm">Hasil Soft Voting:</div>
+    <div id="soft-pred-text" style="font-size:20px;font-weight:600;" class="mt-1"></div>
+    <div class="text-mute text-sm mt-1">Probabilitas Kelas 1: <span id="soft-prob-detail" style="font-weight:bold; color:var(--text-1);"></span></div>
+    <div id="soft-pred-detail" class="text-mute text-sm mt-1"></div>
+  </div>
+</div>

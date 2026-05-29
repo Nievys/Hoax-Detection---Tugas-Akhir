@@ -134,7 +134,7 @@ class DecisionTreeScratch:
                      (None = semua fitur, 'sqrt' = √|V|)
     """
 
-    def __init__(self, max_depth=10, min_samples=2, max_features=None):
+    def __init__(self, max_depth=5, min_samples=5, max_features=None):
         """
         Args:
             max_depth    : Kedalaman maksimum pohon.
@@ -202,19 +202,13 @@ class DecisionTreeScratch:
         """
         Mencari split terbaik dari subset fitur yang diberikan.
 
-        Algoritma:
-          Untuk setiap fitur f ∈ feature_indices:
-            Untuk setiap threshold t (nilai unik fitur f):
-              1. Bagi data: S_left = {xᵢ : xᵢ[f] ≤ t}, S_right = {xᵢ : xᵢ[f] > t}
-              2. Hitung weighted Gini:
-                 G = (|S_left|/|S|)·Gini(S_left) + (|S_right|/|S|)·Gini(S_right)
-              3. Simpan jika G < Gini_terbaik
-
-        Optimasi Threshold:
-          Menggunakan nilai tengah antara dua nilai berurutan sebagai
-          kandidat threshold, mengurangi jumlah split yang dicek.
-
-        Kompleksitas: O(m × N × log N) — m fitur, N sampel (karena sorting)
+        Algoritma (Dioptimasi dengan Running Counts):
+          Untuk menghindari kompleksitas O(N²) saat mengecek threshold,
+          kita mengurutkan sampel berdasarkan nilai fitur O(N log N).
+          Lalu kita iterasi dari kiri ke kanan, memindahkan sampel dari
+          'right' ke 'left' secara inkremental dan menghitung Gini O(1).
+          
+        Kompleksitas: O(m × N log N) — sangat efisien untuk dataset besar.
 
         Args:
             X               : Data fitur (subset bootstrap)
@@ -230,34 +224,42 @@ class DecisionTreeScratch:
         best_feature = None
         best_threshold = None
 
+        # Hitung total kemunculan setiap kelas di parent node
+        total_counts = {}
+        for label in y:
+            total_counts[label] = total_counts.get(label, 0) + 1
+
         for feat_idx in feature_indices:
-            # Ambil nilai fitur ini untuk semua sampel
-            values = [X[i][feat_idx] for i in range(n)]
+            # Urutkan pasangan (nilai_fitur, label) berdasarkan nilai_fitur
+            sorted_pairs = sorted([(X[i][feat_idx], y[i]) for i in range(n)], key=lambda x: x[0])
 
-            # Cari nilai unik dan urutkan untuk kandidat threshold
-            unique_vals = sorted(set(values))
+            left_counts = {}
+            right_counts = dict(total_counts)  # Copy of total counts
 
-            if len(unique_vals) <= 1:
-                continue  # Semua nilai sama → tidak bisa split
+            for j in range(n - 1):
+                val, label = sorted_pairs[j]
 
-            # Gunakan midpoint antara nilai berurutan sebagai threshold
-            # Ini mengurangi jumlah kandidat split
-            for j in range(len(unique_vals) - 1):
-                threshold = (unique_vals[j] + unique_vals[j + 1]) / 2.0
+                # Pindahkan sampel dari himpunan 'right' ke 'left'
+                left_counts[label] = left_counts.get(label, 0) + 1
+                right_counts[label] -= 1
+                
+                # Kita hanya perlu mengevaluasi split jika nilai fitur saat ini
+                # berbeda dengan nilai fitur berikutnya (kandidat threshold).
+                next_val = sorted_pairs[j + 1][0]
+                if val == next_val:
+                    continue  # Tunggu sampai nilai fitur berubah
 
-                # Bagi data berdasarkan threshold
-                y_left = [y[i] for i in range(n) if X[i][feat_idx] <= threshold]
-                y_right = [y[i] for i in range(n) if X[i][feat_idx] > threshold]
+                # Kandidat threshold adalah midpoint
+                threshold = (val + next_val) / 2.0
 
-                if len(y_left) == 0 or len(y_right) == 0:
-                    continue  # Split tidak valid (satu sisi kosong)
+                n_left = j + 1
+                n_right = n - n_left
 
-                # Weighted Gini:
-                # G = (|S_left|/|S|) · Gini(S_left) + (|S_right|/|S|) · Gini(S_right)
-                gini_left = self._gini_impurity(y_left)
-                gini_right = self._gini_impurity(y_right)
-                weighted_gini = (len(y_left) / n) * gini_left + \
-                                (len(y_right) / n) * gini_right
+                # Hitung Gini secara efisien O(K) dimana K adalah jumlah kelas
+                gini_left = 1.0 - sum((c / n_left) ** 2 for c in left_counts.values())
+                gini_right = 1.0 - sum((c / n_right) ** 2 for c in right_counts.values())
+
+                weighted_gini = (n_left / n) * gini_left + (n_right / n) * gini_right
 
                 if weighted_gini < best_gini:
                     best_gini = weighted_gini
@@ -459,7 +461,7 @@ class RandomForestScratch:
       - Tidak memerlukan feature scaling (invariant terhadap monotonic transforms)
     """
 
-    def __init__(self, n_trees=10, max_depth=10, min_samples=2, max_features='sqrt'):
+    def __init__(self, n_trees=100, max_depth=5, min_samples=5, max_features='sqrt', seed=42):
         """
         Inisialisasi parameter Random Forest.
 
@@ -470,11 +472,15 @@ class RandomForestScratch:
             min_samples  : Minimum sampel per node untuk split.
             max_features : Jumlah fitur acak per split.
                            'sqrt' = √|V| (rekomendasi untuk klasifikasi)
+            seed         : Seed untuk reprodusibilitas (default: 42).
+                           Seed di-set ulang setiap kali build_forest() dipanggil
+                           agar hasil selalu konsisten.
         """
         self.n_trees = n_trees
         self.max_depth = max_depth
         self.min_samples = min_samples
         self.max_features = max_features
+        self.seed = seed
         self.trees = []             # List of DecisionTreeScratch
         self.oob_indices = []       # Indeks data Out-of-Bag per pohon
         self.feature_names = []
@@ -541,6 +547,11 @@ class RandomForestScratch:
         Returns:
             Dict — informasi hasil training
         """
+        # ── Reset seed PRNG agar hasil SELALU sama setiap kali dipanggil ──
+        # Tanpa ini, global random state terus maju setiap kali
+        # build_forest() dipanggil → hasil berbeda setiap run.
+        random.seed(self.seed)
+
         self.trees = []
         self.oob_indices = []
         self.feature_names = feature_names or []

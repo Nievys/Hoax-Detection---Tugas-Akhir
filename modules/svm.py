@@ -54,7 +54,7 @@ class SVMScratch:
       - y      : List[int] — label training {+1, -1}
     """
 
-    def __init__(self, kernel='linear', C=1.0, tol=1e-3, max_passes=5, sigma=0.5):
+    def __init__(self, kernel='linear', C=1.0, tol=1e-3, max_passes=5, sigma=0.5, seed=42):
         """
         Inisialisasi Parameter SVM.
 
@@ -86,6 +86,7 @@ class SVMScratch:
         self.tol = tol
         self.max_passes = max_passes
         self.sigma = sigma
+        self.seed = seed
 
         # Variabel model (diisi saat training)
         self.alpha = []       # Lagrange multipliers αᵢ untuk setiap data
@@ -205,6 +206,49 @@ class SVMScratch:
             predictions.append(1 if f_x >= 0 else -1)
         return predictions
 
+    def predict_proba(self, X_test):
+        """
+        Menghitung probabilitas kelas menggunakan fungsi Sigmoid 
+        (Platt Scaling sederhana) dari jarak ke hyperplane.
+        
+        Rumus:
+          P(y=+1 | x) = 1 / (1 + exp(-f(x)))
+          P(y=-1 | x) = 1 - P(y=+1 | x)
+          
+        Args:
+            X_test : List[List[float]] — matriks data test
+            
+        Returns:
+            List[Dict[int, float]] — probabilitas per kelas {-1, 1}
+        """
+        all_proba = []
+        for x in X_test:
+            f_x = self._decision_function(x)
+            # Cegah overflow pada math.exp
+            if f_x > 100:
+                p1 = 1.0
+            elif f_x < -100:
+                p1 = 0.0
+            else:
+                p1 = 1.0 / (1.0 + math.exp(-f_x))
+            
+            p_minus1 = 1.0 - p1
+            all_proba.append({1: p1, -1: p_minus1})
+        return all_proba
+
+    def _decision_function_train(self, i):
+        """
+        Versi cepat dari decision_function khusus untuk data training.
+        Menggunakan Kernel Gram Matrix yang sudah di-precompute (self.K_matrix).
+        
+        Kompleksitas: O(|SV|) alih-alih O(|SV| × V)
+        """
+        result = self.b
+        for k in range(self.n_samples):
+            if self.alpha[k] > 0:
+                result += self.alpha[k] * self.y[k] * self.K_matrix[k][i]
+        return result
+
     # ─── TRAINING DENGAN SMO (SEQUENTIAL MINIMAL OPTIMIZATION) ────────────
 
     def train(self, X, y):
@@ -243,6 +287,20 @@ class SVMScratch:
         self.n_samples = len(X)
         self.n_features = len(X[0]) if self.n_samples > 0 else 0
 
+        # ── Reset seed PRNG agar hasil SELALU konsisten ───────────────────
+        random.seed(self.seed)
+
+        # ── Precompute Kernel Gram Matrix ─────────────────────────────────
+        # Mencegah perhitungan K(x_i, x_j) berulang-ulang yang sangat mahal
+        # Kompleksitas precompute: O(N² × V). Mengubah iterasi SMO menjadi O(N)
+        self.K_matrix = [[0.0] * self.n_samples for _ in range(self.n_samples)]
+        for i in range(self.n_samples):
+            self.K_matrix[i][i] = self._kernel_function(self.X[i], self.X[i])
+            for j in range(i + 1, self.n_samples):
+                val = self._kernel_function(self.X[i], self.X[j])
+                self.K_matrix[i][j] = val
+                self.K_matrix[j][i] = val
+
         # ── Inisialisasi: semua α = 0, bias b = 0 ────────────────────────
         # Pada α = 0, semua data bukan support vector.
         # SMO akan secara bertahap menaikkan α untuk data yang relevan.
@@ -262,17 +320,9 @@ class SVMScratch:
                 # Eᵢ = f(xᵢ) - yᵢ
                 # Error = prediksi model saat ini dikurangi label sebenarnya
                 # Jika model sempurna: Eᵢ = 0 untuk semua i
-                E_i = self._decision_function(self.X[i]) - self.y[i]
+                E_i = self._decision_function_train(i) - self.y[i]
 
                 # ── Langkah 2: Cek Kondisi KKT ───────────────────────────
-                # Kondisi KKT (Karush-Kuhn-Tucker) untuk optimality:
-                #   αᵢ = 0   → yᵢf(xᵢ) ≥ 1  (data di luar margin, classified benar)
-                #   0 < αᵢ < C → yᵢf(xᵢ) = 1  (data tepat di margin = support vector)
-                #   αᵢ = C   → yᵢf(xᵢ) ≤ 1  (data melanggar margin atau salah klasifikasi)
-                #
-                # Pelanggaran KKT (data perlu di-update):
-                #   yᵢEᵢ < -tol DAN αᵢ < C → margin terlalu kecil, αᵢ harus naik
-                #   yᵢEᵢ > tol  DAN αᵢ > 0 → margin terlalu besar, αᵢ harus turun
                 if (self.y[i] * E_i < -self.tol and self.alpha[i] < self.C) or \
                    (self.y[i] * E_i > self.tol and self.alpha[i] > 0):
 
@@ -282,22 +332,13 @@ class SVMScratch:
                         j = random.randint(0, self.n_samples - 1)
 
                     # Hitung Error Eⱼ
-                    E_j = self._decision_function(self.X[j]) - self.y[j]
+                    E_j = self._decision_function_train(j) - self.y[j]
 
                     # Simpan α lama untuk menghitung perubahan (Δα)
                     alpha_i_old = self.alpha[i]
                     alpha_j_old = self.alpha[j]
 
                     # ── Langkah 4: Hitung Batas L dan H untuk αⱼ ─────────
-                    # Constraint: 0 ≤ αⱼ ≤ C DAN αᵢyᵢ + αⱼyⱼ = konstan
-                    # (agar Σ αₖyₖ = 0 tetap terpenuhi setelah update)
-                    #
-                    # Jika yᵢ ≠ yⱼ (label berbeda):
-                    #   L = max(0, αⱼ - αᵢ)
-                    #   H = min(C, C + αⱼ - αᵢ)
-                    # Jika yᵢ = yⱼ (label sama):
-                    #   L = max(0, αᵢ + αⱼ - C)
-                    #   H = min(C, αᵢ + αⱼ)
                     if self.y[i] != self.y[j]:
                         L = max(0, self.alpha[j] - self.alpha[i])
                         H = min(self.C, self.C + self.alpha[j] - self.alpha[i])
@@ -310,24 +351,15 @@ class SVMScratch:
 
                     # ── Langkah 5: Hitung Eta (η) ────────────────────────
                     # η = 2K(xᵢ,xⱼ) - K(xᵢ,xᵢ) - K(xⱼ,xⱼ)
-                    # η adalah turunan kedua (second derivative) dari
-                    # fungsi objektif terhadap αⱼ.
-                    # η < 0 → fungsi objektif konkaf → ada maksimum unik
-                    # η ≥ 0 → kasus degenerasi → skip
-                    eta = 2.0 * self._kernel_function(self.X[i], self.X[j]) - \
-                          self._kernel_function(self.X[i], self.X[i]) - \
-                          self._kernel_function(self.X[j], self.X[j])
+                    eta = 2.0 * self.K_matrix[i][j] - self.K_matrix[i][i] - self.K_matrix[j][j]
 
                     if eta >= 0:
                         continue  # Skip: tidak ada maksimum unik
 
                     # ── Langkah 6: Update αⱼ secara analitis ─────────────
-                    # Rumus update (dari turunan parsial = 0):
-                    #   αⱼ_baru = αⱼ_lama - yⱼ(Eᵢ - Eⱼ) / η
                     self.alpha[j] -= (self.y[j] * (E_i - E_j)) / eta
 
                     # ── Langkah 7: Clip αⱼ ke rentang [L, H] ────────────
-                    # Memastikan constraint box terpenuhi: L ≤ αⱼ ≤ H
                     if self.alpha[j] > H:
                         self.alpha[j] = H
                     elif self.alpha[j] < L:
@@ -338,31 +370,19 @@ class SVMScratch:
                         continue
 
                     # ── Langkah 8: Update αᵢ ─────────────────────────────
-                    # Dari constraint: αᵢyᵢ + αⱼyⱼ = konstan
-                    # → αᵢ_baru = αᵢ_lama + yᵢyⱼ(αⱼ_lama - αⱼ_baru)
                     self.alpha[i] += self.y[i] * self.y[j] * (alpha_j_old - self.alpha[j])
 
                     # ── Langkah 9: Update Bias b ─────────────────────────
-                    # Dua kandidat bias dihitung dari αᵢ dan αⱼ:
-                    #
-                    # b₁ = b - Eᵢ - yᵢ(αᵢ_baru - αᵢ_lama)K(xᵢ,xᵢ)
-                    #                - yⱼ(αⱼ_baru - αⱼ_lama)K(xᵢ,xⱼ)
                     b1 = self.b - E_i - self.y[i] * (self.alpha[i] - alpha_i_old) * \
-                         self._kernel_function(self.X[i], self.X[i]) - \
+                         self.K_matrix[i][i] - \
                          self.y[j] * (self.alpha[j] - alpha_j_old) * \
-                         self._kernel_function(self.X[i], self.X[j])
+                         self.K_matrix[i][j]
 
-                    # b₂ = b - Eⱼ - yᵢ(αᵢ_baru - αᵢ_lama)K(xᵢ,xⱼ)
-                    #                - yⱼ(αⱼ_baru - αⱼ_lama)K(xⱼ,xⱼ)
                     b2 = self.b - E_j - self.y[i] * (self.alpha[i] - alpha_i_old) * \
-                         self._kernel_function(self.X[i], self.X[j]) - \
+                         self.K_matrix[i][j] - \
                          self.y[j] * (self.alpha[j] - alpha_j_old) * \
-                         self._kernel_function(self.X[j], self.X[j])
+                         self.K_matrix[j][j]
 
-                    # Pemilihan bias:
-                    # Jika 0 < αᵢ < C → b = b₁ (αᵢ di bound → KKT exact)
-                    # Jika 0 < αⱼ < C → b = b₂ (αⱼ di bound → KKT exact)
-                    # Jika keduanya di bound (0 atau C) → b = rata-rata
                     if 0 < self.alpha[i] < self.C:
                         self.b = b1
                     elif 0 < self.alpha[j] < self.C:

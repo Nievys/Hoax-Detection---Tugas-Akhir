@@ -142,6 +142,94 @@ def ensemble_predict(models, X_test):
 
 
 # =============================================================================
+# BAGIAN 1.5: WEIGHTED SOFT VOTING — ENSEMBLE PREDICT
+# =============================================================================
+
+def weighted_soft_voting_predict(X_test, svm_model, nb_model, rf_model, 
+                                 w_svm=0.4, w_nb=0.32, w_rf=0.28, 
+                                 positive_label=1, negative_label=0, verbose=False):
+    """
+    Menjalankan prediksi menggunakan Weighted Soft Voting Ensemble.
+    
+    Rumus Matematika:
+      P_final(c) = (w_svm * P_svm(c) + w_nb * P_nb(c) + w_rf * P_rf(c)) / (w_svm + w_nb + w_rf)
+      
+    Aturan:
+      - Validasi bobot: w_svm + w_nb + w_rf = 1.0 (jika tidak, dinormalisasi otomatis).
+      - Menggunakan probabilitas prediksi (predict_proba) dari masing-masing model.
+      - Jika P_final(positive_label) >= 0.5, prediksi = positive_label (Hoax).
+      - Jika tidak, prediksi = negative_label (Valid).
+      
+    Args:
+        X_test         : Matriks fitur (N x V)
+        svm_model      : Model SVM yang sudah dilatih (harus memiliki predict_proba)
+        nb_model       : Model Naive Bayes yang sudah dilatih
+        rf_model       : Model Random Forest yang sudah dilatih
+        w_svm          : Bobot untuk SVM (default: 0.4)
+        w_nb           : Bobot untuk Naive Bayes (default: 0.32)
+        w_rf           : Bobot untuk Random Forest (default: 0.28)
+        positive_label : Kelas positif (default: 1)
+        negative_label : Kelas negatif (default: 0)
+        verbose        : Jika True, cetak trace log probabilitas untuk beberapa sampel pertama.
+        
+    Returns:
+        Dict berisi:
+          'ensemble_predictions' : List[int] — prediksi akhir
+          'final_probabilities'  : List[float] — probabilitas kelas positif per sampel
+    """
+    n_samples = len(X_test)
+    
+    # ── Langkah 1: Validasi dan Normalisasi Bobot ─────────────────────────
+    total_w = w_svm + w_nb + w_rf
+    if abs(total_w - 1.0) > 1e-6:
+        w_svm /= total_w
+        w_nb /= total_w
+        w_rf /= total_w
+        
+    # ── Langkah 2: Ekstraksi Probabilitas ─────────────────────────────────
+    svm_probs = svm_model.predict_proba(X_test)
+    nb_probs = nb_model.predict_proba(X_test)
+    rf_probs = rf_model.predict_proba(X_test)
+    
+    ensemble_preds = []
+    final_probs = []
+    
+    # ── Langkah 3: Kalkulasi Soft Voting per Sampel ───────────────────────
+    for i in range(n_samples):
+        # SVM menggunakan kunci kelas 1 dan -1
+        # NB dan RF menggunakan kunci positive_label (biasanya 1) dan negative_label (0)
+        p_svm = svm_probs[i].get(1, 0.0)
+        p_nb = nb_probs[i].get(positive_label, 0.0)
+        p_rf = rf_probs[i].get(positive_label, 0.0)
+        
+        # Hitung rata-rata probabilitas terbobot (weighted average probability)
+        p_final = (w_svm * p_svm) + (w_nb * p_nb) + (w_rf * p_rf)
+        
+        # Thresholding
+        if p_final >= 0.5:
+            pred = positive_label
+        else:
+            pred = negative_label
+            
+        ensemble_preds.append(pred)
+        final_probs.append(p_final)
+        
+        # Cetak trace log untuk 3 baris pertama (jika verbose = True)
+        if verbose and i < 3:
+            print(f"--- Trace Log Sampel {i+1} ---")
+            print(f"P_SVM(1) = {p_svm:.4f} (w={w_svm:.4f})")
+            print(f"P_NB(1)  = {p_nb:.4f} (w={w_nb:.4f})")
+            print(f"P_RF(1)  = {p_rf:.4f} (w={w_rf:.4f})")
+            print(f"P_Final  = ({w_svm:.4f}*{p_svm:.4f}) + ({w_nb:.4f}*{p_nb:.4f}) + ({w_rf:.4f}*{p_rf:.4f}) = {p_final:.4f}")
+            print(f"Prediksi = {pred}\n")
+            
+    return {
+        'ensemble_predictions': ensemble_preds,
+        'final_probabilities': final_probs
+    }
+
+
+# =============================================================================
 # BAGIAN 2: CONFUSION MATRIX — MANUAL
 # =============================================================================
 

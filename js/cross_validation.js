@@ -23,6 +23,13 @@ async function loadCV() {
   document.getElementById('cv-status').innerHTML = '';
 }
 
+function toggleWeights(show) {
+  const div = document.getElementById('soft-voting-weights');
+  if (div) {
+    div.style.display = show ? 'block' : 'none';
+  }
+}
+
 async function runCV() {
   const k = parseInt(document.getElementById('cv-k').value, 10);
   const seed = parseInt(document.getElementById('cv-seed').value, 10);
@@ -43,11 +50,26 @@ async function runCV() {
   resultsContainer.classList.add('hidden');
   document.getElementById('btn-run-cv').disabled = true;
 
+  // Cek metode ensemble
+  const methodEls = document.getElementsByName('ensemble_method');
+  let ensembleMethod = 'hard';
+  for (let m of methodEls) {
+    if (m.checked) ensembleMethod = m.value;
+  }
+  
+  const weights = {
+    svm: parseFloat(document.getElementById('w-svm').value) || 0.4,
+    nb: parseFloat(document.getElementById('w-nb').value) || 0.32,
+    rf: parseFloat(document.getElementById('w-rf').value) || 0.28
+  };
+
   try {
     const res = await api('/api/cv/run', 'POST', {
       k: k,
       seed: isNaN(seed) ? 42 : seed,
-      target_label: targetLabel
+      target_label: targetLabel,
+      ensemble_method: ensembleMethod,
+      weights: weights
     });
 
     if (res.success) {

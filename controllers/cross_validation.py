@@ -22,6 +22,8 @@ def run_cv():
         nb_params    : Dict  — parameter NB (opsional)
         rf_params    : Dict  — parameter RF (opsional)
         tfidf_params : Dict  — parameter TF-IDF (opsional)
+        ensemble_method : str — 'hard' atau 'soft'
+        weights      : Dict  — bobot untuk soft voting
     """
     # Validasi: dataset harus sudah ada dan sudah dipreprocess
     if not _state.get('dataset'):
@@ -73,11 +75,13 @@ def run_cv():
             'label': label_val,
         })
 
-    # Parameter opsional untuk model
+    # Parameter opsional untuk model dan ensemble
     svm_params = data.get('svm_params', None)
     nb_params = data.get('nb_params', None)
     rf_params = data.get('rf_params', None)
     tfidf_params = data.get('tfidf_params', None)
+    ensemble_method = data.get('ensemble_method', 'hard')
+    ensemble_weights = data.get('weights', {'svm': 0.4, 'nb': 0.32, 'rf': 0.28})
 
     try:
         result = run_cross_validation(
@@ -90,6 +94,8 @@ def run_cv():
             nb_params=nb_params,
             rf_params=rf_params,
             tfidf_params=tfidf_params,
+            ensemble_method=ensemble_method,
+            ensemble_weights=ensemble_weights
         )
 
         # Generate text report
