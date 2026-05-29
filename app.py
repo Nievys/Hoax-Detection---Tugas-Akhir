@@ -19,6 +19,7 @@ from controllers.svm import svm_bp
 from controllers.nb import nb_bp
 from controllers.rf import rf_bp
 from controllers.ensemble import ensemble_bp
+from controllers.cross_validation import cv_bp
 
 app = Flask(__name__, static_folder='.', static_url_path='')
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max upload
@@ -43,6 +44,7 @@ app.register_blueprint(svm_bp)
 app.register_blueprint(nb_bp)
 app.register_blueprint(rf_bp)
 app.register_blueprint(ensemble_bp)
+app.register_blueprint(cv_bp)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

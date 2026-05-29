@@ -1,0 +1,70 @@
+<div class="page-header">
+  <span class="module-tag">// MODUL 7 — K-FOLD CROSS VALIDATION</span>
+  <h1>K-Fold Cross Validation</h1>
+  <p>Evaluasi stabilitas performa model (SVM, Naive Bayes, Random Forest, dan Ensemble) menggunakan metode pembagian data K-Fold.</p>
+</div>
+
+<!-- Konfigurasi CV -->
+<div class="card mt-3">
+  <h3>⚙️ Konfigurasi K-Fold</h3>
+  <div class="mt-2 text-sm text-mute">Atur parameter untuk proses pembagian dan pengujian data.</div>
+  
+  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;" class="mt-2">
+    <div>
+      <label>Nilai K (Jumlah Fold)</label>
+      <input type="number" id="cv-k" class="input-area mt-1" value="5" min="2" style="width:100%; height:36px; resize:none;">
+    </div>
+    <div>
+      <label>Random Seed</label>
+      <input type="number" id="cv-seed" class="input-area mt-1" value="42" style="width:100%; height:36px; resize:none;">
+    </div>
+    <div>
+      <label>Label Target</label>
+      <select id="cv-target" class="btn mt-1" style="width:100%; height:36px; background:var(--surface);">
+        <option value="">(Pilih Label Target)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="mt-3">
+    <button id="btn-run-cv" class="btn btn-primary" onclick="runCV()">▶ Jalankan Cross Validation</button>
+  </div>
+  <div id="cv-status" class="mt-2 text-sm text-mute"></div>
+</div>
+
+<!-- Hasil CV -->
+<div id="cv-results-container" class="hidden mt-3">
+  <!-- Rata-rata & Standar Deviasi -->
+  <div class="card">
+    <h3>📊 Rata-Rata Performa Model (Mean ± Std)</h3>
+    <div class="table-scroll mt-2">
+      <table id="cv-summary-table" class="data-tbl" style="width:100%;">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Model</th>
+            <th>Akurasi</th>
+            <th>Presisi</th>
+            <th>Recall</th>
+            <th>F1-Score</th>
+          </tr>
+        </thead>
+        <tbody id="cv-summary-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Detail per Fold -->
+  <div class="card mt-3">
+    <h3>🔍 Detail Performa Per Fold</h3>
+    <div class="mt-2 text-sm text-mute">Performa model pada setiap fold uji.</div>
+    <div id="cv-fold-details" class="mt-2" style="display:grid; gap:16px;"></div>
+  </div>
+
+  <!-- Laporan Teks -->
+  <div class="card mt-3">
+    <h3>📄 Laporan Teks</h3>
+    <div class="mt-2 text-sm text-mute">Laporan hasil validasi silang yang siap di-copy untuk keperluan dokumentasi.</div>
+    <pre id="cv-report-text" class="mt-2" style="background:var(--surface); padding:16px; border-radius:var(--r); font-family:monospace; font-size:12px; overflow-x:auto;"></pre>
+  </div>
+</div>

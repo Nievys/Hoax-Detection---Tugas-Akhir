@@ -11,3 +11,5 @@ web_scrape/twitter_cookies_2.json
 web_scrape/twitter_cookies_5.json
 web_scrape/bbmNaik.csv
 web_scrape/hargaBBM.csv
+modules/__pycache__/cross_validation.cpython-313.pyc
+controllers/__pycache__/cross_validation.cpython-313.pyc
