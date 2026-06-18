@@ -9,7 +9,9 @@ function ppEx(n) { document.getElementById('pp-inp').value=PP_EX[n-1]; ppRun(); 
 async function ppRun() {
   const text = document.getElementById('pp-inp').value.trim();
   if (!text) return;
-  const d = await api('/api/preprocess/single','POST',{text,verbose:true});
+  const use_stopword = document.getElementById('pp-stopword')?.checked || false;
+  const use_stemming = document.getElementById('pp-stemming')?.checked || false;
+  const d = await api('/api/preprocess/single','POST',{text,verbose:true, use_stopword, use_stemming});
   if (!d.success) return;
   const r = d.result;
   document.getElementById('pp-raw').textContent  = r.raw;
@@ -51,7 +53,9 @@ async function checkBatchPre() {
 async function runBatch() {
   const btn = document.getElementById('batch-btn');
   btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Memproses…';
-  const d = await api('/api/preprocess/batch','POST');
+  const use_stopword = document.getElementById('b-stopword')?.checked || false;
+  const use_stemming = document.getElementById('b-stemming')?.checked || false;
+  const d = await api('/api/preprocess/batch','POST', {use_stopword, use_stemming});
   btn.disabled=false; btn.innerHTML='▶ Jalankan Batch Processing';
   if (!d.success) { alert(d.error); return; }
   document.getElementById('batch-results').classList.remove('hidden');

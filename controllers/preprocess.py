@@ -10,12 +10,15 @@ def preprocess_single():
     if not data or 'text' not in data:
         return jsonify({'success': False, 'error': 'Field "text" diperlukan'}), 400
 
-    text    = data['text']
-    verbose = data.get('verbose', True)
+    text         = data['text']
+    verbose      = data.get('verbose', True)
+    use_stemming = data.get('use_stemming', False)
+    use_stopword = data.get('use_stopword', False)
 
     try:
         result = full_preprocessing_pipeline(
-            text, _state['lexicon_merged'], verbose=verbose
+            text, _state['lexicon_merged'], verbose=verbose,
+            use_stemming=use_stemming, use_stopword=use_stopword
         )
         return jsonify({'success': True, 'result': result})
     except Exception as e:
@@ -27,6 +30,10 @@ def preprocess_batch():
         return jsonify({'success': False,
                         'error': 'Belum ada dataset. Upload dataset terlebih dahulu.'}), 400
 
+    data = request.get_json() or {}
+    use_stemming = data.get('use_stemming', False)
+    use_stopword = data.get('use_stopword', False)
+
     results = []
     preprocessed_corpus = []
 
@@ -34,7 +41,9 @@ def preprocess_batch():
         processed = full_preprocessing_pipeline(
             item.get('text', ''),
             _state['lexicon_merged'],
-            verbose=False
+            verbose=False,
+            use_stemming=use_stemming,
+            use_stopword=use_stopword
         )
         # Sertakan KEDUA format label untuk konsistensi:
         #   - 'label'  : string display untuk UI (e.g. "label: 1")

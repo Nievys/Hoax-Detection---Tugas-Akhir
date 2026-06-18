@@ -1,5 +1,5 @@
 <div class="page-header">
-  <span class="module-tag">// MODUL 7 — K-FOLD CROSS VALIDATION</span>
+  <!-- <span class="module-tag">// MODUL 7 — K-FOLD CROSS VALIDATION</span> -->
   <h1>K-Fold Cross Validation</h1>
   <p>Evaluasi stabilitas performa model (SVM, Naive Bayes, Random Forest, dan Ensemble) menggunakan metode pembagian data K-Fold.</p>
 </div>
@@ -30,7 +30,7 @@
   <div class="section-sep mt-3">Metode Ensemble Voting</div>
   <div class="mt-2 text-sm" style="display:flex; gap:16px; align-items:center;">
     <label style="cursor:pointer;"><input type="radio" name="ensemble_method" value="hard" checked onchange="toggleWeights(false)"> Hard Voting (Majority)</label>
-    <label style="cursor:pointer;"><input type="radio" name="ensemble_method" value="soft" onchange="toggleWeights(true)"> Weighted Soft Voting</label>
+    <!-- <label style="cursor:pointer;"><input type="radio" name="ensemble_method" value="soft" onchange="toggleWeights(true)"> Weighted Soft Voting</label> -->
   </div>
 
   <div id="soft-voting-weights" class="mt-2" style="display:none; padding:12px; border-radius:var(--r); background:var(--surface); border:1px solid rgba(255,255,255,0.05);">
@@ -91,7 +91,7 @@
 
   <!-- Detail per Fold -->
   <div class="card mt-3">
-    <h3>🔍 Detail Performa Per Fold</h3>
+    <h3>Detail Performa Per Fold</h3>
     <div class="mt-2 text-sm text-mute">Performa model pada setiap fold uji.</div>
     <div id="cv-fold-details" class="mt-2" style="display:grid; gap:16px;"></div>
   </div>

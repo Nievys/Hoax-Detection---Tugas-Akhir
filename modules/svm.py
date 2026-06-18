@@ -1,86 +1,8 @@
-"""
-=============================================================================
-MODUL 3: CLASSIFICATION — SUPPORT VECTOR MACHINE (SVM)
-=============================================================================
-Judul TA : Analisis Pengaruh Teknik Normalisasi Kata Gaul (Slang) terhadap
-           Akurasi Deteksi Ujaran Kebencian Berbahasa Indonesia
-=============================================================================
-Implementasi MURNI Python. Tidak menggunakan Scikit-Learn atau library
-klasifikasi manapun. Setiap rumus dijelaskan secara matematis.
-=============================================================================
-
-LANDASAN MATEMATIS SVM
-======================
-
-Support Vector Machine (SVM) mencari hyperplane optimal yang memaksimalkan
-margin antara dua kelas. Untuk data yang tidak linearly separable,
-digunakan soft-margin SVM dengan penalty parameter C.
-
-Formulasi Primal (Optimasi yang ingin diselesaikan):
-  min_{w,b,ξ}  (1/2)||w||² + C · Σᵢ ξᵢ
-  subject to:  yᵢ(w·xᵢ + b) ≥ 1 - ξᵢ,  ξᵢ ≥ 0
-
-Formulasi Dual (yang benar-benar dioptimasi oleh SMO):
-  max_α  Σᵢ αᵢ - (1/2) Σᵢ Σⱼ αᵢαⱼyᵢyⱼK(xᵢ,xⱼ)
-  subject to:  0 ≤ αᵢ ≤ C,  Σᵢ αᵢyᵢ = 0
-
-Fungsi Keputusan:
-  f(x) = Σᵢ (αᵢ · yᵢ · K(xᵢ, x)) + b
-  Kelas = sign(f(x))  → +1 atau -1
-
-Metode Optimasi: Sequential Minimal Optimization (SMO)
-  - Mengoptimasi DUA αᵢ sekaligus per iterasi (memenuhi constraint Σαᵢyᵢ=0)
-  - Lebih efisien daripada QP solver umum untuk dataset besar
-
-Kernel yang didukung:
-  1. Linear  : K(x,z) = x·z  (dot product)
-  2. RBF     : K(x,z) = exp(-||x-z||² / (2σ²))
-=============================================================================
-"""
-
 import math
 import random
 
-
 class SVMScratch:
-    """
-    Implementasi SVM dari nol (scratch) menggunakan algoritma SMO.
-
-    Atribut setelah training:
-      - alpha  : List[float] — Lagrange multipliers, ukuran N
-                 αᵢ > 0 menandakan xᵢ adalah Support Vector
-      - b      : float — bias/threshold hyperplane
-      - X      : List[List[float]] — data training (N × V)
-      - y      : List[int] — label training {+1, -1}
-    """
-
     def __init__(self, kernel='linear', C=1.0, tol=1e-3, max_passes=5, sigma=0.5, seed=42):
-        """
-        Inisialisasi Parameter SVM.
-
-        Parameter Matematis:
-        ────────────────────
-        C (float):
-            Penalty parameter (regularisasi). Mengontrol trade-off:
-            - C besar → margin sempit, error training kecil (bisa overfit)
-            - C kecil → margin lebar, toleransi error lebih besar (bisa underfit)
-            Rentang umum: 0.01 ≤ C ≤ 100
-
-        tol (float):
-            Toleransi numerik untuk pengecekan kondisi KKT (Karush-Kuhn-Tucker).
-            Jika |yᵢ · Eᵢ| < tol → αᵢ dianggap sudah optimal.
-
-        max_passes (int):
-            Jumlah maksimum iterasi berturut-turut TANPA perubahan alpha.
-            Jika selama max_passes iterasi tidak ada alpha yang berubah,
-            algoritma dianggap konvergen dan berhenti.
-
-        sigma (float):
-            Parameter bandwidth untuk kernel RBF (Gaussian).
-            σ kecil → decision boundary lebih kompleks (bisa overfit)
-            σ besar → decision boundary lebih smooth (bisa underfit)
-            Hanya digunakan jika kernel='rbf'.
-        """
         self.kernel_type = kernel
         self.C = C
         self.tol = tol
@@ -88,7 +10,7 @@ class SVMScratch:
         self.sigma = sigma
         self.seed = seed
 
-        # Variabel model (diisi saat training)
+        # Variabel model
         self.alpha = []       # Lagrange multipliers αᵢ untuk setiap data
         self.b = 0            # Bias (threshold) hyperplane
         self.X = []           # Data training (disimpan untuk prediksi)
@@ -96,41 +18,8 @@ class SVMScratch:
         self.n_samples = 0    # N = jumlah sampel
         self.n_features = 0   # V = jumlah fitur (dimensi vocabulary TF-IDF)
 
-    # ─── FUNGSI KERNEL (MANUAL) ──────────────────────────────────────────
-
+    # FUNGSI KERNEL
     def _kernel_function(self, x1, x2):
-        """
-        Kernel Trick — Transformasi ruang fitur secara implisit.
-
-        Kernel menghitung dot product di ruang fitur berdimensi tinggi
-        TANPA perlu melakukan transformasi eksplisit φ(x):
-          K(x₁, x₂) = φ(x₁) · φ(x₂)
-
-        1. Linear Kernel:
-           ────────────────
-           K(x₁, x₂) = x₁ · x₂ = Σⱼ x₁ⱼ · x₂ⱼ
-           - Dot product biasa di ruang input asli
-           - Cocok untuk data yang linearly separable
-           - Kompleksitas: O(V) — V = jumlah fitur
-
-        2. RBF (Radial Basis Function) / Gaussian Kernel:
-           ────────────────────────────────────────────────
-           K(x₁, x₂) = exp( -||x₁ - x₂||² / (2σ²) )
-           dimana:
-             ||x₁ - x₂||² = Σⱼ (x₁ⱼ - x₂ⱼ)²  (squared Euclidean distance)
-             σ = parameter bandwidth (self.sigma)
-           - Memetakan ke ruang fitur berdimensi tak hingga
-           - Dapat menangani data non-linearly separable
-           - Nilai K ∈ (0, 1]: semakin dekat x₁ dan x₂ → K mendekati 1
-           - Kompleksitas: O(V)
-
-        Args:
-            x1 : Vektor fitur data pertama (ukuran V)
-            x2 : Vektor fitur data kedua (ukuran V)
-
-        Returns:
-            float — nilai kernel K(x₁, x₂)
-        """
         if self.kernel_type == 'linear':
             # K(x₁, x₂) = Σⱼ x₁ⱼ · x₂ⱼ  (dot product)
             return sum(a * b for a, b in zip(x1, x2))
@@ -143,38 +32,8 @@ class SVMScratch:
 
         return 0
 
-    # ─── FUNGSI KEPUTUSAN (DECISION FUNCTION) ────────────────────────────
-
+    # FUNGSI KEPUTUSAN (DECISION FUNCTION)
     def _decision_function(self, x_query):
-        """
-        Menghitung nilai fungsi keputusan f(x) untuk satu data query.
-
-        Rumus:
-          f(x) = Σᵢ₌₁ᴺ (αᵢ · yᵢ · K(xᵢ, x)) + b
-
-        dimana:
-          αᵢ    = Lagrange multiplier untuk data ke-i
-          yᵢ    = label data ke-i (+1 atau -1)
-          K(·,·)= fungsi kernel
-          xᵢ    = data training ke-i
-          x     = data query yang akan diprediksi
-          b     = bias/threshold
-
-        Optimasi: Hanya Support Vectors (αᵢ > 0) yang berkontribusi
-        pada perhitungan. Data dengan αᵢ = 0 tidak mempengaruhi
-        hyperplane → bisa di-skip untuk efisiensi.
-
-        Kompleksitas: O(|SV| × V)
-          |SV| = jumlah support vectors, V = dimensi fitur
-
-        Args:
-            x_query : Vektor fitur data yang akan dihitung (ukuran V)
-
-        Returns:
-            float — nilai f(x). Tanda (sign) menentukan kelas:
-                    f(x) ≥ 0 → kelas +1
-                    f(x) < 0  → kelas -1
-        """
         result = self.b  # Mulai dari bias
         for i in range(self.n_samples):
             if self.alpha[i] > 0:  # Hanya Support Vectors yang dihitung
@@ -182,24 +41,8 @@ class SVMScratch:
                 result += self.alpha[i] * self.y[i] * self._kernel_function(self.X[i], x_query)
         return result
 
-    # ─── PREDIKSI ────────────────────────────────────────────────────────
-
+    # PREDIKSI
     def predict(self, X_test):
-        """
-        Menentukan kelas berdasarkan tanda (sign) dari f(x).
-
-        Aturan Keputusan:
-          Untuk setiap x ∈ X_test:
-            ŷ = sign(f(x))
-            ŷ = +1  jika f(x) ≥ 0  → Kelas Positif (misal: Hate Speech)
-            ŷ = -1  jika f(x) < 0  → Kelas Negatif (misal: Non-Hate Speech)
-
-        Args:
-            X_test : List[List[float]] — matriks data test (M × V)
-
-        Returns:
-            List[int] — prediksi kelas untuk setiap data test
-        """
         predictions = []
         for x in X_test:
             f_x = self._decision_function(x)
@@ -207,20 +50,6 @@ class SVMScratch:
         return predictions
 
     def predict_proba(self, X_test):
-        """
-        Menghitung probabilitas kelas menggunakan fungsi Sigmoid 
-        (Platt Scaling sederhana) dari jarak ke hyperplane.
-        
-        Rumus:
-          P(y=+1 | x) = 1 / (1 + exp(-f(x)))
-          P(y=-1 | x) = 1 - P(y=+1 | x)
-          
-        Args:
-            X_test : List[List[float]] — matriks data test
-            
-        Returns:
-            List[Dict[int, float]] — probabilitas per kelas {-1, 1}
-        """
         all_proba = []
         for x in X_test:
             f_x = self._decision_function(x)
@@ -237,60 +66,23 @@ class SVMScratch:
         return all_proba
 
     def _decision_function_train(self, i):
-        """
-        Versi cepat dari decision_function khusus untuk data training.
-        Menggunakan Kernel Gram Matrix yang sudah di-precompute (self.K_matrix).
-        
-        Kompleksitas: O(|SV|) alih-alih O(|SV| × V)
-        """
         result = self.b
         for k in range(self.n_samples):
             if self.alpha[k] > 0:
                 result += self.alpha[k] * self.y[k] * self.K_matrix[k][i]
         return result
 
-    # ─── TRAINING DENGAN SMO (SEQUENTIAL MINIMAL OPTIMIZATION) ────────────
-
+    # TRAINING DENGAN SMO (SEQUENTIAL MINIMAL OPTIMIZATION)
     def train(self, X, y):
-        """
-        Optimasi nilai Alpha menggunakan algoritma SMO (Simplified version).
-
-        Referensi: Andrew Ng, CS229 Lecture Notes - SMO Algorithm
-        ═══════════════════════════════════════════════════════════
-
-        INPUT:
-          X : Matriks TF-IDF (N × V) — setiap baris = vektor fitur dokumen
-          y : Label (N × 1) — harus bernilai +1 atau -1
-
-        TUJUAN:
-          Mencari nilai αᵢ optimal yang memaksimalkan dual objective:
-            W(α) = Σᵢ αᵢ - (1/2) Σᵢ Σⱼ αᵢαⱼyᵢyⱼK(xᵢ,xⱼ)
-          dengan constraint: 0 ≤ αᵢ ≤ C dan Σᵢ αᵢyᵢ = 0
-
-        ALGORITMA SMO (per iterasi):
-          1. Untuk setiap data i:
-             a. Hitung error: Eᵢ = f(xᵢ) - yᵢ
-             b. Cek kondisi KKT (Karush-Kuhn-Tucker)
-             c. Jika melanggar KKT → pilih j secara acak
-             d. Hitung batas L dan H untuk αⱼ
-             e. Hitung eta (η) — second derivative
-             f. Update αⱼ secara analitis dan clip ke [L, H]
-             g. Update αᵢ berdasarkan perubahan αⱼ
-             h. Update bias b
-
-        KONDISI KKT yang dicek:
-          - yᵢ·Eᵢ < -tol DAN αᵢ < C → αᵢ bisa naik
-          - yᵢ·Eᵢ > tol  DAN αᵢ > 0 → αᵢ bisa turun
-        """
         self.X = X
         self.y = y
         self.n_samples = len(X)
         self.n_features = len(X[0]) if self.n_samples > 0 else 0
 
-        # ── Reset seed PRNG agar hasil SELALU konsisten ───────────────────
+        # Reset seed PRNG agar hasil SELALU konsisten
         random.seed(self.seed)
 
-        # ── Precompute Kernel Gram Matrix ─────────────────────────────────
+        # Precompute Kernel Gram Matrix
         # Mencegah perhitungan K(x_i, x_j) berulang-ulang yang sangat mahal
         # Kompleksitas precompute: O(N² × V). Mengubah iterasi SMO menjadi O(N)
         self.K_matrix = [[0.0] * self.n_samples for _ in range(self.n_samples)]
@@ -301,7 +93,7 @@ class SVMScratch:
                 self.K_matrix[i][j] = val
                 self.K_matrix[j][i] = val
 
-        # ── Inisialisasi: semua α = 0, bias b = 0 ────────────────────────
+        # Inisialisasi: semua α = 0, bias b = 0
         # Pada α = 0, semua data bukan support vector.
         # SMO akan secara bertahap menaikkan α untuk data yang relevan.
         self.alpha = [0.0] * self.n_samples
@@ -309,24 +101,24 @@ class SVMScratch:
 
         passes = 0  # Counter iterasi tanpa perubahan
 
-        # ── Loop Utama SMO ────────────────────────────────────────────────
+        # Loop Utama SMO
         # Berhenti jika selama max_passes iterasi berturut-turut
         # tidak ada alpha yang berubah (konvergen)
         while passes < self.max_passes:
             num_changed_alphas = 0
 
             for i in range(self.n_samples):
-                # ── Langkah 1: Hitung Error Eᵢ ───────────────────────────
+                # Langkah 1: Hitung Error Eᵢ
                 # Eᵢ = f(xᵢ) - yᵢ
                 # Error = prediksi model saat ini dikurangi label sebenarnya
                 # Jika model sempurna: Eᵢ = 0 untuk semua i
                 E_i = self._decision_function_train(i) - self.y[i]
 
-                # ── Langkah 2: Cek Kondisi KKT ───────────────────────────
+                # Langkah 2: Cek Kondisi KKT
                 if (self.y[i] * E_i < -self.tol and self.alpha[i] < self.C) or \
                    (self.y[i] * E_i > self.tol and self.alpha[i] > 0):
 
-                    # ── Langkah 3: Pilih j secara acak (j ≠ i) ───────────
+                    # Langkah 3: Pilih j secara acak (j ≠ i)
                     j = i
                     while j == i:
                         j = random.randint(0, self.n_samples - 1)
@@ -338,7 +130,7 @@ class SVMScratch:
                     alpha_i_old = self.alpha[i]
                     alpha_j_old = self.alpha[j]
 
-                    # ── Langkah 4: Hitung Batas L dan H untuk αⱼ ─────────
+                    # Langkah 4: Hitung Batas L dan H untuk αⱼ
                     if self.y[i] != self.y[j]:
                         L = max(0, self.alpha[j] - self.alpha[i])
                         H = min(self.C, self.C + self.alpha[j] - self.alpha[i])
@@ -349,17 +141,17 @@ class SVMScratch:
                     if L == H:
                         continue  # Tidak ada ruang untuk update
 
-                    # ── Langkah 5: Hitung Eta (η) ────────────────────────
+                    # Langkah 5: Hitung Eta (η)
                     # η = 2K(xᵢ,xⱼ) - K(xᵢ,xᵢ) - K(xⱼ,xⱼ)
                     eta = 2.0 * self.K_matrix[i][j] - self.K_matrix[i][i] - self.K_matrix[j][j]
 
                     if eta >= 0:
                         continue  # Skip: tidak ada maksimum unik
 
-                    # ── Langkah 6: Update αⱼ secara analitis ─────────────
+                    # Langkah 6: Update αⱼ secara analitis
                     self.alpha[j] -= (self.y[j] * (E_i - E_j)) / eta
 
-                    # ── Langkah 7: Clip αⱼ ke rentang [L, H] ────────────
+                    # Langkah 7: Clip αⱼ ke rentang [L, H]
                     if self.alpha[j] > H:
                         self.alpha[j] = H
                     elif self.alpha[j] < L:
@@ -369,10 +161,10 @@ class SVMScratch:
                     if abs(self.alpha[j] - alpha_j_old) < 1e-5:
                         continue
 
-                    # ── Langkah 8: Update αᵢ ─────────────────────────────
+                    # Langkah 8: Update αᵢ
                     self.alpha[i] += self.y[i] * self.y[j] * (alpha_j_old - self.alpha[j])
 
-                    # ── Langkah 9: Update Bias b ─────────────────────────
+                    # Langkah 9: Update Bias b
                     b1 = self.b - E_i - self.y[i] * (self.alpha[i] - alpha_i_old) * \
                          self.K_matrix[i][i] - \
                          self.y[j] * (self.alpha[j] - alpha_j_old) * \
@@ -392,7 +184,7 @@ class SVMScratch:
 
                     num_changed_alphas += 1
 
-            # ── Pengecekan Konvergensi ────────────────────────────────────
+            # Pengecekan Konvergensi
             # Jika tidak ada α yang berubah → increment passes
             # Jika ada perubahan → reset passes ke 0
             # Berhenti jika passes mencapai max_passes (konvergen)
@@ -401,7 +193,7 @@ class SVMScratch:
             else:
                 passes = 0
 
-        # ── Hasil Training ────────────────────────────────────────────────
+        # Hasil Training
         # Support Vectors = data dengan αᵢ > 0
         # Hanya SV yang berkontribusi pada fungsi keputusan f(x)
         n_sv = sum(1 for a in self.alpha if a > 0)

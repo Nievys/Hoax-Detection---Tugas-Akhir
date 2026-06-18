@@ -34,9 +34,9 @@ def upload_lexicon():
         return jsonify({'success': False, 'error': 'Nama file kosong'}), 400
 
     ext = os.path.splitext(f.filename)[1].lower()
-    if ext not in ('.csv', '.xlsx', '.xls'):
+    if ext not in ('.csv', '.xlsx', '.xls', '.json'):
         return jsonify({'success': False,
-                        'error': 'Format tidak didukung. Gunakan CSV atau Excel.'}), 400
+                        'error': 'Format tidak didukung. Gunakan CSV, Excel, atau JSON.'}), 400
 
     tmp_path = os.path.join(UPLOAD_FOLDER, f'lexicon_{lex_type}{ext}')
     f.save(tmp_path)

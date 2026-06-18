@@ -1,96 +1,19 @@
-"""
-=============================================================================
-MODUL 2: FEATURE EXTRACTION — TF-IDF
-=============================================================================
-Judul TA : Analisis Pengaruh Teknik Normalisasi Kata Gaul (Slang) terhadap
-           Akurasi Deteksi Ujaran Kebencian Berbahasa Indonesia
-=============================================================================
-Implementasi MURNI Python. Tidak menggunakan TfidfVectorizer atau library
-feature extraction manapun. Setiap rumus dijelaskan secara matematis.
-=============================================================================
-
-LANDASAN MATEMATIS
-==================
-
-TF (Term Frequency) — Frekuensi Relatif Kata dalam Dokumen:
-  TF(t, d) = f(t, d) / |d|
-  dimana:
-    f(t, d) = jumlah kemunculan term t dalam dokumen d
-    |d|     = total token dalam dokumen d
-  Interpretasi: Seberapa sering kata t muncul secara proporsional di d.
-
-IDF (Inverse Document Frequency) — Keunikan Kata di Seluruh Corpus:
-  IDF(t, D) = log( N / df(t) )
-  dimana:
-    N      = total jumlah dokumen dalam corpus D
-    df(t)  = jumlah dokumen yang mengandung term t (document frequency)
-    log    = logaritma natural (math.log) atau log basis 10/2
-  Interpretasi: Kata yang muncul di banyak dokumen → IDF rendah (tidak
-  informatif). Kata langka → IDF tinggi (sangat informatif).
-  Catatan: Digunakan smooth IDF opsional: log((N+1)/(df+1)) + 1 untuk
-           menghindari pembagian nol.
-
-TF-IDF Weighting — Bobot Akhir:
-  TF-IDF(t, d, D) = TF(t, d) × IDF(t, D)
-  Interpretasi: Kata yang sering muncul di satu dokumen TAPI jarang di
-  dokumen lain mendapat bobot tinggi → fitur diskriminatif.
-
-Cosine Normalization (opsional):
-  v_norm = v / ||v||₂   dimana ||v||₂ = √(Σ vᵢ²)
-  Menstandarkan panjang vektor agar tidak bias terhadap dokumen panjang.
-=============================================================================
-"""
-
 import math
 import re
 
-
-# =============================================================================
-# BAGIAN 1: PEMBANGUNAN VOCABULARY (KOSA KATA)
-# =============================================================================
-
-def build_vocabulary(corpus: list[str],
-                     min_df: int = 1,
-                     max_df_ratio: float = 1.0,
-                     max_features: int = None) -> dict:
-    """
-    Membangun kosa kata (vocabulary) dari seluruh corpus.
-
-    Vocabulary adalah pemetaan: { kata → indeks_kolom }
-    Ini adalah fondasi representasi Bag-of-Words dan TF-IDF.
-
-    Proses Pembangunan:
-      1. Iterasi setiap dokumen di corpus → tokenisasi
-      2. Hitung document_frequency[t] = jumlah dokumen yang mengandung t
-      3. Filter berdasarkan min_df dan max_df_ratio
-      4. Urutkan alfabetis untuk konsistensi indeks
-      5. Buat mapping: { kata: indeks } → O(|V|) dimana V = vocabulary
-
-    Catatan Indeks:
-      Indeks vocab menentukan KOLOM pada matriks TF-IDF.
-      vocab['tidak'] = 5 → kolom ke-5 di setiap vektor dokumen.
-
-    Kompleksitas:
-      Waktu: O(N × k̄) dimana N=jumlah dokumen, k̄=rata-rata panjang dokumen
-      Ruang: O(|V|) dimana |V| = ukuran vocabulary
-
-    Args:
-        corpus        : List of strings (teks yang sudah dinormalisasi)
-        min_df        : Minimum document frequency — kata harus muncul
-                        setidaknya di min_df dokumen (hapus kata sangat jarang)
-        max_df_ratio  : Maximum df ratio [0..1] — hapus kata terlalu umum
-                        (stopword de facto, misal: muncul di 95%+ dokumen)
-        max_features  : Batasi ukuran vocabulary (ambil top-N berdasarkan df)
-
-    Returns:
-        Dict { kata: indeks_integer } — vocabulary terurut
-    """
+# BAGIAN 1: PEMBANGUNAN VOCABULARY
+def build_vocabulary(
+    corpus: list[str],
+    min_df: int = 1,
+    max_df_ratio: float = 1.0,
+    max_features: int = None
+) -> dict:
     if not corpus:
         return {}
 
     N = len(corpus)  # Total dokumen dalam corpus
 
-    # ── Hitung Document Frequency per Term ───────────────────────────────────
+    # Hitung Document Frequency per Term
     # document_frequency[t] = |{d ∈ D : t ∈ d}|
     # Menggunakan set per dokumen untuk menghindari penghitungan ganda
     # (jika t muncul 3x di d, tetap df += 1, bukan +3)
@@ -103,7 +26,7 @@ def build_vocabulary(corpus: list[str],
             if token:  # Lewati token kosong
                 document_frequency[token] = document_frequency.get(token, 0) + 1
 
-    # ── Filter Berdasarkan min_df dan max_df_ratio ────────────────────────────
+    # Filter Berdasarkan min_df dan max_df_ratio
     # min_df : Hapus kata yang terlalu jarang (noise, typo, kata sangat spesifik)
     # max_df_ratio: Hapus kata yang terlalu umum (tidak informatif secara global)
     max_df_count = int(N * max_df_ratio)  # Konversi ratio → count absolut
@@ -113,7 +36,7 @@ def build_vocabulary(corpus: list[str],
         if min_df <= df <= max_df_count
     }
 
-    # ── Batasi Ukuran Vocabulary (opsional: top-N berdasarkan df) ────────────
+    # Batasi Ukuran Vocabulary (opsional: top-N berdasarkan df)
     if max_features and len(filtered_terms) > max_features:
         # Urutkan berdasarkan df (descending) → ambil top max_features
         # Kata dengan df tinggi = lebih representatif corpus
@@ -124,7 +47,7 @@ def build_vocabulary(corpus: list[str],
         )
         filtered_terms = set(sorted_by_df[:max_features])
 
-    # ── Buat Mapping Term → Indeks (urutan alfabetis untuk determinisme) ──────
+    # Buat Mapping Term → Indeks (urutan alfabetis untuk determinisme)
     # Urutan alfabetis memastikan hasil reproducible (tidak acak tiap run)
     sorted_terms = sorted(filtered_terms)  # Urutkan O(|V| log|V|)
 
@@ -137,21 +60,6 @@ def build_vocabulary(corpus: list[str],
 
 
 def get_document_frequency(corpus: list[str], vocabulary: dict) -> dict:
-    """
-    Hitung Document Frequency untuk setiap term dalam vocabulary.
-
-    df(t) = |{d ∈ D : t ∈ d}|
-    = Jumlah dokumen yang mengandung term t (minimal 1 kali)
-
-    Digunakan untuk menghitung IDF selanjutnya.
-
-    Args:
-        corpus     : List of strings
-        vocabulary : Dict {term: indeks} dari build_vocabulary()
-
-    Returns:
-        Dict {term: df_count}
-    """
     df = {term: 0 for term in vocabulary}  # Inisialisasi semua 0
 
     for doc in corpus:
@@ -163,42 +71,8 @@ def get_document_frequency(corpus: list[str], vocabulary: dict) -> dict:
 
     return df
 
-
-# =============================================================================
 # BAGIAN 2: TERM FREQUENCY (TF)
-# =============================================================================
-
 def compute_tf(document: str, vocabulary: dict) -> list[float]:
-    """
-    Menghitung Term Frequency (TF) untuk SATU dokumen.
-
-    Rumus:
-      TF(t, d) = f(t, d) / |d|
-
-      dimana:
-        f(t, d) = frekuensi absolut term t dalam dokumen d
-                  (berapa kali t muncul di d)
-        |d|     = total jumlah token dalam d (panjang dokumen)
-
-    Representasi Output:
-      Vektor TF berukuran |V| (panjang vocabulary).
-      Setiap elemen ke-i = TF dari term vocabulary[i] pada dokumen ini.
-      Elemen = 0.0 jika term tidak muncul di dokumen.
-
-    Contoh:
-      vocab = {'bagus': 0, 'buruk': 1, 'tidak': 2}
-      doc   = "tidak bagus tidak"
-      TF    = [0.333, 0.0, 0.667]  → [1/3, 0/3, 2/3]
-
-    Kompleksitas: O(|d| + |V|) — tokenisasi + inisialisasi vektor
-
-    Args:
-        document   : String teks (sudah dipreprocess & dinormalisasi)
-        vocabulary : Dict {term: indeks}
-
-    Returns:
-        List of float berukuran len(vocabulary)
-    """
     V = len(vocabulary)
 
     # Inisialisasi vektor TF dengan 0.0 untuk setiap term di vocabulary
@@ -211,14 +85,14 @@ def compute_tf(document: str, vocabulary: dict) -> list[float]:
     if total_tokens == 0:
         return tf_vector  # Dokumen kosong → semua TF = 0
 
-    # ── Hitung Frekuensi Absolut per Token ───────────────────────────────────
+    # Hitung Frekuensi Absolut per Token
     # term_count[t] = f(t, d) = berapa kali t muncul di d
     term_count = {}
     for token in tokens:
         if token in vocabulary:  # Hanya token yang ada di vocabulary
             term_count[token] = term_count.get(token, 0) + 1
 
-    # ── Konversi ke TF Relatif dan Isi Vektor ────────────────────────────────
+    # Konversi ke TF Relatif dan Isi Vektor
     # TF(t, d) = f(t, d) / |d|
     for term, count in term_count.items():
         idx = vocabulary[term]  # Dapatkan indeks kolom dari vocabulary
@@ -226,52 +100,14 @@ def compute_tf(document: str, vocabulary: dict) -> list[float]:
 
     return tf_vector
 
-
-# =============================================================================
 # BAGIAN 3: INVERSE DOCUMENT FREQUENCY (IDF)
-# =============================================================================
+def compute_idf(
+    vocabulary: dict,
+    document_frequency: dict,
+    N: int,
+    smooth: bool = True
+) -> list[float]:
 
-def compute_idf(vocabulary: dict,
-                document_frequency: dict,
-                N: int,
-                smooth: bool = True) -> list[float]:
-    """
-    Menghitung IDF (Inverse Document Frequency) untuk seluruh vocabulary.
-
-    Dua Varian Rumus:
-      1. Standard IDF (smooth=False):
-            IDF(t) = log( N / df(t) )
-            Masalah: Jika df(t) = 0 → ZeroDivisionError
-                     Jika df(t) = N → IDF = 0 (term muncul di semua dok)
-
-      2. Smooth IDF (smooth=True, default — sama dengan sklearn):
-            IDF(t) = log( (N + 1) / (df(t) + 1) ) + 1
-            Keuntungan:
-              a) Menghindari pembagian nol (df tidak pernah 0 setelah +1)
-              b) +1 di luar log mencegah IDF = 0 untuk term universaL
-              c) Konsisten dengan implementasi sklearn TfidfVectorizer
-
-    Catatan Pemilihan log:
-      math.log() menggunakan logaritma natural (base e ≈ 2.718).
-      Ini tidak mempengaruhi ranking relatif antar term, hanya scaling.
-      Beberapa referensi menggunakan log₂ atau log₁₀ — hasilnya equivalent
-      dalam perbandingan relative (ranking tidak berubah).
-
-    Representasi Output:
-      Vektor IDF berukuran |V|.
-      idf_vector[i] = IDF dari term vocabulary[i].
-
-    Kompleksitas: O(|V|) — iterasi sekali pada vocabulary
-
-    Args:
-        vocabulary         : Dict {term: indeks}
-        document_frequency : Dict {term: df_count}
-        N                  : Total jumlah dokumen dalam corpus
-        smooth             : Gunakan smooth IDF (default: True)
-
-    Returns:
-        List of float berukuran len(vocabulary)
-    """
     V = len(vocabulary)
     idf_vector = [0.0] * V
 
@@ -294,41 +130,13 @@ def compute_idf(vocabulary: dict,
 
     return idf_vector
 
-
-# =============================================================================
 # BAGIAN 4: TF-IDF WEIGHTING
-# =============================================================================
+def compute_tfidf_vector(
+    tf_vector: list[float],
+    idf_vector: list[float],
+    normalize: bool = True
+) -> list[float]:
 
-def compute_tfidf_vector(tf_vector: list[float],
-                         idf_vector: list[float],
-                         normalize: bool = True) -> list[float]:
-    """
-    Menghitung vektor TF-IDF dari vektor TF dan IDF.
-
-    Rumus per dimensi ke-i:
-      TFIDF[i] = TF[i] × IDF[i]
-
-    Ini adalah element-wise multiplication (perkalian Hadamard):
-      TFIDF = TF ⊙ IDF
-
-    Normalisasi L2 (opsional, sangat direkomendasikan):
-      Tanpa normalisasi: dokumen panjang cenderung memiliki skor lebih tinggi
-      karena lebih banyak term yang muncul. Normalisasi L2 menyeragamkan
-      panjang semua vektor.
-
-      v_norm[i] = v[i] / ||v||₂
-      ||v||₂ = √(Σᵢ v[i]²)   (Euclidean norm / L2 norm)
-
-      Setelah normalisasi: ||v_norm||₂ = 1 (unit vector)
-
-    Args:
-        tf_vector  : Vektor TF hasil compute_tf()
-        idf_vector : Vektor IDF hasil compute_idf()
-        normalize  : Terapkan L2 normalization (default: True)
-
-    Returns:
-        List of float — vektor TF-IDF untuk satu dokumen
-    """
     V = len(tf_vector)
 
     # TF-IDF[i] = TF[i] × IDF[i]  untuk setiap dimensi i
@@ -346,69 +154,16 @@ def compute_tfidf_vector(tf_vector: list[float],
     return tfidf
 
 
-# =============================================================================
 # BAGIAN 5: MATRIKS TF-IDF (PIPELINE UTAMA)
-# =============================================================================
+def fit_transform(
+    corpus: list[str],
+    min_df: int = 1,
+    max_df_ratio: float = 1.0,
+    max_features: int = None,
+    smooth_idf: bool = True,
+    normalize: bool = True
+) -> dict:
 
-def fit_transform(corpus: list[str],
-                  min_df: int = 1,
-                  max_df_ratio: float = 1.0,
-                  max_features: int = None,
-                  smooth_idf: bool = True,
-                  normalize: bool = True) -> dict:
-    """
-    Pipeline lengkap: Corpus → Matriks TF-IDF.
-
-    Algoritma:
-      1. BUILD VOCABULARY
-         vocab = build_vocabulary(corpus, min_df, max_df_ratio, max_features)
-         Hasil: { term: col_index } mapping
-
-      2. HITUNG DOCUMENT FREQUENCY
-         df[t] = |{d ∈ D : t ∈ d}| untuk t ∈ vocab
-
-      3. HITUNG IDF (SEKALI untuk seluruh corpus)
-         idf[t] = log((N+1)/(df[t]+1)) + 1   [smooth]
-
-      4. UNTUK SETIAP DOKUMEN dᵢ:
-         a. Hitung TF(t, dᵢ) → vektor ukuran |V|
-         b. Hitung TF-IDF[j] = TF[j] × IDF[j]  untuk j = 0...|V|-1
-         c. Normalisasi L2 (opsional)
-         d. Tambahkan ke matriks
-
-      5. OUTPUT: Matriks X ukuran (N × |V|)
-         X[i][j] = TF-IDF bobot term ke-j pada dokumen ke-i
-
-    Representasi Matriks:
-      X = [
-        [doc₀_term₀, doc₀_term₁, ..., doc₀_term_{|V|-1}],  ← dokumen 0
-        [doc₁_term₀, doc₁_term₁, ..., doc₁_term_{|V|-1}],  ← dokumen 1
-        ...
-        [doc_{N-1}_term₀, ..., doc_{N-1}_term_{|V|-1}],     ← dokumen N-1
-      ]
-
-      Baris = dokumen, Kolom = term/fitur
-
-    Kompleksitas:
-      Waktu: O(N × |V|) — dominasi oleh konstruksi matriks
-      Ruang: O(N × |V|) — menyimpan matriks
-
-    Args:
-        corpus        : List of strings (setelah preprocessing/normalisasi)
-        min_df        : Min document frequency untuk masuk vocabulary
-        max_df_ratio  : Max document frequency ratio (0..1)
-        max_features  : Batasi jumlah fitur (None = tidak dibatasi)
-        smooth_idf    : Gunakan smooth IDF formula
-        normalize     : Normalisasi L2 per vektor dokumen
-
-    Returns:
-        Dict berisi:
-          'matrix'     : List[List[float]] — matriks TF-IDF (N × |V|)
-          'vocabulary' : Dict[str, int] — mapping term → indeks kolom
-          'idf_vector' : List[float] — nilai IDF per term
-          'feature_names': List[str] — nama term terurut sesuai indeks kolom
-          'stats'      : Dict — statistik proses
-    """
     N = len(corpus)
     if N == 0:
         return {
@@ -416,7 +171,7 @@ def fit_transform(corpus: list[str],
             'feature_names': [], 'stats': {}
         }
 
-    # ── LANGKAH 1: Bangun Vocabulary ─────────────────────────────────────────
+    # LANGKAH 1: Bangun Vocabulary
     vocabulary = build_vocabulary(
         corpus, min_df=min_df,
         max_df_ratio=max_df_ratio,
@@ -430,15 +185,15 @@ def fit_transform(corpus: list[str],
     for term, idx in vocabulary.items():
         feature_names[idx] = term
 
-    # ── LANGKAH 2: Hitung Document Frequency ─────────────────────────────────
+    # LANGKAH 2: Hitung Document Frequency
     document_frequency = get_document_frequency(corpus, vocabulary)
 
-    # ── LANGKAH 3: Hitung IDF (satu kali untuk seluruh corpus) ───────────────
+    # LANGKAH 3: Hitung IDF (satu kali untuk seluruh corpus)
     idf_vector = compute_idf(
         vocabulary, document_frequency, N, smooth=smooth_idf
     )
 
-    # ── LANGKAH 4: Bangun Matriks TF-IDF ─────────────────────────────────────
+    # LANGKAH 4: Bangun Matriks TF-IDF
     # X = [] → akan menjadi matriks (N × V)
     matrix = []
 
@@ -452,7 +207,7 @@ def fit_transform(corpus: list[str],
         # 4d. Tambahkan vektor dokumen ke matriks
         matrix.append(tfidf_vec)
 
-    # ── LANGKAH 5: Kumpulkan Statistik ───────────────────────────────────────
+    # LANGKAH 5: Kumpulkan Statistik
     # Hitung sparsity: persentase elemen nol dalam matriks
     total_elements = N * V
     zero_elements  = sum(1 for row in matrix for val in row if val == 0.0)
@@ -480,31 +235,13 @@ def fit_transform(corpus: list[str],
     }
 
 
-def transform(corpus: list[str],
-              vocabulary: dict,
-              idf_vector: list[float],
-              normalize: bool = True) -> list[list[float]]:
-    """
-    Transformasi dokumen BARU menggunakan vocabulary & IDF yang sudah ada.
+def transform(
+    corpus: list[str],
+    vocabulary: dict,
+    idf_vector: list[float],
+    normalize: bool = True
+) -> list[list[float]]:
 
-    Berbeda dengan fit_transform() yang menghitung vocabulary & IDF dari awal,
-    transform() menggunakan parameter yang SUDAH dihitung sebelumnya.
-
-    Digunakan untuk: transform data test/validasi menggunakan vocabulary
-    yang difit dari data training.
-
-    ⚠ PENTING: Token di dokumen baru yang tidak ada di vocabulary akan
-    diabaikan (out-of-vocabulary / OOV tokens). Ini perilaku standar TF-IDF.
-
-    Args:
-        corpus     : List of strings dokumen baru
-        vocabulary : Dict {term: indeks} dari fit_transform()
-        idf_vector : List[float] dari fit_transform()
-        normalize  : Normalisasi L2
-
-    Returns:
-        Matriks TF-IDF List[List[float]] ukuran (len(corpus) × len(vocabulary))
-    """
     matrix = []
     for doc in corpus:
         tf_vec    = compute_tf(doc, vocabulary)
@@ -512,28 +249,13 @@ def transform(corpus: list[str],
         matrix.append(tfidf_vec)
     return matrix
 
-
-# =============================================================================
 # BAGIAN 6: UTILITIES — Analisis & Visualisasi
-# =============================================================================
+def get_top_features(
+    tfidf_result: dict,
+    doc_index: int,
+    top_n: int = 10
+) -> list[dict]:
 
-def get_top_features(tfidf_result: dict,
-                     doc_index: int,
-                     top_n: int = 10) -> list[dict]:
-    """
-    Ambil top-N term dengan TF-IDF tertinggi untuk dokumen tertentu.
-
-    Berguna untuk interpretasi: kata apa yang paling merepresentasikan
-    dokumen ke-i?
-
-    Args:
-        tfidf_result : Output dari fit_transform()
-        doc_index    : Indeks dokumen (baris matriks)
-        top_n        : Jumlah term teratas yang diambil
-
-    Returns:
-        List of dict: [{'term': str, 'tfidf': float, 'rank': int}, ...]
-    """
     matrix       = tfidf_result['matrix']
     feature_names = tfidf_result['feature_names']
 
@@ -558,20 +280,11 @@ def get_top_features(tfidf_result: dict,
     return term_scores[:top_n]
 
 
-def get_idf_ranking(tfidf_result: dict, top_n: int = 20) -> list[dict]:
-    """
-    Ambil term dengan IDF tertinggi (kata paling unik/langka di corpus).
+def get_idf_ranking(
+    tfidf_result: dict,
+    top_n: int = 20
+) -> list[dict]:
 
-    Term dengan IDF tinggi = kata langka → informatif untuk klasifikasi.
-    Term dengan IDF rendah = kata umum → seperti stopword.
-
-    Args:
-        tfidf_result : Output dari fit_transform()
-        top_n        : Jumlah term yang ditampilkan
-
-    Returns:
-        List of dict: [{'term': str, 'idf': float, 'df': int}, ...]
-    """
     vocabulary  = tfidf_result['vocabulary']
     idf_vector  = tfidf_result['idf_vector']
     df          = tfidf_result.get('document_frequency', {})
@@ -595,28 +308,11 @@ def get_idf_ranking(tfidf_result: dict, top_n: int = 20) -> list[dict]:
     return rankings[:top_n]
 
 
-def compute_cosine_similarity(vec_a: list[float],
-                               vec_b: list[float]) -> float:
-    """
-    Hitung Cosine Similarity antara dua vektor TF-IDF.
+def compute_cosine_similarity(
+    vec_a: list[float],
+    vec_b: list[float]
+) -> float:
 
-    Rumus:
-      sim(A, B) = (A · B) / (||A||₂ × ||B||₂)
-               = Σᵢ(Aᵢ × Bᵢ) / (√Σᵢ Aᵢ² × √Σᵢ Bᵢ²)
-
-    Nilai range: [0, 1] untuk vektor non-negatif (TF-IDF selalu ≥ 0)
-      1 = identik, 0 = ortogonal (tidak ada kesamaan)
-
-    Catatan: Jika vektor sudah dinormalisasi L2 (||v|| = 1),
-    maka cosine similarity = dot product saja: Σᵢ(Aᵢ × Bᵢ)
-
-    Args:
-        vec_a : Vektor TF-IDF dokumen A
-        vec_b : Vektor TF-IDF dokumen B
-
-    Returns:
-        Float cosine similarity [0..1]
-    """
     if len(vec_a) != len(vec_b):
         raise ValueError("Panjang vektor harus sama")
 
@@ -633,25 +329,13 @@ def compute_cosine_similarity(vec_a: list[float],
     return dot_product / (norm_a * norm_b)
 
 
-def matrix_to_preview(matrix: list[list[float]],
-                      feature_names: list[str],
-                      max_rows: int = 5,
-                      max_cols: int = 10) -> dict:
-    """
-    Buat preview matriks TF-IDF untuk ditampilkan di UI.
+def matrix_to_preview(
+    matrix: list[list[float]],
+    feature_names: list[str],
+    max_rows: int = 5,
+    max_cols: int = 10
+) -> dict:
 
-    Karena matriks penuh bisa sangat besar (N × |V|),
-    fungsi ini memotong untuk tampilan: max_rows × max_cols.
-
-    Args:
-        matrix        : Matriks TF-IDF penuh
-        feature_names : Nama kolom/term
-        max_rows      : Maksimum baris yang ditampilkan
-        max_cols      : Maksimum kolom yang ditampilkan
-
-    Returns:
-        Dict dengan data preview dan metadata dimensi
-    """
     N = len(matrix)
     V = len(feature_names)
 
