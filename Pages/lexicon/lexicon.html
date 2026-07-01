@@ -8,7 +8,7 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title">Kamus Internal</div>
-          <span class="chip chip-blue">Prioritas utama</span>
+          <!-- <span class="chip chip-blue">Prioritas utama</span> -->
         </div>
         <div class="upload-zone" id="uz-int"
              onclick="document.getElementById('fi-int').click()"
@@ -21,7 +21,7 @@
         <div id="msg-int" class="mt-1"></div>
       </div>
 
-      <div class="card">
+      <!-- <div class="card">
         <div class="card-header">
           <div class="card-title">Kamus Saka-NLP</div>
           <span class="chip chip-amber">Suplemen</span>
@@ -35,11 +35,11 @@
         </div>
         <input type="file" id="fi-ext" class="hidden" accept=".csv,.xlsx,.xls,.json" onchange="uploadLex(this,'external')">
         <div id="msg-ext" class="mt-1"></div>
-      </div>
+      </div> -->
     </div>
 
     <!-- Merge config -->
-    <div class="card">
+    <!-- <div class="card">
       <div class="card-header"><div class="card-title">Konfigurasi Merge</div></div>
       <div class="form-row cols-2">
         <div class="form-group">
@@ -52,7 +52,7 @@
         <div style="display:flex;align-items:flex-end;">
           <button class="btn btn-secondary" onclick="remerge()">↺ Re-Merge</button>
         </div>
-      </div>
+      </div> -->
 
       <!-- <div class="formula-card">
         <div class="formula-title">Operasi Union Himpunan</div>
@@ -63,10 +63,10 @@
       </div> -->
 
       <div class="stats-row cols-4 mt-2">
-        <div class="stat-card"><div class="num blue" id="ms-int">—</div><div class="lbl">|L_internal|</div></div>
-        <div class="stat-card"><div class="num amber" id="ms-ext">—</div><div class="lbl">|L_external|</div></div>
+        <div class="stat-card"><div class="num blue" id="ms-int">—</div><div class="lbl">Jumlah Entri</div></div>
+        <!-- <div class="stat-card"><div class="num amber" id="ms-ext">—</div><div class="lbl">|L_external|</div></div>
         <div class="stat-card"><div class="num green" id="ms-mrg">—</div><div class="lbl">|L_gabungan|</div></div>
-        <div class="stat-card"><div class="num red" id="ms-con">—</div><div class="lbl">Konflik</div></div>
+        <div class="stat-card"><div class="num red" id="ms-con">—</div><div class="lbl">Konflik</div></div> -->
       </div>
     </div>
 
