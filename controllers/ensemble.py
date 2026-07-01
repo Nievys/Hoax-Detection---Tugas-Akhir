@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from core.state import _state
-from modules.preprocessing import full_preprocessing_pipeline
+from modules.preprocessing import full_preprocessing_pipeline, parse_label
 from modules.tfidf import transform
 from modules.ensemble import ensemble_predict, weighted_soft_voting_predict, compare_models
 
@@ -25,11 +25,11 @@ def evaluate_ensemble():
     X = _state['tfidf_result']['matrix']
 
     try:
-        y_true = [int(item['labels'].get(target_label, 0))
+        y_true = [parse_label(item['labels'].get(target_label, 0))
                   for item in _state['dataset']]
-    except (ValueError, TypeError):
+    except (ValueError, TypeError) as e:
         return jsonify({'success': False,
-                        'error': f'Nilai label "{target_label}" harus berupa angka!'}), 400
+                        'error': f'Nilai label "{target_label}" gagal diproses: {str(e)}'}), 400
 
     models = {
         'SVM': _state['svm_model'],
@@ -116,11 +116,11 @@ def evaluate_ensemble_soft():
     X = _state['tfidf_result']['matrix']
 
     try:
-        y_true = [int(item['labels'].get(target_label, 0))
+        y_true = [parse_label(item['labels'].get(target_label, 0))
                   for item in _state['dataset']]
-    except (ValueError, TypeError):
+    except (ValueError, TypeError) as e:
         return jsonify({'success': False,
-                        'error': f'Nilai label "{target_label}" harus berupa angka!'}), 400
+                        'error': f'Nilai label "{target_label}" gagal diproses: {str(e)}'}), 400
 
     soft_res = weighted_soft_voting_predict(
         X, _state['svm_model'], _state['nb_model'], _state['rf_model'],

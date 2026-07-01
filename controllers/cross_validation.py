@@ -5,6 +5,7 @@ Controller: K-Fold Cross Validation API Endpoint
 from flask import Blueprint, request, jsonify
 from core.state import _state
 from modules.cross_validation import run_cross_validation, format_cv_report
+from modules.preprocessing import parse_label
 
 cv_bp = Blueprint('cross_validation', __name__)
 
@@ -66,7 +67,7 @@ def run_cv():
 
         # Ambil label dari dataset
         try:
-            label_val = int(item.get('labels', {}).get(target_label, 0))
+            label_val = parse_label(item.get('labels', {}).get(target_label, 0))
         except (ValueError, TypeError):
             label_val = 0
 

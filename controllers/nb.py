@@ -1,7 +1,7 @@
 import math
 from flask import Blueprint, request, jsonify
 from core.state import _state
-from modules.preprocessing import full_preprocessing_pipeline
+from modules.preprocessing import full_preprocessing_pipeline, parse_label
 from modules.tfidf import transform
 from modules.naive_bayes import MultinomialNBScratch
 
@@ -20,11 +20,11 @@ def train_nb():
     feature_names = _state['tfidf_result']['feature_names']
 
     try:
-        y = [int(item['labels'].get(target_label, 0))
+        y = [parse_label(item['labels'].get(target_label, 0))
              for item in _state['dataset']]
-    except (ValueError, TypeError):
+    except (ValueError, TypeError) as e:
         return jsonify({'success': False,
-                        'error': f'Nilai label "{target_label}" harus berupa angka!'}), 400
+                        'error': f'Nilai label "{target_label}" gagal diproses: {str(e)}'}), 400
 
     if len(X) != len(y):
         return jsonify({'success': False,

@@ -256,9 +256,9 @@ def run_cross_validation(
             verbose_trace = (i == 0)
             soft_res = weighted_soft_voting_predict(
                 X_val, svm_model, nb_model, rf_model,
-                w_svm=ensemble_weights.get('svm', 0.4),
-                w_nb=ensemble_weights.get('nb', 0.32),
-                w_rf=ensemble_weights.get('rf', 0.28),
+                w_svm=ensemble_weights.get('svm', 0.5),
+                w_nb=ensemble_weights.get('nb', 0.3),
+                w_rf=ensemble_weights.get('rf', 0.2),
                 positive_label=1, negative_label=0,
                 verbose=verbose_trace
             )

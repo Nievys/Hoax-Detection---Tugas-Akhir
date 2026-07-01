@@ -371,3 +371,15 @@ BUILTIN_INTERNAL_LEXICON = {
 BUILTIN_EXTERNAL_LEXICON = {
     
 }
+
+def parse_label(val) -> int:
+    try:
+        return int(float(val))
+    except (ValueError, TypeError):
+        val_str = str(val).strip().lower()
+        if val_str in ('1', 'true', 'hoax', 'yes', 'positif', 'positive', 'palsu', 'ya'):
+            return 1
+        elif val_str in ('0', 'false', 'valid', 'no', 'negatif', 'negative', 'asli', 'bukan', 'tidak'):
+            return 0
+        raise ValueError(f"Nilai label '{val}' tidak dapat dikonversi ke angka 0 atau 1.")
+

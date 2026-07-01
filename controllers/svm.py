@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from core.state import _state
-from modules.preprocessing import full_preprocessing_pipeline
+from modules.preprocessing import full_preprocessing_pipeline, parse_label
 from modules.tfidf import transform
 from modules.svm import SVMScratch
 
@@ -19,11 +19,11 @@ def train_svm():
     X = _state['tfidf_result']['matrix']
 
     try:
-        y = [1 if int(item['labels'].get(target_label, 0)) == 1 else -1
+        y = [1 if parse_label(item['labels'].get(target_label, 0)) == 1 else -1
              for item in _state['dataset']]
-    except (ValueError, TypeError):
+    except (ValueError, TypeError) as e:
         return jsonify({'success': False,
-                        'error': f'Nilai label "{target_label}" harus berupa angka (0 atau 1)!'}), 400
+                        'error': f'Nilai label "{target_label}" gagal diproses: {str(e)}'}), 400
 
     if len(X) != len(y):
         return jsonify({'success': False,
