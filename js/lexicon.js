@@ -2,30 +2,36 @@
 async function loadLexStatus() {
   const d = await api('/api/lexicon/status');
   if (!d.success) return;
-  document.getElementById('ms-int').textContent = d.internal_count;
-  document.getElementById('ms-ext').textContent = d.external_count;
-  document.getElementById('ms-mrg').textContent = d.merged_count;
-  document.getElementById('ms-con').textContent = d.conflict_count;
-  document.getElementById('cnt-lex').textContent = d.merged_count;
+  
+  const setTxt = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  setTxt('ms-int', d.internal_count);
+  setTxt('ms-ext', d.external_count);
+  setTxt('ms-mrg', d.merged_count);
+  setTxt('ms-con', d.conflict_count);
+  setTxt('cnt-lex', d.merged_count);
 
   const conflicts = d.conflicts || {};
   const keys = Object.keys(conflicts);
-  document.getElementById('conflict-chip').textContent = keys.length;
+  setTxt('conflict-chip', keys.length);
   const cc = document.getElementById('conflict-card');
-  if (keys.length > 0) {
-    cc.classList.remove('hidden');
-    document.getElementById('conflict-list').innerHTML =
-      keys.slice(0,20).map(w => {
-        const c = conflicts[w];
-        return `<div class="conflict-row">
-          <span class="word">${w}</span>
-          <span class="int">${c.internal}</span>
-          <span class="ext">${c.external}</span>
-          <span class="win"><span class="chip chip-green" style="font-size:10px;">→ ${c.resolved}</span></span>
-        </div>`;
-      }).join('');
-  } else {
-    cc.classList.add('hidden');
+  if (cc) {
+    if (keys.length > 0) {
+      cc.classList.remove('hidden');
+      const cl = document.getElementById('conflict-list');
+      if (cl) {
+        cl.innerHTML = keys.slice(0,20).map(w => {
+          const c = conflicts[w];
+          return `<div class="conflict-row">
+            <span class="word">${w}</span>
+            <span class="int">${c.internal}</span>
+            <span class="ext">${c.external}</span>
+            <span class="win"><span class="chip chip-green" style="font-size:10px;">→ ${c.resolved}</span></span>
+          </div>`;
+        }).join('');
+      }
+    } else {
+      cc.classList.add('hidden');
+    }
   }
 }
 
@@ -34,7 +40,8 @@ function uploadLex(input, type) {
   const fd = new FormData();
   fd.append('file', file);
   fd.append('type', type);
-  fd.append('strategy', document.getElementById('merge-strat').value);
+  const stratEl = document.getElementById('merge-strat');
+  fd.append('strategy', stratEl ? stratEl.value : 'internal_priority');
   fetch('/api/lexicon/upload', {method:'POST', body:fd})
     .then(r=>r.json()).then(d=>{
       if (d.success) {
@@ -48,7 +55,8 @@ function uploadLex(input, type) {
 }
 
 async function remerge() {
-  const s = document.getElementById('merge-strat').value;
+  const stratEl = document.getElementById('merge-strat');
+  const s = stratEl ? stratEl.value : 'internal_priority';
   const d = await api('/api/merge','POST',{strategy:s});
   if (d.success) { loadLexStatus(); loadLexEntries(); }
 }
