@@ -76,6 +76,7 @@ async function runCV() {
       statusEl.innerHTML = `<span style="color:var(--green);">Selesai! Evaluasi silang pada ${res.total_samples} sampel data.</span>`;
       renderCVSummary(res.summary_table);
       renderCVConfusionMatrix(res.aggregated_confusion_matrix);
+      renderCVCMSamples(res.cm_samples);
       renderCVFoldDetails(res.fold_results);
       const reportEl = document.getElementById('cv-report-text');
       if (reportEl) reportEl.textContent = res.report_text;
@@ -212,4 +213,97 @@ function renderCVFoldDetails(foldResults) {
     foldDiv.innerHTML = html;
     container.appendChild(foldDiv);
   });
+}
+
+function renderCVCMSamples(cmSamples) {
+  const container = document.getElementById('cv-cm-samples');
+  if (!container || !cmSamples) return;
+
+  const models = ['Ensemble (Voting)', 'SVM', 'Naive Bayes', 'Random Forest'];
+
+  let html = `
+    <div style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
+      ${models.map((m, idx) => `
+        <button class="btn ${idx === 0 ? 'btn-primary' : 'btn-secondary'} btn-sm cm-tab-btn" onclick="switchCMSampleTab('${m}', this)">${m}</button>
+      `).join('')}
+    </div>
+    <div id="cm-sample-content"></div>
+  `;
+  container.innerHTML = html;
+
+  window._cmSamplesData = cmSamples;
+  switchCMSampleTab('Ensemble (Voting)', container.querySelector('.cm-tab-btn'));
+}
+
+function switchCMSampleTab(modelName, btnEl) {
+  if (btnEl) {
+    document.querySelectorAll('#cv-cm-samples .cm-tab-btn').forEach(b => {
+      b.classList.remove('btn-primary');
+      b.classList.add('btn-secondary');
+    });
+    btnEl.classList.remove('btn-secondary');
+    btnEl.classList.add('btn-primary');
+  }
+
+  const cmSamples = window._cmSamplesData || {};
+  const data = cmSamples[modelName] || {TP:[], TN:[], FP:[], FN:[]};
+
+  const renderList = (items, borderColor, emptyMsg) => {
+    if (!items || items.length === 0) {
+      return `<div class="text-mute text-sm" style="font-style:italic; padding:8px 0;">${emptyMsg}</div>`;
+    }
+    return items.map((it, i) => `
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-weight:600; font-size:11px; color:var(--mute);">Sampel #${i+1}</span>
+          <span class="chip" style="font-size:10px; background:rgba(255,255,255,0.1); color:var(--text);">Fold ${it.fold}</span>
+        </div>
+      <div style="line-height:1.4; color:var(--text); font-family:var(--font);">${it.text || '<em>(teks kosong)</em>'}</div>
+    `).join('');
+  };
+
+  const content = document.getElementById('cm-sample-content');
+  if (!content) return;
+
+  content.innerHTML = `
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:16px;">
+      <div style="background:var(--surface); padding:16px; border-radius:var(--r); border:1px solid rgba(255,255,255,0.05);">
+        <div style="font-weight:600; color:var(--green); margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;">
+          <span>Aktual Positif → Prediksi Positif (TP)</span>
+          <span class="chip chip-green" style="font-size:11px;">${data.TP.length} sampel</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          ${renderList(data.TP, 'var(--green)', 'Tidak ada sampel True Positive.')}
+        </div>
+      </div>
+      <div style="background:var(--surface); padding:16px; border-radius:var(--r); border:1px solid rgba(255,255,255,0.05);">
+        <div style="font-weight:600; color:var(--primary); margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;">
+          <span>Aktual Negatif → Prediksi Negatif (TN)</span>
+          <span class="chip chip-blue" style="font-size:11px;">${data.TN.length} sampel</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          ${renderList(data.TN, 'var(--primary)', 'Tidak ada sampel True Negative.')}
+        </div>
+      </div>
+    </div>
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:16px; margin-top:16px;">
+      <div style="background:var(--surface); padding:16px; border-radius:var(--r); border:1px solid rgba(255,255,255,0.05);">
+        <div style="font-weight:600; color:var(--amber); margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;">
+          <span>Aktual Negatif → Prediksi Positif (FP)</span>
+          <span class="chip chip-amber" style="font-size:11px;">${data.FP.length} sampel</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          ${renderList(data.FP, 'var(--amber)', 'Tidak ada sampel False Positive.')}
+        </div>
+      </div>
+      <div style="background:var(--surface); padding:16px; border-radius:var(--r); border:1px solid rgba(255,255,255,0.05);">
+        <div style="font-weight:600; color:var(--red); margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;">
+          <span>Aktual Positif → Prediksi Negatif (FN)</span>
+          <span class="chip chip-red" style="font-size:11px;">${data.FN.length} sampel</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          ${renderList(data.FN, 'var(--red)', 'Tidak ada sampel False Negative.')}
+        </div>
+      </div>
+    </div>
+  `;
 }

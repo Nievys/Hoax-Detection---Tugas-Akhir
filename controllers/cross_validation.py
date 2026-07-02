@@ -112,6 +112,7 @@ def run_cv():
             'average_metrics': result['average_metrics'],
             'std_metrics': result['std_metrics'],
             'aggregated_confusion_matrix': result.get('aggregated_confusion_matrix', {}),
+            'cm_samples': result.get('cm_samples', {}),
             'average_execution_time_ms': result.get('average_execution_time_ms', {}),
             'report_text': report_text,
         })

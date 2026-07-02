@@ -150,6 +150,7 @@ def run_cross_validation(
     # Akumulator untuk Aggregated Confusion Matrix dan Total Execution Time (ms)
     total_cm = {name: {'TP': 0, 'TN': 0, 'FP': 0, 'FN': 0} for name in model_names}
     execution_times_ms = {name: [] for name in model_names}
+    cm_samples = {name: {'TP': [], 'TN': [], 'FP': [], 'FN': []} for name in model_names}
 
     # Langkah 2 Loop K-Fold
     for i in range(k):
@@ -294,6 +295,20 @@ def run_cross_validation(
             total_cm[model_name]['FP'] += cm['FP']
             total_cm[model_name]['FN'] += cm['FN']
 
+            # Akumulasi sampel tweet per kategori confusion matrix
+            for j in range(len(val_labels)):
+                actual = val_labels[j]
+                pred = preds[j]
+                text = val_corpus[j] if j < len(val_corpus) else ''
+                if actual == 1 and pred == 1:
+                    cm_samples[model_name]['TP'].append({'text': text, 'fold': i + 1})
+                elif actual == 0 and pred == 0:
+                    cm_samples[model_name]['TN'].append({'text': text, 'fold': i + 1})
+                elif actual == 0 and pred == 1:
+                    cm_samples[model_name]['FP'].append({'text': text, 'fold': i + 1})
+                elif actual == 1 and pred == 0:
+                    cm_samples[model_name]['FN'].append({'text': text, 'fold': i + 1})
+
             # Catat metrik untuk averaging nanti
             for m in metric_names:
                 all_metrics[model_name][m].append(eval_result[m])
@@ -305,6 +320,14 @@ def run_cross_validation(
             'n_features': len(vocabulary),
             'evaluations': fold_eval,
         })
+
+    # Filter 5 sampel di tengah-tengah untuk setiap kategori confusion matrix
+    for model_name in model_names:
+        for cat in ['TP', 'TN', 'FP', 'FN']:
+            items = cm_samples[model_name][cat]
+            if len(items) > 3:
+                start_idx = int((len(items) - 5) / 1.5)
+                cm_samples[model_name][cat] = items[start_idx : start_idx + 3]
 
     # Langkah 3 Hitung Rata-rata dan Standar Deviasi
     average_metrics = {}
@@ -339,6 +362,7 @@ def run_cross_validation(
         'std_metrics': std_metrics,
         'summary_table': summary_table,
         'aggregated_confusion_matrix': total_cm,
+        'cm_samples': cm_samples,
         'average_execution_time_ms': avg_execution_time,
         'all_fold_metrics': {
             name: {m: all_metrics[name][m] for m in metric_names}
