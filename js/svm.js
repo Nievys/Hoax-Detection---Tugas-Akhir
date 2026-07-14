@@ -24,6 +24,10 @@ async function trainSVM() {
   const statusEl = document.getElementById('svm-status');
   if (res.success) {
     statusEl.innerHTML = `<span style="color:var(--green)">✓ ${res.message}</span> (Support Vectors: ${res.support_vectors})`;
+    const resContainer = document.getElementById('svm-train-result');
+    const rawEl = document.getElementById('svm-raw-output');
+    if (resContainer) resContainer.classList.remove('hidden');
+    if (rawEl) rawEl.textContent = JSON.stringify(res, null, 2);
   } else {
     statusEl.innerHTML = `<span style="color:var(--red)">✗ ${res.error}</span>`;
   }

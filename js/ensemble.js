@@ -73,6 +73,8 @@ async function runEnsembleEval() {
       </table>
     </div>`;
   }).join('');
+  const rawEl = document.getElementById('ens-raw-output');
+  if (rawEl) rawEl.textContent = JSON.stringify(res, null, 2);
 }
 
 async function predictEnsemble() {

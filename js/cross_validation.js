@@ -268,7 +268,7 @@ function switchCMSampleTab(modelName, btnEl) {
     <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:16px;">
       <div style="background:var(--surface); padding:16px; border-radius:var(--r); border:1px solid rgba(255,255,255,0.05);">
         <div style="font-weight:600; color:var(--green); margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;">
-          <span>Aktual Positif → Prediksi Positif (TP)</span>
+          <span>Aktual Hoaks → Prediksi Hoaks (TP)</span>
           <span class="chip chip-green" style="font-size:11px;">${data.TP.length} sampel</span>
         </div>
         <div style="display:flex; flex-direction:column; gap:10px;">
@@ -277,7 +277,7 @@ function switchCMSampleTab(modelName, btnEl) {
       </div>
       <div style="background:var(--surface); padding:16px; border-radius:var(--r); border:1px solid rgba(255,255,255,0.05);">
         <div style="font-weight:600; color:var(--primary); margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;">
-          <span>Aktual Negatif → Prediksi Negatif (TN)</span>
+          <span>Aktual Fakta → Prediksi Fakta (TN)</span>
           <span class="chip chip-blue" style="font-size:11px;">${data.TN.length} sampel</span>
         </div>
         <div style="display:flex; flex-direction:column; gap:10px;">
@@ -288,7 +288,7 @@ function switchCMSampleTab(modelName, btnEl) {
     <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:16px; margin-top:16px;">
       <div style="background:var(--surface); padding:16px; border-radius:var(--r); border:1px solid rgba(255,255,255,0.05);">
         <div style="font-weight:600; color:var(--amber); margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;">
-          <span>Aktual Negatif → Prediksi Positif (FP)</span>
+          <span>Aktual Fakta → Prediksi Hoaks (FP)</span>
           <span class="chip chip-amber" style="font-size:11px;">${data.FP.length} sampel</span>
         </div>
         <div style="display:flex; flex-direction:column; gap:10px;">
@@ -297,7 +297,7 @@ function switchCMSampleTab(modelName, btnEl) {
       </div>
       <div style="background:var(--surface); padding:16px; border-radius:var(--r); border:1px solid rgba(255,255,255,0.05);">
         <div style="font-weight:600; color:var(--red); margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;">
-          <span>Aktual Positif → Prediksi Negatif (FN)</span>
+          <span>Aktual Hoaks → Prediksi Fakta (FN)</span>
           <span class="chip chip-red" style="font-size:11px;">${data.FN.length} sampel</span>
         </div>
         <div style="display:flex; flex-direction:column; gap:10px;">

@@ -43,6 +43,36 @@ def train_svm():
     n_pos = sum(1 for label in y if label == 1)
     n_neg = sum(1 for label in y if label == -1)
 
+    # Data hasil train yang digunakan untuk prediksi
+    sv_detail = []
+    for i in range(model.n_samples):
+        if model.alpha[i] > 0:
+            doc_text = _state['dataset'][i].get('text', '')[:100] if i < len(_state['dataset']) else f"Doc #{i}"
+            sv_detail.append({
+                'index': i,
+                'alpha': round(model.alpha[i], 6),
+                'label': model.y[i],
+                'text_preview': doc_text
+            })
+
+    feature_weights = {}
+    if kernel == 'linear' and _state['tfidf_result'] and 'feature_names' in _state['tfidf_result']:
+        fn = _state['tfidf_result']['feature_names']
+        w = [0.0] * len(fn)
+        for i in range(model.n_samples):
+            if model.alpha[i] > 0:
+                for j in range(len(fn)):
+                    w[j] += model.alpha[i] * model.y[i] * model.X[i][j]
+        sorted_w = sorted([(fn[j], round(w[j], 6)) for j in range(len(fn))], key=lambda x: abs(x[1]), reverse=True)
+        feature_weights = {item[0]: item[1] for item in sorted_w if abs(item[1]) > 1e-5}
+
+    data_for_prediction = {
+        'bias_b': round(model.b, 6),
+        'n_support_vectors': len(sv_detail),
+        'support_vectors_list': sv_detail,
+        'linear_weights_w': feature_weights if kernel == 'linear' else "Non-linear kernel (menggunakan dot product Support Vectors langsung)"
+    }
+
     return jsonify({
         'success': True,
         'message': 'Model SVM berhasil dilatih',
@@ -54,7 +84,10 @@ def train_svm():
             'kernel': kernel,
             'C': C,
             'target_label': target_label,
-        }
+            'bias': round(model.b, 6),
+            'n_features': model.n_features,
+        },
+        'data_for_prediction': data_for_prediction,
     })
 
 @svm_bp.route('/api/svm/predict', methods=['POST'])

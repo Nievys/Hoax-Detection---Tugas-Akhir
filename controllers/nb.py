@@ -51,12 +51,30 @@ def train_nb():
     top_features = model.get_top_features_per_class(top_n=10)
     top_features_str = {str(k): v for k, v in top_features.items()}
 
+    # Data hasil train yang akan digunakan untuk prediksi
+    vocab_likelihoods = {}
+    for c in model.classes:
+        vocab_likelihoods[str(c)] = {}
+        for i in range(model.n_features):
+            term = model.feature_names[i] if i < len(model.feature_names) else f"f_{i}"
+            vocab_likelihoods[str(c)][term] = {
+                'log_prob': round(model.feature_log_prob[c][i], 6),
+                'prob': round(math.exp(model.feature_log_prob[c][i]), 8)
+            }
+
+    data_for_prediction = {
+        'class_log_priors': prior_info,
+        'vocabulary_feature_probabilities': vocab_likelihoods,
+        'formula': 'score(c) = log_prior(c) + sum(tf_idf(term) * log_prob(term|c))'
+    }
+
     return jsonify({
         'success': True,
         'message': 'Model Naive Bayes berhasil dilatih',
         'training_info': train_info,
         'prior': prior_info,
         'top_features': top_features_str,
+        'data_for_prediction': data_for_prediction,
     })
 
 @nb_bp.route('/api/nb/predict', methods=['POST'])

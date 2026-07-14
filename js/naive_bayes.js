@@ -70,6 +70,8 @@ async function trainNB() {
     }
     featHtml += '</div>';
     document.getElementById('nb-top-features').innerHTML = featHtml;
+    const rawEl = document.getElementById('nb-raw-output');
+    if (rawEl) rawEl.textContent = JSON.stringify(res, null, 2);
   } else {
     statusEl.innerHTML = `<span style="color:var(--red)">✗ ${res.error}</span>`;
   }

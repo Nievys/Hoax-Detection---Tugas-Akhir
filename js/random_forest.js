@@ -44,6 +44,8 @@ async function trainRF() {
         <span class="text-mute text-sm">(${n} dok)</span>
       </div>
     `).join('');
+    const rawEl = document.getElementById('rf-raw-output');
+    if (rawEl) rawEl.textContent = JSON.stringify(res, null, 2);
   } else {
     statusEl.innerHTML = `<span style="color:var(--red)">✗ ${res.error}</span>`;
   }

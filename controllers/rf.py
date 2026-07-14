@@ -47,12 +47,49 @@ def train_rf():
     for label in y:
         class_dist[label] = class_dist.get(label, 0) + 1
 
+    def serialize_node(node, feature_names, depth=0, max_depth_serialize=5):
+        if node is None:
+            return None
+        if node.label is not None or depth >= max_depth_serialize:
+            return {
+                "type": "leaf",
+                "prediction_label": node.label if node.label is not None else "Truncated (Max Depth Reached)",
+                "n_samples": node.n_samples,
+                "gini": round(node.gini, 4) if node.gini is not None else None
+            }
+        feat_name = feature_names[node.feature_index] if feature_names and node.feature_index < len(feature_names) else f"feature_{node.feature_index}"
+        return {
+            "type": "split",
+            "condition": f"{feat_name} <= {round(node.threshold, 6)}",
+            "feature": feat_name,
+            "threshold": round(node.threshold, 6),
+            "n_samples": node.n_samples,
+            "gini": round(node.gini, 4) if node.gini is not None else None,
+            "left_true": serialize_node(node.left, feature_names, depth + 1, max_depth_serialize),
+            "right_false": serialize_node(node.right, feature_names, depth + 1, max_depth_serialize)
+        }
+
+    trees_serialized = []
+    for idx, tree in enumerate(model.trees):
+        trees_serialized.append({
+            "tree_id": idx + 1,
+            "max_depth": tree.max_depth,
+            "root_split": serialize_node(tree.root, feature_names)
+        })
+
+    data_for_prediction = {
+        'n_trees': len(model.trees),
+        'trees_structure_preview': trees_serialized,
+        'prediction_mechanism': 'Setiap pohon mengevaluasi teks masukan berdasarkan aturan split di atas. Hasil akhir klasifikasi ditentukan oleh Majority Voting dari seluruh pohon.'
+    }
+
     return jsonify({
         'success': True,
         'message': f'Random Forest ({n_trees} pohon) berhasil dilatih',
         'training_info': train_info,
         'total_samples': len(y),
         'class_distribution': {str(k): v for k, v in class_dist.items()},
+        'data_for_prediction': data_for_prediction,
     })
 
 @rf_bp.route('/api/rf/predict', methods=['POST'])

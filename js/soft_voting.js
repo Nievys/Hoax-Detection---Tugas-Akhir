@@ -82,6 +82,8 @@ async function runSoftEval() {
       </table>
     </div>`;
   }).join('');
+  const rawEl = document.getElementById('soft-raw-output');
+  if (rawEl) rawEl.textContent = JSON.stringify(res, null, 2);
 }
 
 async function predictSoft() {

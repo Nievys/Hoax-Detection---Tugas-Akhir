@@ -31,6 +31,7 @@ class MultinomialNBScratch:
             # P(c) = Nₖ / N
             # log P(c) = log(Nₖ / N)
             class_log_prior[c] = math.log(class_count[c] / N)
+            print("log prior", class_log_prior[c])
 
         return class_log_prior
 
